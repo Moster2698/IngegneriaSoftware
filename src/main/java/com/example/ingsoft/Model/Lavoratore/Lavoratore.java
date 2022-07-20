@@ -16,48 +16,72 @@ public class Lavoratore extends Persona implements Serializable {
     private static final long serialVersionUID = 3L;
     private static int ID = 1;
     private int id;
-    private String luogo,nazionalita,patente;
-    private String telefonoPersonale;
-    private String email;
-    private LocalDate dataDiNascita;
+
+    private String luogoDiNascita, nazionalita, recTel, email, patente, cittaResidenza, viaResidenza, civicoResidenza, capResidenza;
+
+    private LocalDate dataDiNascita, inizioDisponibilita, fineDisponibilita;
     private PersonaUrgente personaUrgente;
-    private LavoroDaoImpl lavoriEffettuati;
     private SortedSet<String> comuni;
-    private LocalDate inizioDisponibilita;
-    private LocalDate fineDisponibilita;
     private List<String> lingueParlate;
-    private List<String> esperienzeEffettuate;
+    private List<String> mansioniEffettuate;
     private boolean automunito;
     public Lavoratore(String nome, String cognome) {
         super(nome, cognome);
         ID++;
 
     }
-    public Lavoratore(String nome, String cognome, String telefonoPersonale,String luogo, String email, String nazionalita, LocalDate dataDiNascita, PersonaUrgente personaUrgente,
-                      List<String> lingueParlate, boolean automunito, String patente,List<String> esperienzeEffettuate, SortedSet<String> comuni
-    ,LocalDate inizioDisponibilita, LocalDate fineDisponibilita){
-        this(nome,cognome);
-        this.telefonoPersonale = telefonoPersonale;
-        this.email = email;
-        this.luogo = luogo;
-        this.nazionalita = nazionalita;
+
+    public Lavoratore(String nome, String cognome, String luogoDiNascita, LocalDate dataDiNascita, String nazionalita, String recTel,
+                      String email, LocalDate inizioDisponibilita, LocalDate fineDisponibilita, SortedSet<String> comuni, List<String> lingueParlate,
+                      boolean automunito, String patente, List<String> mansioniEffettuate, String cittaResidenza, String viaResidenza,
+                      String civicoResidenza, String capResidenza, PersonaUrgente personaUrgente) {
+        this(nome, cognome);
+        this.luogoDiNascita = luogoDiNascita;
         this.dataDiNascita = dataDiNascita;
-        this.personaUrgente = personaUrgente;
-        this.lavoriEffettuati = new LavoroDaoImpl();
-        this.esperienzeEffettuate = esperienzeEffettuate;
+        this.nazionalita = nazionalita;
+        this.recTel = recTel;
+        this.email = email;
+        this.inizioDisponibilita = inizioDisponibilita;
+        this.fineDisponibilita = fineDisponibilita;
+        this.comuni = comuni;
         this.lingueParlate = lingueParlate;
         this.automunito = automunito;
         this.patente = patente;
-        this.comuni = comuni;
-        this.inizioDisponibilita = inizioDisponibilita;
-        this.fineDisponibilita = fineDisponibilita;
-        this.id =  ID;
+        this.mansioniEffettuate = mansioniEffettuate;
+        this.cittaResidenza = cittaResidenza;
+        this.viaResidenza = viaResidenza;
+        this.civicoResidenza = civicoResidenza;
+        this.capResidenza = capResidenza;
+        this.personaUrgente = personaUrgente;
+        this.id = ID;
     }
 
     @Override
     public String toString() {
-        return nome + " " + cognome + " " + email + " " + luogo + " " + lingueParlate;
+        return "Lavoratore{" +
+                "id=" + id +
+                ", luogoDiNascita='" + luogoDiNascita + '\'' +
+                ", nazionalita='" + nazionalita + '\'' +
+                ", recTel='" + recTel + '\'' +
+                ", email='" + email + '\'' +
+                ", patente='" + patente + '\'' +
+                ", cittaResidenza='" + cittaResidenza + '\'' +
+                ", viaResidenza='" + viaResidenza + '\'' +
+                ", civicoResidenza='" + civicoResidenza + '\'' +
+                ", capResidenza='" + capResidenza + '\'' +
+                ", dataDiNascita=" + dataDiNascita +
+                ", inizioDisponibilita=" + inizioDisponibilita +
+                ", fineDisponibilita=" + fineDisponibilita +
+                ", personaUrgente=" + personaUrgente +
+                ", comuni=" + comuni +
+                ", lingueParlate=" + lingueParlate +
+                ", mansioni effettuate=" + mansioniEffettuate +
+                ", automunito=" + automunito +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                '}';
     }
+
 
     @Override
     public boolean equals(Object o) {

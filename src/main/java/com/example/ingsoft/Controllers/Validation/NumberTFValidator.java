@@ -1,14 +1,15 @@
 package com.example.ingsoft.Controllers.Validation;
 
 import javafx.scene.control.TextField;
-import org.w3c.dom.Text;
 
 import java.util.*;
 
 public class NumberTFValidator implements  Validate{
-    private HashMap<TextField, Integer> numberToLength;
-    private HashMap<TextField,Boolean> textFieldEmpty;
-    private List<Boolean> flags;
+    private final HashMap<TextField, Integer> numberToLength;
+    private final HashMap<TextField,Boolean> textFieldEmpty;
+    private final List<Boolean> flags;
+    private TextField textField;
+
     public NumberTFValidator(){
         numberToLength = new HashMap<TextField,Integer>();
         textFieldEmpty = new HashMap<TextField, Boolean>();
@@ -45,6 +46,6 @@ public class NumberTFValidator implements  Validate{
         return isValid;
     }
     public void remove(TextField textField){
-         numberToLength.remove(textField);
+        numberToLength.remove(textField);
     }
 }
