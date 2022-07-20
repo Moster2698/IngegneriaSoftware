@@ -54,7 +54,8 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                     isValid = isValid && lavoratore.getCognome().equalsIgnoreCase(cognome);
                 if(!lingueParlate.isEmpty())
                     isValid = isValid && lavoratore.getLingueParlate().equals(lingueParlate);
-                System.out.println(lingueParlate + "" + lavoratore.getLingueParlate());
+               if(dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita()))
+                   isValid = false;
                 return isValid;
             }
         }).collect(Collectors.toList());

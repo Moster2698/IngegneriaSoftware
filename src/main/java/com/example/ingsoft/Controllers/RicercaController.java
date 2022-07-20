@@ -1,19 +1,17 @@
 package com.example.ingsoft.Controllers;
 
 import com.example.ingsoft.Model.Lavoratore.Lavoratore;
-import com.example.ingsoft.Model.Lavoratore.LavoratoreDaoImpl;
-import com.example.ingsoft.Model.Lavoro.LavoroDaoImpl;
 import com.example.ingsoft.Model.Model;
-import javafx.collections.FXCollections;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -34,6 +32,22 @@ public class RicercaController {
     private DatePicker dtpInizio, dtpFine;
     @FXML
     private ListView listViewLavoratori;
+    @FXML
+    private TableView<Lavoratore> tableViewLavoratori;
+    @FXML
+    private TableColumn<Lavoratore,String> tbcNome;
+    @FXML
+    private TableColumn<Lavoratore,String> tbcCognome;
+    @FXML
+    private TableColumn<Lavoratore, String> tbcDataNascita;
+    @FXML
+    private TableColumn<Lavoratore,String> tbcComune;
+    @FXML
+    private TableColumn<Lavoratore,String> tbcLingue;
+    @FXML
+    private TableColumn<Lavoratore,String> tbcDisponibilita;
+    @FXML
+    private TableColumn<Lavoratore,String> tbcMansioni;
     private List<CheckBox> checkBoxes;
     private ObservableList<Lavoratore> observableListlavoratori;
     private Model model;
@@ -81,10 +95,28 @@ public class RicercaController {
                 checkRusso, checkSpagnolo, checkTedesco, checkOther);
         model = Model.OttieniIstanza();
         observableListlavoratori = model.OttieniLavoratori();
-        listViewLavoratori.setItems(observableListlavoratori);
-
+        tbcNome.setCellValueFactory(new PropertyValueFactory<Lavoratore, String>("nome"));
+        tbcCognome.setCellValueFactory(new PropertyValueFactory<Lavoratore, String>("cognome"));
+        tbcDataNascita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDataDiNascita().toString()));
+        tbcComune.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringComuni()));
+        tbcLingue.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringLingue()));
+        tbcMansioni.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringMansioni()));
+        tbcDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDisponibilita()));
+        tableViewLavoratori.getItems().setAll(observableListlavoratori);
     }
 
+    @FXML
+    private void EliminaLavoratore(){
+        Lavoratore lavoratoreDaEliminare = tableViewLavoratori.getSelectionModel().getSelectedItem();
+        model.RimuoviLavoratore(lavoratoreDaEliminare);
+        System.out.println(lavoratoreDaEliminare);
+        observableListlavoratori.remove(lavoratoreDaEliminare);
+    }
+    @FXML
+    private void ModificaLavoratore(){
+        Lavoratore lavoratoreDaEliminare = tableViewLavoratori.getSelectionModel().getSelectedItem();
+        System.out.println(lavoratoreDaEliminare);
+    }
     @FXML
     public void handleMouseClick(MouseEvent mouseEvent) {
         // se si clicca su null non deve succede niente
@@ -112,9 +144,10 @@ public class RicercaController {
                     Lavoratore tmp = (Lavoratore) listViewLavoratori.getSelectionModel().getSelectedItem();
                     model.RimuoviLavoratore((Lavoratore) listViewLavoratori.getSelectionModel().getSelectedItem());
                     observableListlavoratori.remove(tmp);
-                    // bisogna anche aggiornare il file però...
+
                 }
             } else if (result.get() == btnModifica) {
+
                 // modifica lavoratore
             } else {
                 // non succede u'cazz
