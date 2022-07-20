@@ -6,19 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringTFValidator implements  Validate{
-    private List<TextField> textFields;
+    private final List<TextField> textFields;
     public StringTFValidator(){
-        textFields = new ArrayList<TextField>();
+        textFields = new ArrayList<>();
     }
-
     public void add(List<TextField> textFields)
     {
-      for(TextField tf : textFields)
-          this.textFields.add(tf);
+        this.textFields.addAll(textFields);
     }
     @Override
-    /***
-     * Controllo che tutti i textFields sono non nulli e che ci sia un valore al loro interno
+    /*
+      Controllo che tutti i textFields sono non nulli e che ci sia un valore al loro interno
      */
     public boolean validate() {
         boolean flag = true;
