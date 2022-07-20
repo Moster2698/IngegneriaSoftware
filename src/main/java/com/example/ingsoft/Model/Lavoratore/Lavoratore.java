@@ -118,4 +118,26 @@ public class Lavoratore extends Persona implements Serializable {
     public List<String> getLingueParlate() {
         return lingueParlate;
     }
+    public LocalDate getDataDiNascita(){
+        return dataDiNascita;
+    }
+
+    public String getStringComuni(){
+        String com = comuni.toString();
+        com = com.substring(1,com.length()-1);
+        return com;
+    }
+    public String getStringLingue(){
+        String ling = lingueParlate.toString();
+        ling = ling.substring(1,ling.length()-1);
+        return ling;
+    }
+    public String getStringMansioni(){
+        String mansioni = esperienzeEffettuate.toString();
+        mansioni = mansioni.substring(1,mansioni.length()-1);
+        return mansioni;
+    }
+    public String getDisponibilita(){
+        return inizioDisponibilita.toString() + " - " + fineDisponibilita.toString();
+    }
 }

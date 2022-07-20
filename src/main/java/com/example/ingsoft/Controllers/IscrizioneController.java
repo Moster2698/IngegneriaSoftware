@@ -2,12 +2,12 @@ package com.example.ingsoft.Controllers;
 
 
 import com.example.ingsoft.Controllers.Validation.Validator;
-import com.example.ingsoft.HelloApplication;
 import com.example.ingsoft.Model.AutoCompleteBox;
 import com.example.ingsoft.Model.ComuniProvider;
 import com.example.ingsoft.Model.Lavoratore.Lavoratore;
 import com.example.ingsoft.Model.Lavoratore.LavoratoreDaoImpl;
 import com.example.ingsoft.Model.LingueProvider;
+import com.example.ingsoft.Model.Model;
 import com.example.ingsoft.Model.Persona.PersonaUrgente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,25 +27,26 @@ public class IscrizioneController {
     private  Validator validator;
     private SortedSet<String> comuni;
     @FXML
-    private TextField txtNome, txtCognome, txtLuogoNascita, txtNazionalita, txtRecTel, txtEmail, txtPatente, txtCitta,
-            txtVia, txtCivico, txtCap,txtNomeEmergenza, txtCognomeEmergenza, txtTelefonoEmergenza, txtIndirizzoEmergenza;
+    private TextField txtCognome, txtNome, txtLuogoNascita, txtNazionalita, txtRecTel, txtCitta, txtVia, txtCivico
+            ,txtCap,txtEmail,txtPatente,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza, txtTelefonoEmergenza;
     private List<TextField> stringTextFields;
     @FXML
-    private CheckBox checkAutomunito, checkBagnino, checkBarman, checkIstruttoreNuoto, checkViticultore, checkFloricultore;
+    private CheckBox checkAutomunito, checkBagnino, checkBarman, checkViticultore, checkFloricultore, checkIstruttoreNuoto;
     private List<CheckBox> specializzazioni;
     private List<String> lingueParlate, mansioniEffettuate;
     @FXML
-    private DatePicker dPickerNascita, dPInizioLavoro, dPFineLavoro;
+    private DatePicker dPickerNascita,dPInizioLavoro,dPFineLavoro;
     @FXML
-    private ComboBox<String> comuneComboBox, lingueComboBox;
+    private ComboBox<String> comuneComboBox,lingueComboBox;
     private LavoratoreDaoImpl lavoratoreDaoImpl;
+    private Model model;
     @FXML
     public void initialize() {
 
         stringTextFields = new ArrayList<TextField>();
 
-        Collections.addAll(stringTextFields, txtNome, txtCognome, txtLuogoNascita, txtNazionalita, txtEmail, txtPatente, txtCitta,
-                txtVia, txtCivico, txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza);
+        Collections.addAll(stringTextFields, txtCognome, txtNome, txtLuogoNascita, txtNazionalita, txtCitta, txtVia, txtCivico
+                ,txtEmail,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza);
 
         lavoratoreDaoImpl = new LavoratoreDaoImpl();
 
@@ -53,7 +54,7 @@ public class IscrizioneController {
         validator = new Validator();
         specializzazioni = new ArrayList<CheckBox>();
 
-        Collections.addAll(specializzazioni, checkBagnino, checkBarman, checkIstruttoreNuoto, checkViticultore, checkFloricultore);
+        Collections.addAll(specializzazioni,checkBagnino,checkBarman,checkFloricultore,checkViticultore,checkIstruttoreNuoto);
 
         validator.add(stringTextFields);
         validator.add(txtCap,5);
@@ -70,42 +71,31 @@ public class IscrizioneController {
 
         new AutoCompleteBox(lingueComboBox);
         new AutoCompleteBox(comuneComboBox);
+        model = Model.OttieniIstanza();
     }
     @FXML
-    private void handleIscrizione(ActionEvent event) throws IOException {
+    private void handleIscrizione(ActionEvent event) {
         if(FormValid()){
-            String nome, cognome, luogoNascita, nazionalita, recapitoTelefonico, email, patente, cittaResidenza,
-                    viaResidenza, civicoResidenza, capResidenza;
-            String nomeEmergenza, cognomeEmergenza, telefonoEmergenza, indirizzoEmergenza;
+            String nome, cognome,  telefonoPersonale,  email,  nazionalita,  patente, luogo;
             LocalDate dataDiNascita, inizioDisponibilita,fineDisponibilita;
             PersonaUrgente personaUrgente;
-            boolean automunito = checkAutomunito.isSelected();
+            boolean automunito;
             nome = txtNome.getText();
             cognome = txtCognome.getText();
-            luogoNascita = txtLuogoNascita.getText();
-            nazionalita = txtNazionalita.getText();
-            recapitoTelefonico = txtRecTel.getText();
+            telefonoPersonale = txtRecTel.getText();
             email = txtEmail.getText();
+            luogo = txtLuogoNascita.getText();
+            nazionalita = txtNazionalita.getText();
             patente = txtPatente.getText();
-
-            cittaResidenza = txtCitta.getText();
-            viaResidenza = txtVia.getText();
-            civicoResidenza = txtCivico.getText();
-            capResidenza = txtCap.getText();
-
             dataDiNascita = dPickerNascita.getValue();
             inizioDisponibilita = dPInizioLavoro.getValue();
             fineDisponibilita = dPFineLavoro.getValue();
-
             OttieniEsperienzeCheckBoxes();
-
-            personaUrgente = new PersonaUrgente(txtNomeEmergenza.getText(), txtCognomeEmergenza.getText(), txtTelefonoEmergenza.getText(), txtIndirizzoEmergenza.getText());
-
-            Lavoratore lavoratore = new Lavoratore(nome, cognome, luogoNascita, dataDiNascita, nazionalita, recapitoTelefonico,
-                    email, inizioDisponibilita, fineDisponibilita, comuni, lingueParlate, automunito, patente, mansioniEffettuate,
-                    cittaResidenza, viaResidenza, civicoResidenza, capResidenza, personaUrgente);
-            lavoratoreDaoImpl.add(lavoratore);
-            SalvasuFile();
+            personaUrgente = new PersonaUrgente(txtNomeEmergenza.getText(),txtCognomeEmergenza.getText(),txtTelefonoEmergenza.getText(),txtIndirizzoEmergenza.getText());
+            automunito = checkAutomunito.isSelected();
+            Lavoratore lavoratore = new Lavoratore(nome,cognome,telefonoPersonale, luogo, email, nazionalita, dataDiNascita, personaUrgente
+                    ,lingueParlate,automunito, patente, mansioniEffettuate,comuni, inizioDisponibilita, fineDisponibilita);
+            model.AggiungiLavoratore(lavoratore);
             String nuovoLavoratore = "";
             nuovoLavoratore += nome + " " + cognome;
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -118,7 +108,13 @@ public class IscrizioneController {
             // anche il problema dello style delle varie textfield
         }
     }
-    private void reset() {
+    private void reset(){
+        //comune disponiblita
+
+        //lingue parlate
+
+        //specializzazioni
+
         for(TextField tf : stringTextFields )
             tf.setText("");
         lingueParlate.clear();
@@ -146,17 +142,8 @@ public class IscrizioneController {
                 mansioniEffettuate.add(cb.getText());
         }
     }
-    private void SalvasuFile(){
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream("yourfile.txt");
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(lavoratoreDaoImpl.getLavoratori());
-        }catch(Exception e){
-            System.out.println(e);
-        }
-    }
     private boolean FormValid() {
-        return validator.validate();
+        return  validator.validate();
     }
 
     @FXML
@@ -166,7 +153,7 @@ public class IscrizioneController {
             comuni.add(comuneScelto);
     }
     @FXML
-    private void CbLinguaSelezionata(){
+    private void CbiLnguaSelezionata(){
         if(lingueParlate.contains(lingueComboBox.getValue()))
             lingueParlate.remove(lingueComboBox.getValue());
         else
@@ -180,5 +167,4 @@ public class IscrizioneController {
         stage.setScene(scene);
         stage.show();
     }
-
 }

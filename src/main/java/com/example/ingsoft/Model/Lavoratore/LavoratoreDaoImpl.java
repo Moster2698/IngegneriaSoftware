@@ -1,5 +1,8 @@
 package com.example.ingsoft.Model.Lavoratore;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -37,6 +40,7 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
         return lavoratori;
     }
 
+
     @Override
     public List<Lavoratore> research(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, String mansione, List<String> zonaDisponibilita, String cittaResidenza, boolean automunito, String patente) {
         List<Lavoratore> copyOfLavoratore = new ArrayList<Lavoratore>(lavoratori);
@@ -50,7 +54,8 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                     isValid = isValid && lavoratore.getCognome().equalsIgnoreCase(cognome);
                 if(!lingueParlate.isEmpty())
                     isValid = isValid && lavoratore.getLingueParlate().equals(lingueParlate);
-                System.out.println(lingueParlate + "" + lavoratore.getLingueParlate());
+               if(dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita()))
+                   isValid = false;
                 return isValid;
             }
         }).collect(Collectors.toList());
