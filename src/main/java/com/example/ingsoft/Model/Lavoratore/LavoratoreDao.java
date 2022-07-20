@@ -8,6 +8,7 @@ import java.util.List;
 public interface LavoratoreDao {
     public List<Lavoratore> getLavoratori();
     public void add(Lavoratore lavoratore);
+    public void remove(Lavoratore lavoratore);
     public List<Lavoratore> research (String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, String mansione,
                                       List<String> zonaDisponibilita, String cittaResidenza,boolean automunito,String patente );
 }

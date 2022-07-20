@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class PrincipalMenuController {
     private Stage stage;
-    private Scene   scene;
+    private Scene scene;
     private Parent root;
 
     public void switchToRicerca(ActionEvent event) throws IOException {

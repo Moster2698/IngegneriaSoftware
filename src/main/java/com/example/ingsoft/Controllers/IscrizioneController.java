@@ -14,10 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 
@@ -43,6 +40,7 @@ public class IscrizioneController {
     private LavoratoreDaoImpl lavoratoreDaoImpl;
     @FXML
     public void initialize() {
+
         stringTextFields = new ArrayList<TextField>();
 
         Collections.addAll(stringTextFields, txtCognome, txtNome, txtLuogoNascita, txtNazionalita, txtCitta, txtVia, txtCivico
@@ -96,14 +94,32 @@ public class IscrizioneController {
                     ,lingueParlate,automunito, patente, mansioniEffettuate,comuni, inizioDisponibilita, fineDisponibilita);
             lavoratoreDaoImpl.add(lavoratore);
             SalvasuFile();
+            String nuovoLavoratore = "";
+            nuovoLavoratore += nome + " " + cognome;
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Inserimento lavoratore");
+            alert.setHeaderText("Inserimento del nuovo lavoratore " + nuovoLavoratore + " avvenuto correttamente.");
+            alert.setContentText("Premere OK per continuare.");
+            alert.showAndWait();
             reset();
+            // sarebbe utile passare alla pagina della ricerca o del menu principale così si risolve
+            // anche il problema dello style delle varie textfield
         }
     }
     private void reset(){
+        //comune disponiblita
+
+        //lingue parlate
+
+        //specializzazioni
+
         for(TextField tf : stringTextFields )
             tf.setText("");
         lingueParlate.clear();
         mansioniEffettuate.clear();
+        txtRecTel.clear();
+        txtTelefonoEmergenza.clear();
+        txtCap.clear();
         dPFineLavoro.setValue(null);
         dPickerNascita.setValue(null);
         dPInizioLavoro.setValue(null);
@@ -141,9 +157,9 @@ public class IscrizioneController {
 
     @FXML
     private void CbComuneSelezionato(){
-            String comuneScelto = comuneComboBox.getSelectionModel().getSelectedItem();
-            if(comuneScelto!=null)
-                comuni.add(comuneScelto);
+        String comuneScelto = comuneComboBox.getSelectionModel().getSelectedItem();
+        if(comuneScelto!=null)
+            comuni.add(comuneScelto);
     }
     @FXML
     private void CbiLnguaSelezionata(){

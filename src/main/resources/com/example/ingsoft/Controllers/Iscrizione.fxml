@@ -7,6 +7,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -15,15 +16,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #f2f2f2;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ingsoft.Controllers.IscrizioneController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #f2f2f2;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ingsoft.Controllers.IscrizioneController">
    <top>
       <HBox alignment="CENTER" prefHeight="80.0" prefWidth="1200.0" style="-fx-background-color: #ff6f3b;" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Inserimento lavoratore" textFill="WHITE">
-               <font>
-                  <Font size="32.0" />
-               </font>
-            </Label>
+            <VBox prefHeight="80.0" prefWidth="1200.0">
+               <children>
+                  <Label alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="true" prefHeight="57.0" prefWidth="1200.0" text="Inserimento lavoratore" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="335.0" text="Contrassegnati con un * i campi/sezioni non obbligatori." textAlignment="CENTER" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </top>
@@ -46,10 +52,13 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
                <children>
-                  <Label text="Dati anagrafici" textFill="#ff6f3b">
+                  <Label alignment="TOP_CENTER" prefHeight="35.0" prefWidth="174.0" text="Dati anagrafici" textAlignment="CENTER" textFill="#ff6f3b">
                      <font>
                         <Font size="24.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="-15.0" />
+                     </VBox.margin>
                   </Label>
                   <GridPane hgap="20.0" prefWidth="530.0" vgap="60.0" VBox.vgrow="ALWAYS">
                      <columnConstraints>
@@ -64,16 +73,6 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <VBox alignment="CENTER_LEFT">
-                           <children>
-                              <Label text="Nome" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="txtNome" maxWidth="300.0" prefWidth="0.0" promptText="Nome" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" />
-                           </children>
-                        </VBox>
                         <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
                            <children>
                               <Label text="Cognome" textFill="#7a7a7a">
@@ -101,7 +100,14 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <DatePicker fx:id="dPickerNascita" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css" />
+                              <DatePicker fx:id="dPickerNascita" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css">
+                                 <tooltip>
+                                    <Tooltip text="Il lavoratore non può essere minorenne o essere nato nel futuro">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></DatePicker>
                            </children>
                         </VBox>
                         <VBox alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.rowIndex="2">
@@ -116,17 +122,24 @@
                         </VBox>
                         <VBox alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <children>
-                              <Label text="Cellulare" textFill="#7a7a7a">
+                              <Label prefHeight="27.0" prefWidth="210.0" text="Cellulare*" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtRecTel" maxWidth="300.0" promptText="Numero cellulare" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" />
+                              <TextField fx:id="txtRecTel" maxWidth="300.0" promptText="Numero cellulare" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;">
+                                 <tooltip>
+                                    <Tooltip text="Deve essere di 10 cifre">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></TextField>
                            </children>
                         </VBox>
                         <VBox alignment="CENTER_LEFT">
                            <children>
-                              <Label text="Nome" textFill="#7a7a7a">
+                              <Label prefHeight="27.0" prefWidth="91.0" text="Nome" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -146,20 +159,23 @@
                         </VBox>
                      </children>
                      <VBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
+                        <Insets bottom="20.0" />
                      </VBox.margin>
                   </GridPane>
                </children>
             </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="421.0" prefWidth="361.0" style="-fx-background-color: white; -fx-background-radius: 20px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);" GridPane.columnIndex="1" GridPane.columnSpan="2">
                <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
                </padding>
                <children>
-                  <Label text="Specializzazioni precedenti" textFill="#ff6f3b">
+                  <Label alignment="TOP_CENTER" contentDisplay="TOP" prefHeight="35.0" prefWidth="333.0" text="Specializzazioni precedenti*" textFill="#ff6f3b">
                      <font>
                         <Font size="24.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
                   </Label>
                   <GridPane hgap="20.0" prefWidth="530.0" vgap="60.0" VBox.vgrow="ALWAYS">
                      <columnConstraints>
@@ -178,7 +194,10 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <CheckBox fx:id="checkBagnino" mnemonicParsing="false" stylesheets="@styles.css" />
+                              <CheckBox fx:id="checkBagnino" mnemonicParsing="false" stylesheets="@styles.css">
+                                 <VBox.margin>
+                                    <Insets bottom="-10.0" />
+                                 </VBox.margin></CheckBox>
                               <Label text="Bagnino" textFill="#7a7a7a">
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -191,7 +210,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                            <children>
-                              <CheckBox fx:id="checkBarman" mnemonicParsing="false" selected="true" stylesheets="@styles.css" />
+                              <CheckBox fx:id="checkBarman" mnemonicParsing="false" stylesheets="@styles.css">
+                                 <VBox.margin>
+                                    <Insets bottom="-10.0" />
+                                 </VBox.margin></CheckBox>
                               <Label text="Barman" textFill="#7a7a7a">
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -204,7 +226,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
                            <children>
-                              <CheckBox fx:id="checkIstruttoreNuoto" mnemonicParsing="false" stylesheets="@styles.css" />
+                              <CheckBox fx:id="checkIstruttoreNuoto" mnemonicParsing="false" stylesheets="@styles.css">
+                                 <VBox.margin>
+                                    <Insets bottom="-10.0" />
+                                 </VBox.margin></CheckBox>
                               <Label text="Istruttore nuoto" textFill="#7a7a7a">
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -217,7 +242,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
                            <children>
-                              <CheckBox fx:id="checkViticultore" mnemonicParsing="false" stylesheets="@styles.css" />
+                              <CheckBox fx:id="checkViticultore" mnemonicParsing="false" stylesheets="@styles.css">
+                                 <VBox.margin>
+                                    <Insets bottom="-10.0" />
+                                 </VBox.margin></CheckBox>
                               <Label text="Viticultore" textFill="#7a7a7a">
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -230,7 +258,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
                            <children>
-                              <CheckBox fx:id="checkFloricultore" mnemonicParsing="false" stylesheets="@styles.css" />
+                              <CheckBox fx:id="checkFloricultore" mnemonicParsing="false" stylesheets="@styles.css">
+                                 <VBox.margin>
+                                    <Insets bottom="-10.0" />
+                                 </VBox.margin></CheckBox>
                               <Label text="Floricultore" textFill="#7a7a7a">
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -244,6 +275,9 @@
                      </children>
                   </GridPane>
                </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
             </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="361.0" style="-fx-background-color: white; -fx-background-radius: 20px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);" GridPane.rowIndex="2" GridPane.rowSpan="2">
                <padding>
@@ -254,6 +288,9 @@
                      <font>
                         <Font size="24.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="-15.0" />
+                     </VBox.margin>
                   </Label>
                   <GridPane hgap="20.0" prefHeight="221.0" prefWidth="339.0" vgap="10.0" VBox.vgrow="ALWAYS">
                      <columnConstraints>
@@ -272,6 +309,9 @@
                                  <font>
                                     <Font size="18.0" />
                                  </font>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
                               </Label>
                               <DatePicker fx:id="dPInizioLavoro" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css" />
                            </children>
@@ -282,6 +322,9 @@
                                  <font>
                                     <Font size="18.0" />
                                  </font>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
                               </Label>
                               <DatePicker fx:id="dPFineLavoro" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css" />
                            </children>
@@ -296,7 +339,7 @@
                                     <Insets bottom="10.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comuneComboBox" maxWidth="400.0" onAction="#CbComuneSelezionato" prefHeight="28.0" prefWidth="346.0" promptText="Inserisci comune disponibilità" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5">
+                              <ComboBox fx:id="comuneComboBox" maxWidth="400.0" onAction="#CbComuneSelezionato" prefHeight="28.0" prefWidth="346.0" promptText="Comune" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5">
                                  <VBox.margin>
                                     <Insets bottom="4.0" />
                                  </VBox.margin></ComboBox>
@@ -305,7 +348,7 @@
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                            <children>
                               <CheckBox fx:id="checkAutomunito" mnemonicParsing="false" stylesheets="@styles.css" />
-                              <Label text="Automunito" textFill="#7a7a7a">
+                              <Label prefHeight="27.0" prefWidth="106.0" text="Automunito*" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -317,22 +360,22 @@
                         </VBox>
                         <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Label text="Tipo patente" textFill="#7a7a7a">
+                              <Label prefHeight="27.0" prefWidth="132.0" text="Tipo patente*" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtPatente" maxWidth="400.0" promptText="Tipo patente" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" />
+                              <TextField fx:id="txtPatente" maxWidth="400.0" promptText="A - B - C ecc." style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" />
                            </children>
                         </VBox>
                         <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <Label prefHeight="5.0" prefWidth="108.0" text="Lingue Parlate" textFill="#7a7a7a">
+                              <Label prefHeight="27.0" prefWidth="152.0" text="Lingue Parlate" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="lingueComboBox" maxWidth="400.0" onAction="#CbiLnguaSelezionata" prefHeight="0.0" prefWidth="158.0" promptText="Inserisci lingue Parlate" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5">
+                              <ComboBox fx:id="lingueComboBox" maxWidth="400.0" onAction="#CbiLnguaSelezionata" prefHeight="0.0" prefWidth="158.0" promptText="Lingua" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5">
                                  <VBox.margin>
                                     <Insets top="11.0" />
                                  </VBox.margin>
@@ -411,7 +454,14 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtTelefonoEmergenza" maxWidth="300.0" promptText="Numero cellulare" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" />
+                              <TextField fx:id="txtTelefonoEmergenza" maxWidth="300.0" promptText="Numero cellulare" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;">
+                                 <tooltip>
+                                    <Tooltip text="Deve essere di 10 cifre">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></TextField>
                            </children>
                         </VBox>
                         <VBox alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.rowIndex="3">
@@ -436,7 +486,7 @@
                         </VBox>
                      </children>
                      <VBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
+                        <Insets bottom="30.0" top="30.0" />
                      </VBox.margin>
                   </GridPane>
                </children>
@@ -490,10 +540,17 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtCap" maxWidth="300.0" promptText="CAP" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" />
+                              <TextField fx:id="txtCap" maxWidth="300.0" promptText="CAP di 5 cifre" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;">
+                                 <tooltip>
+                                    <Tooltip text="Deve essere di 5 cifre">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></TextField>
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
+                        <VBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="351.0" GridPane.rowIndex="1">
                            <children>
                               <Label text="Via/Piazza" textFill="#7a7a7a">
                                  <font>
@@ -505,7 +562,7 @@
                         </VBox>
                      </children>
                      <VBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
+                        <Insets bottom="30.0" top="30.0" />
                      </VBox.margin>
                   </GridPane>
                </children>

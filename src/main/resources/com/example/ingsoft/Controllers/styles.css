@@ -1,4 +1,5 @@
-#txtRecTel:error {
+/*noinspection CssInvalidPseudoSelector*/
+#txtRecTel:error{
   -fx-text-box-border: red ;
   -fx-focus-color: red ;
 }
@@ -8,9 +9,9 @@
 }
 
 .date-picker > .arrow-button {
-  -fx-background-color: #ff6f3b;
-  -fx-background-image: url("calendar.jpeg"); /* Url of the icon */
-  -fx-background-size: 60% 60%; /* Can be `cover` or `100% 100%` ect. */
+  -fx-background-color: white;
+  -fx-background-image: url("calendar.png"); /* Url of the icon */
+  -fx-background-size: 90% 90%; /* Can be `cover` or `100% 100%` ect. */
   -fx-background-repeat: no-repeat;
   -fx-background-position: center center; /* Put the icon in the center */
 }
@@ -38,4 +39,22 @@
 .check-box:selected .box {
 
   -fx-background-color: #ff6f3b;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+  -fx-background-color: linear-gradient(#328BDB 0.0%, #207BCF 25.0%, #1973C9 75.0%, #0A65BF 100.0%);
+  -fx-text-fill: white;
+}
+
+.list-cell{
+  -fx-font-size:16.0;
+}
+
+.list-cell:even { /* <=== changed to even */
+  -fx-background-color: #ededed;
+}
+
+.list-cell:filled:hover {
+  -fx-background-color: #0093ff;
+  -fx-text-fill: white;
 }

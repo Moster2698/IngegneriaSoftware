@@ -47,7 +47,7 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                 if(!nome.isEmpty() || !nome.isBlank())
                     isValid = isValid && lavoratore.getNome().equalsIgnoreCase(nome);
                 if(!cognome.isEmpty() || !cognome.isBlank())
-                    isValid = isValid && lavoratore.getCognome().equals(cognome);
+                    isValid = isValid && lavoratore.getCognome().equalsIgnoreCase(cognome);
                 if(!lingueParlate.isEmpty())
                     isValid = isValid && lavoratore.getLingueParlate().equals(lingueParlate);
                 System.out.println(lingueParlate + "" + lavoratore.getLingueParlate());
@@ -61,5 +61,9 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
     public void add(Lavoratore lavoratore) {
         if(!lavoratori.contains(lavoratore))
             lavoratori.add(lavoratore);
+    }
+
+    public void remove(Lavoratore lavoratore) {
+        lavoratori.remove(lavoratore);
     }
 }
