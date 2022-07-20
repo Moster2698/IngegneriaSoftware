@@ -102,7 +102,7 @@
                               </Label>
                               <DatePicker fx:id="dPickerNascita" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css">
                                  <tooltip>
-                                    <Tooltip text="Il lavoratore non può essere minorenne o essere nato nel futuro">
+                                    <Tooltip text="Il lavoratore non può avere meno di 16 anni o essere nato nel futuro">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -375,7 +375,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="lingueComboBox" maxWidth="400.0" onAction="#CbiLnguaSelezionata" prefHeight="0.0" prefWidth="158.0" promptText="Lingua" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5">
+                              <ComboBox fx:id="lingueComboBox" maxWidth="400.0" onAction="#CbLinguaSelezionata" prefHeight="0.0" prefWidth="158.0" promptText="Lingua" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5">
                                  <VBox.margin>
                                     <Insets top="11.0" />
                                  </VBox.margin>
