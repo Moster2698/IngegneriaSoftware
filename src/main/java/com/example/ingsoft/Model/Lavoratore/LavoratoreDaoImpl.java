@@ -1,5 +1,8 @@
 package com.example.ingsoft.Model.Lavoratore;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
     public List<Lavoratore> getLavoratori() {
         return lavoratori;
     }
+
 
     @Override
     public List<Lavoratore> research(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, String mansione, List<String> zonaDisponibilita, String cittaResidenza, boolean automunito, String patente) {

@@ -7,6 +7,7 @@ import com.example.ingsoft.Model.ComuniProvider;
 import com.example.ingsoft.Model.Lavoratore.Lavoratore;
 import com.example.ingsoft.Model.Lavoratore.LavoratoreDaoImpl;
 import com.example.ingsoft.Model.LingueProvider;
+import com.example.ingsoft.Model.Model;
 import com.example.ingsoft.Model.Persona.PersonaUrgente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,6 +39,7 @@ public class IscrizioneController {
     @FXML
     private ComboBox<String> comuneComboBox,lingueComboBox;
     private LavoratoreDaoImpl lavoratoreDaoImpl;
+    private Model model;
     @FXML
     public void initialize() {
 
@@ -69,6 +71,7 @@ public class IscrizioneController {
 
         new AutoCompleteBox(lingueComboBox);
         new AutoCompleteBox(comuneComboBox);
+        model = Model.OttieniIstanza();
     }
     @FXML
     private void handleIscrizione(ActionEvent event) {
@@ -92,8 +95,7 @@ public class IscrizioneController {
             automunito = checkAutomunito.isSelected();
             Lavoratore lavoratore = new Lavoratore(nome,cognome,telefonoPersonale, luogo, email, nazionalita, dataDiNascita, personaUrgente
                     ,lingueParlate,automunito, patente, mansioniEffettuate,comuni, inizioDisponibilita, fineDisponibilita);
-            lavoratoreDaoImpl.add(lavoratore);
-            SalvasuFile();
+            model.AggiungiLavoratore(lavoratore);
             String nuovoLavoratore = "";
             nuovoLavoratore += nome + " " + cognome;
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -138,17 +140,6 @@ public class IscrizioneController {
         for(CheckBox cb : specializzazioni){
             if(cb.isSelected())
                 mansioniEffettuate.add(cb.getText());
-        }
-    }
-    private void SalvasuFile(){
-        try {
-            FileOutputStream fileOutputStream
-                    = new FileOutputStream("yourfile.txt");
-            ObjectOutputStream objectOutputStream
-                    = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(lavoratoreDaoImpl.getLavoratori());
-        }catch(Exception e){
-            System.out.println(e);
         }
     }
     private boolean FormValid() {

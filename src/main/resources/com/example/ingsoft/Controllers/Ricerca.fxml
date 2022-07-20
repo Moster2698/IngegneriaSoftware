@@ -72,16 +72,6 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                           <children>
-                              <Label text="Al" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <DatePicker fx:id="dtpFine" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css" />
-                           </children>
-                        </VBox>
                         <VBox alignment="CENTER_LEFT">
                            <children>
                               <Label text="Cognome" textFill="#7a7a7a">
@@ -90,6 +80,56 @@
                                  </font>
                               </Label>
                               <TextField fx:id="textCognome" promptText="Cognome" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent transparent  #c9d1de transparent;" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
+                           <children>
+                              <Label text="Nome" textFill="#7a7a7a">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="textNome" promptText="Nome" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="2">
+                           <children>
+                              <Label text="Mansione ricercata" textFill="#7a7a7a">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="textMansione" promptText="Mansione Ricercata" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="3">
+                           <children>
+                              <Label text="Zona disponibilità" textFill="#7a7a7a">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="textDisponibilita" promptText="Zona disponibilità" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="4">
+                           <children>
+                              <Label text="Città di residenza" textFill="#7a7a7a">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="textCitta" promptText="Città di residenza" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="5">
+                           <children>
+                              <Label text="Disponibile dal" textFill="#7a7a7a">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <DatePicker fx:id="dtpInizio" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowSpan="3">
@@ -111,47 +151,7 @@
                               <CheckBox fx:id="checkOther" mnemonicParsing="false" text="Other" />
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
-                           <children>
-                              <Label text="Nome" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="textNome" promptText="Nome" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
-                           </children>
-                        </VBox>
                         <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="2">
-                           <children>
-                              <Label text="Mansione ricercata" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="textMansione" promptText="Mansione Ricercata" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="3">
-                           <children>
-                              <Label text="Zona disponibilità" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="textDisponibilita" promptText="Zona disponibilità" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                           <children>
-                              <Label prefHeight="27.0" prefWidth="129.0" text="Tipo patente" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="textPatente" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="93.0" promptText="Tipo patente" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
-                           </children>
-                        </VBox>
                         <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                            <children>
                               <HBox prefHeight="100.0" prefWidth="200.0">
@@ -170,24 +170,24 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="5">
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <children>
-                              <Label text="Disponibile dal" textFill="#7a7a7a">
+                              <Label prefHeight="27.0" prefWidth="129.0" text="Tipo patente" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <DatePicker fx:id="dtpInizio" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css" />
+                              <TextField fx:id="textPatente" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="93.0" promptText="Tipo patente" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="4">
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <children>
-                              <Label text="Città di residenza" textFill="#7a7a7a">
+                              <Label text="Al" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="textCitta" promptText="Città di residenza" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
+                              <DatePicker fx:id="dtpFine" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css" />
                            </children>
                         </VBox>
                      </children>
