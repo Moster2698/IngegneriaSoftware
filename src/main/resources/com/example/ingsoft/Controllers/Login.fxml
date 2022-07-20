@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #f2f2f2; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ingsoft.Controllers.LoginController">
+   <children>
+      <Label fx:id="labelError" text=" Dati inseriti non corretti" textFill="RED" visible="false">
+         <VBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </VBox.margin>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <VBox prefHeight="82.0" prefWidth="262.0" style="-fx-background-radius: 20px; -fx-background-color: white;">
+         <children>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label text="Username" textFill="#534a4a">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="textUsername" onKeyPressed="#onInputChanged" style="-fx-focus-color: #ff6f3b;">
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="26.0" prefWidth="386.0">
+               <children>
+                  <Label text="Password" textFill="#534a4a">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="textPassword" onKeyPressed="#onInputChanged" style="-fx-focus-color: #ff6f3b;">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </PasswordField>
+               </children>
+            </HBox>
+         </children>
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </VBox>
+      <Button fx:id="btnAccedi" contentDisplay="CENTER" disable="true" mnemonicParsing="false" onAction="#onButtonClicked" opacity="0.99" prefHeight="14.0" prefWidth="103.0" style="-fx-background-color: #ff6f3b; -fx-text-fill: white; -fx-border-radius: 10px; -fx-background-radius: 30px;" stylesheets="@styles.css" text="Accedi">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+</VBox>

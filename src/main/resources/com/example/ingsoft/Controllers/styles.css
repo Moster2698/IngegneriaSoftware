@@ -1,0 +1,41 @@
+#txtRecTel:error {
+  -fx-text-box-border: red ;
+  -fx-focus-color: red ;
+}
+
+.date-picker:editable > .arrow-button > * {
+  -fx-opacity: 0; /* Set the node in the button to be visible */
+}
+
+.date-picker > .arrow-button {
+  -fx-background-color: #ff6f3b;
+  -fx-background-image: url("calendar.jpeg"); /* Url of the icon */
+  -fx-background-size: 60% 60%; /* Can be `cover` or `100% 100%` ect. */
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center center; /* Put the icon in the center */
+}
+
+
+.date-picker > .text-field{
+  -fx-background-color: white;
+}
+
+.check-box .box {
+
+  -fx-background-color: white;
+  -fx-border-color:grey;
+  -fx-border-radius:3px;
+  -fx-background-insets: 1px;
+
+}
+
+.check-box:selected .mark {
+
+  -fx-background-color: white;
+
+}
+
+.check-box:selected .box {
+
+  -fx-background-color: #ff6f3b;
+}

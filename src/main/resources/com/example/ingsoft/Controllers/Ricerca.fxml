@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ingsoft.Controllers.RicercaController">
+   <children>
+      <BorderPane prefHeight="800.0" prefWidth="514.0">
+         <bottom>
+            <HBox prefWidth="553.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#backToPrincipalMenu" prefHeight="88.0" prefWidth="180.0" text="BACK" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#Ricerca" prefHeight="88.0" prefWidth="180.0" text="RICERCA" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </HBox>
+         </bottom>
+         <center>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="21.0" prefWidth="208.0">
+                     <children>
+                        <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="21.0" prefWidth="146.0" text="LINGUA PARLATA">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="120.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="7.0">
+                     <children>
+                        <CheckBox fx:id="checkCinese" mnemonicParsing="false" text="Cinese" />
+                        <CheckBox fx:id="checkIndiano" mnemonicParsing="false" text="Indiano" />
+                        <CheckBox fx:id="checkInglese" mnemonicParsing="false" text="Inglese" />
+                        <CheckBox fx:id="checkItaliano" mnemonicParsing="false" text="Italiano" />
+                        <CheckBox fx:id="checkFrancese" mnemonicParsing="false" text="Francese" />
+                        <CheckBox fx:id="checkPortoghese" mnemonicParsing="false" text="Portoghese" />
+                        <CheckBox fx:id="checkRusso" mnemonicParsing="false" text="Russo" />
+                        <CheckBox fx:id="checkSpagnolo" mnemonicParsing="false" text="Spagnolo" />
+                        <CheckBox fx:id="checkTedesco" mnemonicParsing="false" text="Tedesco" />
+                        <CheckBox fx:id="checkOther" mnemonicParsing="false" text="Other" />
+                     </children>
+                     <VBox.margin>
+                        <Insets right="100.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <HBox prefHeight="32.0" prefWidth="318.0">
+                     <children>
+                        <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="135.0" text="AUTOMUNITO/A">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </Label>
+                        <CheckBox fx:id="checkAutomunito" mnemonicParsing="false">
+                           <padding>
+                              <Insets top="11.0" />
+                           </padding>
+                        </CheckBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="100.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Label minWidth="-Infinity" prefHeight="31.0" prefWidth="141.0" text="TIPO PATENTE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="textPatente" minWidth="-Infinity" prefHeight="25.0" prefWidth="68.0">
+                     <VBox.margin>
+                        <Insets right="125.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </VBox>
+         </center>
+         <left>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="485.0" prefWidth="276.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label lineSpacing="2.0" prefHeight="21.0" prefWidth="117.0" text="COGNOME:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="textCognome" prefHeight="14.0" prefWidth="176.0">
+                     <VBox.margin>
+                        <Insets right="100.0" />
+                     </VBox.margin></TextField>
+                  <Label prefHeight="14.0" prefWidth="117.0" text="NOME:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="textNome" prefHeight="14.0" prefWidth="176.0">
+                     <VBox.margin>
+                        <Insets right="100.0" />
+                     </VBox.margin></TextField>
+                  <Label prefHeight="11.0" prefWidth="222.0" text="MANSIONE RICERCATA">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="textMansione" prefHeight="11.0" prefWidth="204.0">
+                     <VBox.margin>
+                        <Insets right="100.0" />
+                     </VBox.margin></TextField>
+                  <Label prefHeight="10.0" prefWidth="220.0" text="ZONA DISPONIBILITA'">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="textDisponibilita" prefHeight="15.0" prefWidth="204.0">
+                     <VBox.margin>
+                        <Insets right="100.0" />
+                     </VBox.margin></TextField>
+                  <Label prefHeight="19.0" prefWidth="292.0" text="PERIODO DISPONIBILITA' (DAL - AL)">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets right="35.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox maxWidth="-Infinity" prefHeight="25.0" prefWidth="250.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <children>
+                        <DatePicker fx:id="dtpInizio" prefHeight="25.0" prefWidth="110.0" />
+                        <DatePicker fx:id="dtpFine" prefHeight="25.0" prefWidth="110.0">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </DatePicker>
+                     </children>
+                  </HBox>
+                  <VBox maxWidth="-Infinity" minWidth="-Infinity" prefHeight="57.0" prefWidth="204.0">
+                     <children>
+                        <Label prefHeight="24.0" prefWidth="204.0" text="CITTA' DI RESIDENZA">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="textCitta" minWidth="-Infinity" prefHeight="6.0" prefWidth="145.0">
+                           <VBox.margin>
+                              <Insets right="100.0" />
+                           </VBox.margin></TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="100.0" />
+                     </VBox.margin>
+                  </VBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets left="10.0" />
+               </BorderPane.margin>
+            </VBox>
+         </left>
+      </BorderPane>
+      <Pane layoutX="473.0" layoutY="7.0" prefHeight="788.0" prefWidth="725.0">
+         <children>
+            <Label layoutX="19.0" layoutY="61.0" prefHeight="21.0" prefWidth="661.0" text="Label" />
+            <ScrollBar layoutX="704.0" layoutY="108.0" orientation="VERTICAL" prefHeight="672.0" prefWidth="14.0" />
+            <ListView fx:id="listViewLavoratori" layoutX="19.0" layoutY="82.0" prefHeight="684.0" prefWidth="683.0" />
+         </children>
+      </Pane>
+      <Label alignment="CENTER" layoutY="14.0" prefHeight="53.0" prefWidth="1200.0" text="RICERCA LAVORATORE">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
