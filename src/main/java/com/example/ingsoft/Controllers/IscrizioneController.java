@@ -2,6 +2,7 @@ package com.example.ingsoft.Controllers;
 
 
 import com.example.ingsoft.Controllers.Validation.Validator;
+import com.example.ingsoft.Crea;
 import com.example.ingsoft.Model.AutoCompleteBox;
 import com.example.ingsoft.Model.ComuniProvider;
 import com.example.ingsoft.Model.Lavoratore.Lavoratore;
@@ -68,9 +69,10 @@ public class IscrizioneController {
 
         lingueParlate = new ArrayList<String>();
         mansioniEffettuate = new ArrayList<String>();
-
         new AutoCompleteBox(lingueComboBox);
         new AutoCompleteBox(comuneComboBox);
+        Crea crea = new Crea(100);
+        crea.CreaLavoratore();
         model = Model.OttieniIstanza();
     }
     @FXML

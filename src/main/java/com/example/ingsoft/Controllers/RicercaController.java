@@ -107,10 +107,21 @@ public class RicercaController {
 
     @FXML
     private void EliminaLavoratore(){
-        Lavoratore lavoratoreDaEliminare = tableViewLavoratori.getSelectionModel().getSelectedItem();
-        model.RimuoviLavoratore(lavoratoreDaEliminare);
-        System.out.println(lavoratoreDaEliminare);
-        observableListlavoratori.remove(lavoratoreDaEliminare);
+        if(tableViewLavoratori.getSelectionModel().getSelectedItem()!=null) {
+            Lavoratore lavoratoreDaEliminare = tableViewLavoratori.getSelectionModel().getSelectedItem();
+            Alert alert1 = new Alert(Alert.AlertType.WARNING);
+            alert1.setTitle("Conferma eliminazione");
+            alert1.setHeaderText("Sei sicuro di volere eliminare il lavoratore " + lavoratoreDaEliminare.getNome() + " " + lavoratoreDaEliminare.getCognome() + "? L'operazione è irreversibile.");
+            alert1.setContentText("Premere Sì per confermare, altrimenti Cancel per annullare.");
+            ButtonType buttonYes = new ButtonType("Sì");
+            ButtonType btnCancel = new ButtonType("Elimina");
+            alert1.getButtonTypes().setAll(buttonYes, btnCancel);
+            Optional<ButtonType> result1 = alert1.showAndWait();
+            if (result1.get() == buttonYes) {
+                model.RimuoviLavoratore(lavoratoreDaEliminare);
+                observableListlavoratori.remove(lavoratoreDaEliminare);
+            }
+        }
     }
     @FXML
     private void ModificaLavoratore(){
@@ -144,7 +155,6 @@ public class RicercaController {
                     Lavoratore tmp = (Lavoratore) listViewLavoratori.getSelectionModel().getSelectedItem();
                     model.RimuoviLavoratore((Lavoratore) listViewLavoratori.getSelectionModel().getSelectedItem());
                     observableListlavoratori.remove(tmp);
-
                 }
             } else if (result.get() == btnModifica) {
 
