@@ -7,10 +7,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Comparator;
 
 public class ComuniProvider {
-    private static ComuniProvider instance = new ComuniProvider();
-    private ObservableList<String> listaComuni = comuni();
+    private final static ComuniProvider instance = new ComuniProvider();
+    private final ObservableList<String> listaComuni = comuni();
 
     private ComuniProvider() {
     }
@@ -32,12 +33,12 @@ public class ComuniProvider {
             {
                 com.add(line.split(";;")[0].split(";")[6]);
             }
-            com.sort((o1, o2) -> o1.compareTo(o2));
+            com.sort(Comparator.naturalOrder());
             return com;
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.out.println(e);
         }
+        return null;
     }
+
 }

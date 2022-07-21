@@ -2,16 +2,13 @@ package com.example.ingsoft.Controllers;
 
 
 import com.example.ingsoft.Controllers.Validation.Validator;
-import com.example.ingsoft.Crea;
 import com.example.ingsoft.Model.AutoCompleteBox;
 import com.example.ingsoft.Model.guiData.ComuniProvider;
-import com.example.ingsoft.Model.Lavoratore.Lavoratore;
+import com.example.ingsoft.Model.Persona.Lavoratore;
 import com.example.ingsoft.Model.guiData.Lingua;
-import com.example.ingsoft.Model.guiData.LingueProvider;
 import com.example.ingsoft.Model.Model;
 import com.example.ingsoft.Model.Persona.PersonaUrgente;
 import com.example.ingsoft.Model.guiData.Patente;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,13 +28,11 @@ public class IscrizioneController {
     private SortedSet<String> comuni;
     @FXML
     private TextField txtCognome, txtNome, txtLuogoNascita, txtNazionalita, txtRecTel, txtCitta, txtVia, txtCivico
-            ,txtCap,txtEmail,txtPatente,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza, txtTelefonoEmergenza;
+            ,txtCap,txtEmail,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza, txtTelefonoEmergenza;
     private List<TextField> stringTextFields;
     @FXML
     private CheckBox checkAutomunito, checkBagnino, checkBarman, checkViticultore, checkFloricultore, checkIstruttoreNuoto;
-    private List<CheckBox> specializzazioni;
-    private List<String> mansioniEffettuate;
-    private List<String> lingueParlate;
+    private List<String> mansioniEffettuate, lingueParlate, patenti;
     @FXML
     private DatePicker dPickerNascita,dPInizioLavoro,dPFineLavoro;
     @FXML
@@ -50,39 +45,38 @@ public class IscrizioneController {
     @FXML
     public void initialize() {
 
-        stringTextFields = new ArrayList<TextField>();
+        stringTextFields = new ArrayList<>();
 
         Collections.addAll(stringTextFields, txtCognome, txtNome, txtLuogoNascita, txtNazionalita, txtCitta, txtVia, txtCivico
                 ,txtEmail,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza);
-
-        comuni = new TreeSet<String>();
+        comuni = new TreeSet<>();
         validator = new Validator();
-        specializzazioni = new ArrayList<CheckBox>();
-
-        Collections.addAll(specializzazioni,checkBagnino,checkBarman,checkFloricultore,checkViticultore,checkIstruttoreNuoto);
-
         validator.add(stringTextFields);
         validator.add(txtCap,5);
         validator.add(txtTelefonoEmergenza,10);
         validator.add(txtRecTel,10,true);
+
         validator.add(dPickerNascita);
         validator.add(dPInizioLavoro,dPFineLavoro);
 
-        fillComuniComboBox();
-        fillLingueComboBox();
+        InserisciComuninellaComuniComboBox();
         lingueComboBox.getItems().setAll(Arrays.asList(Lingua.values()));
-
-        lingueParlate = new ArrayList<String>();
-        mansioniEffettuate = new ArrayList<String>();
-        new AutoCompleteBox(lingueComboBox);
+        patenteComboBox.getItems().setAll(Arrays.asList(Patente.values()));
+        lingueParlate = new ArrayList<>();
+        mansioniEffettuate = new ArrayList<>();
+        patenti = new ArrayList<>();
         new AutoCompleteBox(comuneComboBox);
-
         model = Model.OttieniIstanza();
     }
+
+    /***
+     * Controlla se i dati della form sono corretti, nel caso affermativo crea un lavoratore
+     *
+     */
     @FXML
-    private void handleIscrizione(ActionEvent event) {
+    private void handleIscrizione() {
         if(FormValid()){
-            String nome, cognome,  telefonoPersonale,  email,  nazionalita,  patente, luogo,cittaResidenza,viaResidenza,civicoResidenza,capResidenza;
+            String nome, cognome,  telefonoPersonale,  email,  nazionalita, luogo,cittaResidenza,viaResidenza,civicoResidenza,capResidenza;
             LocalDate dataDiNascita, inizioDisponibilita,fineDisponibilita;
             PersonaUrgente personaUrgente;
             boolean automunito;
@@ -92,7 +86,6 @@ public class IscrizioneController {
             email = txtEmail.getText();
             luogo = txtLuogoNascita.getText();
             nazionalita = txtNazionalita.getText();
-            patente = patenteComboBox.getSelectionModel().getSelectedItem().name();
             dataDiNascita = dPickerNascita.getValue();
             inizioDisponibilita = dPInizioLavoro.getValue();
             fineDisponibilita = dPFineLavoro.getValue();
@@ -100,11 +93,12 @@ public class IscrizioneController {
             viaResidenza = txtVia.getText();
             civicoResidenza = txtCivico.getText();
             capResidenza = txtCap.getText();
-            OttieniEsperienzeCheckBoxes();
+            OttieniSpecializzazioniDalleCheckBox();
+            System.out.println(mansioniEffettuate);
             personaUrgente = new PersonaUrgente(txtNomeEmergenza.getText(),txtCognomeEmergenza.getText(),txtTelefonoEmergenza.getText(),txtIndirizzoEmergenza.getText());
             automunito = checkAutomunito.isSelected();
             Lavoratore lavoratore = new Lavoratore(nome,cognome,luogo,dataDiNascita,nazionalita,telefonoPersonale,email,inizioDisponibilita,fineDisponibilita,
-                    comuni,lingueParlate,automunito,patente,mansioniEffettuate,cittaResidenza,viaResidenza,civicoResidenza,capResidenza,personaUrgente);
+                    comuni,lingueParlate,automunito,patenti,mansioniEffettuate,"Insegnante", cittaResidenza,viaResidenza,civicoResidenza,capResidenza,personaUrgente);
             model.AggiungiLavoratore(lavoratore);
             String nuovoLavoratore = "";
             nuovoLavoratore += nome + " " + cognome;
@@ -118,17 +112,23 @@ public class IscrizioneController {
             // anche il problema dello style delle varie textfield
         }
     }
+
+    /***
+     * Resetta i campi della Gui e le relative strutture dati associate
+     */
     private void reset(){
         //comune disponiblita
 
         //lingue parlate
 
         //specializzazioni
-
         for(TextField tf : stringTextFields )
             tf.setText("");
-        lingueParlate.clear();
-        mansioniEffettuate.clear();
+        lingueParlate = new ArrayList<>();
+        mansioniEffettuate = new ArrayList<>();
+        patenti = new ArrayList<>();
+        comuni = new TreeSet<>() {
+        };
         txtRecTel.clear();
         txtTelefonoEmergenza.clear();
         txtCap.clear();
@@ -137,51 +137,85 @@ public class IscrizioneController {
         dPInizioLavoro.setValue(null);
 
     }
-    private void fillLingueComboBox() {
-        LingueProvider lp = LingueProvider.getInstance();
-      //  lingueComboBox.setItems(lp.getListaLingue());
-    }
-    private void fillComuniComboBox(){
+
+    /***
+     *Inserisce la lista dei comuni italiani all'interno della ComboBox dedicata
+     */
+    private void InserisciComuninellaComuniComboBox(){
         ComuniProvider cp = ComuniProvider.getInstance();
         comuneComboBox.setItems(cp.getListaComuni());
     }
 
-    private void OttieniEsperienzeCheckBoxes(){
-        for(CheckBox cb : specializzazioni){
-            if(cb.isSelected())
-                mansioniEffettuate.add(cb.getText());
-        }
+    /***
+     * Ottiene dalle checkBox specializzazioni tutti i valori selezionati
+     */
+    private void OttieniSpecializzazioniDalleCheckBox(){
+        if(checkBagnino.isSelected())
+            mansioniEffettuate.add("Bagnino");
+        if(checkBarman.isSelected())
+            mansioniEffettuate.add("Barman");
+        if(checkFloricultore.isSelected())
+            mansioniEffettuate.add("Floricultore");
+        if(checkViticultore.isSelected())
+            mansioniEffettuate.add("Viticultore");
+        if(checkIstruttoreNuoto.isSelected())
+            mansioniEffettuate.add("Istruttore di nuoto");
+
     }
+
+    /***
+     *
+     * @return booleano che indica se i dati sono stati inseriti correttamente
+     */
     private boolean FormValid() {
         return  validator.validate();
     }
 
+    /***
+     * EventHandler per la selezione del comune all'interno della ComboBox dedicata
+     */
     @FXML
     private void CbComuneSelezionato(){
         String comuneScelto = comuneComboBox.getSelectionModel().getSelectedItem();
         if(comuneScelto!=null)
             comuni.add(comuneScelto);
     }
+
+    /***
+     * EventHandler per la selezione della lingua all'interno della ComboBox dedicata
+     */
     @FXML
     private void CbiLinguaSelezionata(){
         if(lingueComboBox.getSelectionModel().getSelectedItem()!=null){
-            if(lingueParlate.contains(lingueComboBox.getSelectionModel().getSelectedItem()))
-                lingueParlate.remove(lingueComboBox.getSelectionModel().getSelectedItem());
+            if(lingueParlate.contains(lingueComboBox.getSelectionModel().getSelectedItem().name()))
+                lingueParlate.remove(lingueComboBox.getSelectionModel().getSelectedItem().name());
             else
             {
                 lingueParlate.add(lingueComboBox.getSelectionModel().getSelectedItem().name());
             }
         }
     }
+    /***
+     * EventHandler per la selezione della patente all'interno della ComboBox dedicata
+     */
     @FXML
     public void cBPatenteSelezionata(){
         if(patenteComboBox.getSelectionModel().getSelectedItem()!=null){
-
+            if(patenti.contains(patenteComboBox.getSelectionModel().getSelectedItem().name()))
+                patenti.remove(patenteComboBox.getSelectionModel().getSelectedItem().name());
+            else{
+                patenti.add(patenteComboBox.getSelectionModel().getSelectedItem().name());
+            }
         }
     }
-    public void backToPrincipalMenu(ActionEvent event) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("PrincipalMenu.fxml"));
+    /***
+     * Riporta al menù principale
+     * @param event Click dell'utente
+     * @throws IOException eccezione se non esiste il file PrincipalMenu.fxml
+     */
+    public void backToPrincipalMenu(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PrincipalMenu.fxml")));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene  scene = new Scene(root);
         stage.setScene(scene);

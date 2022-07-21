@@ -249,7 +249,7 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                            <children>
-                              <CheckBox fx:id="checkAutomunito" mnemonicParsing="false" stylesheets="@styles.css" />
+                              <CheckBox fx:id="checkAutomunito" mnemonicParsing="false" stylesheets="@styles.css"   />
                               <Label prefHeight="27.0" prefWidth="106.0" text="Automunito*" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
@@ -267,7 +267,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="patenteComboBox" maxWidth="400.0" onAction="#cBPatenteSelezionata" prefHeight="0.0" prefWidth="158.0" promptText="Patente" style="-fx-border-color: transparent; -fx-background-color: transpaernt;" visibleRowCount="5" />
+                              <ComboBox fx:id="patenteComboBox" maxWidth="400.0" onAction="#cBPatenteSelezionata" prefHeight="0.0" prefWidth="158.0" promptText="Patente" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5" />
                            </children>
                         </VBox>
                      </children>

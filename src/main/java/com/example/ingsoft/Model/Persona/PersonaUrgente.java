@@ -13,5 +13,11 @@ public class PersonaUrgente extends Persona implements  Serializable {
         this.numeroTelefono = numeroTelefono;
         this.email = email;
     }
+    public String getNumeroTelefono(){
+        return numeroTelefono;
+    }
+    public String getEmail(){
+        return email;
+    }
 
 }

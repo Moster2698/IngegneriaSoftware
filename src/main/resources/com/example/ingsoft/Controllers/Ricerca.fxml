@@ -5,9 +5,11 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -48,17 +50,35 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
                <children>
-                  <Label text="Informazioni lavoratore" textFill="#ff6f3b">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" />
-                     </padding>
-                  </Label>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="332.0">
+                     <children>
+                        <Label prefHeight="49.0" prefWidth="273.0" text="Informazioni lavoratore" textFill="#ff6f3b">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                        </Label>
+                        <VBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="61.0" spacing="3.0" style="-fx-background-color: ffe7b9; -fx-background-radius: 15px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);">
+                           <children>
+                              <RadioButton fx:id="btnAnd" mnemonicParsing="false" selected="true" text="AND">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="tipoRicerca" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="btnOr" mnemonicParsing="false" text="OR" toggleGroup="$tipoRicerca">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </RadioButton>
+                           </children>
+                           <padding>
+                              <Insets left="8.0" right="5.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
                   <GridPane hgap="20.0" prefWidth="530.0" vgap="60.0" VBox.vgrow="ALWAYS">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -70,9 +90,18 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <children>
+                              <Label text="Al" textFill="#7a7a7a">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <DatePicker fx:id="dtpFine" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
                         <VBox alignment="CENTER_LEFT">
                            <children>
                               <Label text="Cognome" textFill="#7a7a7a">
@@ -83,7 +112,17 @@
                               <TextField fx:id="textCognome" promptText="Cognome" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent transparent  #c9d1de transparent;" />
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <Label text="Lingua parlata" textFill="#7a7a7a">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="textLingue" promptText="Lingua parlata" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
                            <children>
                               <Label text="Nome" textFill="#7a7a7a">
                                  <font>
@@ -93,17 +132,17 @@
                               <TextField fx:id="textNome" promptText="Nome" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="2">
+                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
                            <children>
                               <Label text="Mansione ricercata" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="textMansione" promptText="Mansione Ricercata" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
+                              <TextField fx:id="textMansione" promptText="Mansione ricercata" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="3">
+                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="2">
                            <children>
                               <Label text="Zona disponibilità" textFill="#7a7a7a">
                                  <font>
@@ -113,46 +152,16 @@
                               <TextField fx:id="textDisponibilita" promptText="Zona disponibilità" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="4">
+                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="3">
                            <children>
-                              <Label text="Città di residenza" textFill="#7a7a7a">
+                              <Label prefHeight="27.0" prefWidth="129.0" text="Tipo patente" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="textCitta" promptText="Città di residenza" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
+                              <TextField fx:id="textPatente" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="93.0" promptText="Tipo patente" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="5">
-                           <children>
-                              <Label text="Disponibile dal" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <DatePicker fx:id="dtpInizio" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowSpan="3">
-                           <children>
-                              <Label text="Lingua parlata" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <CheckBox fx:id="checkCinese" mnemonicParsing="false" text="Cinese" />
-                              <CheckBox fx:id="checkIndiano" mnemonicParsing="false" text="Indiano" />
-                              <CheckBox fx:id="checkInglese" mnemonicParsing="false" text="Inglese" />
-                              <CheckBox fx:id="checkItaliano" mnemonicParsing="false" text="Italiano" />
-                              <CheckBox fx:id="checkFrancese" mnemonicParsing="false" text="Francese" />
-                              <CheckBox fx:id="checkPortoghese" mnemonicParsing="false" text="Portoghese" />
-                              <CheckBox fx:id="checkRusso" mnemonicParsing="false" text="Russo" />
-                              <CheckBox fx:id="checkSpagnolo" mnemonicParsing="false" text="Spagnolo" />
-                              <CheckBox fx:id="checkTedesco" mnemonicParsing="false" text="Tedesco" />
-                              <CheckBox fx:id="checkOther" mnemonicParsing="false" text="Other" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                            <children>
                               <HBox prefHeight="100.0" prefWidth="200.0">
@@ -171,24 +180,24 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="4">
                            <children>
-                              <Label prefHeight="27.0" prefWidth="129.0" text="Tipo patente" textFill="#7a7a7a">
+                              <Label text="Disponibile dal" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="textPatente" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="93.0" promptText="Tipo patente" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
+                              <DatePicker fx:id="dtpInizio" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css" />
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Label text="Al" textFill="#7a7a7a">
+                              <Label text="Città di residenza" textFill="#7a7a7a">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <DatePicker fx:id="dtpFine" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css" />
+                              <TextField fx:id="textCitta" promptText="Città di residenza" style="-fx-background-color: transparent transparent  #c9d1de transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" />
                            </children>
                         </VBox>
                      </children>
@@ -227,27 +236,48 @@
                   </VBox>
                </children>
             </GridPane>
-            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="4">
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="3">
                <children>
                   <Label layoutX="14.0" layoutY="-2.0" prefHeight="25.0" prefWidth="93.0" text="Risultato ricerca:" />
-                  <TableView fx:id="tableViewLavoratori" layoutX="6.0" layoutY="40.0" prefHeight="501.0" prefWidth="701.0">
-                    <columns>
-                      <TableColumn fx:id="tbcNome" editable="false" prefWidth="100.0" text="Nome" />
-                        <TableColumn fx:id="tbcCognome" editable="false" prefWidth="100.0" text="Cognome" />
-                      <TableColumn fx:id="tbcDataNascita" editable="false" prefWidth="100.0" text="Data Nascita" />
-                        <TableColumn fx:id="tbcComune" editable="false" prefWidth="100.0" text="Comune" />
-                        <TableColumn fx:id="tbcLingue" editable="false" prefWidth="100.0" text="Lingue" />
-                        <TableColumn fx:id="tbcDisponibilita" editable="false" prefWidth="100.0" text="Disponibilità" />
-                        <TableColumn fx:id="tbcMansioni" editable="false" prefWidth="99.0" text="Mansioni" />
-                    </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
+                  <TableView fx:id="tableViewLavoratori" layoutX="7.0" layoutY="23.0" prefHeight="560.0" prefWidth="753.0" style="-fx-alignment: CENTER; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);">
+                     <columns>
+                        <TableColumn fx:id="tbcNome" prefWidth="125.0" text="Nome" />
+                        <TableColumn fx:id="tbcCognome" prefWidth="125.0" text="Cognome" />
+                        <TableColumn fx:id="tbcComune" prefWidth="125.0" text="Comune residenza" />
+                        <TableColumn fx:id="tbcDisponibilita" prefWidth="125.0" text="Periodo disponibilità" />
+                        <TableColumn fx:id="tbcLingue" prefWidth="125.0" text="Lingue Parlate" />
+                        <TableColumn fx:id="tbcMansione" prefWidth="125.0" text="Mansione Richiesta" />
+                        <TableColumn fx:id="tbcSpecializzazioni" prefWidth="125.0" text="Specializzazioni" />
+                        <TableColumn fx:id="tbcAutomunito" prefWidth="125.0" text="Automunito" />
+                        <TableColumn fx:id="tbcPatente" prefWidth="125.0" text="Patente" />
+                     </columns>
                   </TableView>
-                  <Button layoutX="107.0" layoutY="589.0" mnemonicParsing="false" onAction="#ModificaLavoratore" text="Modifica" />
-                  <Button layoutX="435.0" layoutY="589.0" mnemonicParsing="false" onAction="#EliminaLavoratore" text="Elimina" />
                </children>
             </Pane>
+            <GridPane GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#Modifica" prefHeight="48.0" prefWidth="150.0" style="-fx-background-color: #87A96B; -fx-text-fill: white; -fx-border-radius: 20px; -fx-background-radius: 30px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);" text="Modifica">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#Elimina" prefHeight="48.0" prefWidth="150.0" style="-fx-background-color: #DC143C; -fx-text-fill: white; -fx-border-radius: 20px; -fx-background-radius: 30px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);" text="Elimina">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
