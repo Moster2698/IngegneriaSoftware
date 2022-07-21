@@ -1,17 +1,15 @@
-package com.example.ingsoft.Model.Lavoratore;
+package com.example.ingsoft.Model.Persona;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
-    private List<Lavoratore> lavoratori;
+    private final List<Lavoratore> lavoratori;
 
     public LavoratoreDaoImpl(){
         lavoratori = deSerializzaFile();
@@ -25,7 +23,7 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
             return (List<Lavoratore>) objectInputStream.readObject();
         }
         catch(EOFException e){
-            return new ArrayList<Lavoratore>();
+            return new ArrayList<>();
         }
         catch(IOException e){
             System.out.println(e);
@@ -42,11 +40,11 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
 
 
     @Override
-    public List<Lavoratore> research(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, String mansione, List<String> zonaDisponibilita, String cittaResidenza, boolean automunito, String patente) {
+    public List<Lavoratore> research(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, List<String> mansioni, List<String> zonaDisponibilita, String cittaResidenza, boolean automunito, String patente) {
         return  lavoratori.stream().filter(lavoratore -> {
             boolean isValid = true;
             if(!nome.isEmpty() || !nome.isBlank())
-                isValid = isValid && lavoratore.getNome().equalsIgnoreCase(nome);
+                isValid = lavoratore.getNome().equalsIgnoreCase(nome);
             if(!cognome.isEmpty() || !cognome.isBlank())
                 isValid = isValid && lavoratore.getCognome().equalsIgnoreCase(cognome);
             if(dataInizio!=null && dataFine != null)
@@ -59,37 +57,23 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
             else if(dataFine!=null){
                 isValid = isValid && lavoratore.getFineDisponibilita().isBefore(dataFine);
             }
-            if(!mansione.isBlank() || !mansione.isEmpty()){
-                isValid = isValid && lavoratore.getMansioniEffettuate().stream().filter(new Predicate<String>() {
-                    @Override
-                    public boolean test(String s) {
-                        return s.equalsIgnoreCase(mansione);
-                    }
-                }).count() > 0;
+            if(!mansioni.isEmpty() && (!mansioni.get(0).isBlank() || !mansioni.get(0).isEmpty())){
+                isValid = isValid && mansioni.stream().anyMatch(s -> {
+                    System.out.println(s + " " + lavoratore.getMansione());
+                    return s.equalsIgnoreCase(lavoratore.getMansione());
+                });
             }
             if(!lingueParlate.isEmpty() && (!lingueParlate.get(0).isBlank() || !lingueParlate.get(0).isEmpty())){
-                isValid = isValid && lavoratore.getLingueParlate().stream().filter(new Predicate<String>() {
-                    @Override
-                    public boolean test(String s) {
-                        for(String lingua : lingueParlate){
-                            if(lingua.equalsIgnoreCase(s))
-                                return true;
-                        }
-                        return false;
-                    }
-                }).count() > 0;
+                isValid = isValid && lavoratore.getLingueParlate().stream().anyMatch(lingueParlate::contains);
             }
             if(!zonaDisponibilita.isEmpty() && (!zonaDisponibilita.get(0).isBlank() || !zonaDisponibilita.get(0).isEmpty())){
-                isValid = isValid && lavoratore.getLingueParlate().stream().filter(new Predicate<String>() {
-                    @Override
-                    public boolean test(String s) {
-                        for(String zona : zonaDisponibilita){
-                            if(zona.equalsIgnoreCase(s))
-                                return true;
-                        }
-                        return false;
+                isValid = isValid && lavoratore.getLingueParlate().stream().anyMatch(s -> {
+                    for (String zona : zonaDisponibilita) {
+                        if (zona.equalsIgnoreCase(s))
+                            return true;
                     }
-                }).count() > 0;
+                    return false;
+                });
             }
             if(!cittaResidenza.isEmpty() || !cittaResidenza.isBlank()) {
                 System.out.println("ciao2");
@@ -97,16 +81,12 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
             }
             isValid = isValid && lavoratore.getAutomunito()==automunito;
             if(!patente.isEmpty() || !patente.isBlank()){
-                isValid = isValid && lavoratore.getPatente().stream().anyMatch(new Predicate<String>() {
-                    @Override
-                    public boolean test(String s) {
-                        return patente.equalsIgnoreCase(s);
-                    }
-                });
+                isValid = isValid && lavoratore.getPatente().stream().anyMatch(patente::equalsIgnoreCase);
             }
             return isValid;
         }).collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
+
 
     @Override
     public void add(Lavoratore lavoratore) {

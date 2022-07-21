@@ -1,7 +1,6 @@
 package com.example.ingsoft.Controllers;
 
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,7 +21,7 @@ public class LoginController {
     @FXML
     private Button btnAccedi;
     @FXML
-    private void onButtonClicked(ActionEvent tc) throws IOException, ClassNotFoundException {
+    private void onButtonClicked() {
         String username = textUsername.getText();
         String password = textPassword.getText();
 
@@ -47,11 +46,11 @@ public class LoginController {
         // System.out.println(tex    tUsername.toString());
     }
     public  void delay(long millis, Runnable continuation) {
-        Task<Void> sleeper = new Task<Void>() {
+        Task<Void> sleeper = new Task<>() {
             @Override
-            protected Void call() throws Exception {
+            protected Void call() {
                 try { Thread.sleep(millis); }
-                catch (InterruptedException e) { }
+                catch (InterruptedException e) {System.out.println(e); }
                 return null;
             }
         };

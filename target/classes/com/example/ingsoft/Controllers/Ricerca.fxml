@@ -5,9 +5,11 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -48,17 +50,35 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
                <children>
-                  <Label text="Informazioni lavoratore" textFill="#ff6f3b">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" />
-                     </padding>
-                  </Label>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="332.0">
+                     <children>
+                        <Label prefHeight="49.0" prefWidth="273.0" text="Informazioni lavoratore" textFill="#ff6f3b">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                        </Label>
+                        <VBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="61.0" spacing="3.0" style="-fx-background-color: ffe7b9; -fx-background-radius: 15px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);">
+                           <children>
+                              <RadioButton fx:id="btnAnd" mnemonicParsing="false" selected="true" text="AND">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="tipoRicerca" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="btnOr" mnemonicParsing="false" text="OR" toggleGroup="$tipoRicerca">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </RadioButton>
+                           </children>
+                           <padding>
+                              <Insets left="8.0" right="5.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
                   <GridPane hgap="20.0" prefWidth="530.0" vgap="60.0" VBox.vgrow="ALWAYS">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -219,17 +239,18 @@
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="3">
                <children>
                   <Label layoutX="14.0" layoutY="-2.0" prefHeight="25.0" prefWidth="93.0" text="Risultato ricerca:" />
-                  <TableView fx:id="tableViewLavoratori" layoutX="7.0" layoutY="23.0" prefHeight="560.0" prefWidth="753.0" style="-fx-alignment: CENTER;">
-                    <columns>
-                      <TableColumn fx:id="tbcNome" prefWidth="125.0" text="Nome" />
+                  <TableView fx:id="tableViewLavoratori" layoutX="7.0" layoutY="23.0" prefHeight="560.0" prefWidth="753.0" style="-fx-alignment: CENTER; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);">
+                     <columns>
+                        <TableColumn fx:id="tbcNome" prefWidth="125.0" text="Nome" />
                         <TableColumn fx:id="tbcCognome" prefWidth="125.0" text="Cognome" />
                         <TableColumn fx:id="tbcComune" prefWidth="125.0" text="Comune residenza" />
                         <TableColumn fx:id="tbcDisponibilita" prefWidth="125.0" text="Periodo disponibilità" />
                         <TableColumn fx:id="tbcLingue" prefWidth="125.0" text="Lingue Parlate" />
-                        <TableColumn fx:id="tbcMansioni" prefWidth="125.0" text="Mansione Richiesta" />
+                        <TableColumn fx:id="tbcMansione" prefWidth="125.0" text="Mansione Richiesta" />
+                        <TableColumn fx:id="tbcSpecializzazioni" prefWidth="125.0" text="Specializzazioni" />
                         <TableColumn fx:id="tbcAutomunito" prefWidth="125.0" text="Automunito" />
                         <TableColumn fx:id="tbcPatente" prefWidth="125.0" text="Patente" />
-                    </columns>
+                     </columns>
                   </TableView>
                </children>
             </Pane>

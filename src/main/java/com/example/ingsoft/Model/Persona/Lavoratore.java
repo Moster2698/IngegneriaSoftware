@@ -1,10 +1,4 @@
-package com.example.ingsoft.Model.Lavoratore;
-
-import com.example.ingsoft.Model.Lavoro.Lavoro;
-import com.example.ingsoft.Model.Lavoro.LavoroDaoImpl;
-import com.example.ingsoft.Model.Persona.Persona;
-import com.example.ingsoft.Model.Persona.PersonaUrgente;
-import com.example.ingsoft.Model.guiData.Lingua;
+package com.example.ingsoft.Model.Persona;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -24,7 +18,8 @@ public class Lavoratore extends Persona implements Serializable {
     private PersonaUrgente personaUrgente;
     private SortedSet<String> comuni;
     private List<String> lingueParlate;
-    private List<String> mansioniEffettuate;
+    private List<String> specializzazioni;
+    private String mansione;
     private List<String> patenti;
     private boolean automunito;
     public Lavoratore(String nome, String cognome) {
@@ -35,7 +30,7 @@ public class Lavoratore extends Persona implements Serializable {
 
     public Lavoratore(String nome, String cognome, String luogoDiNascita, LocalDate dataDiNascita, String nazionalita, String recTel,
                       String email, LocalDate inizioDisponibilita, LocalDate fineDisponibilita, SortedSet<String> comuni, List<String> lingueParlate,
-                      boolean automunito, List<String> patenti, List<String> mansioniEffettuate, String cittaResidenza, String viaResidenza,
+                      boolean automunito, List<String> patenti, List<String> specializzazioni,String mansione, String cittaResidenza, String viaResidenza,
                       String civicoResidenza, String capResidenza, PersonaUrgente personaUrgente) {
         this(nome, cognome);
         this.luogoDiNascita = luogoDiNascita;
@@ -49,7 +44,8 @@ public class Lavoratore extends Persona implements Serializable {
         this.lingueParlate = lingueParlate;
         this.automunito = automunito;
         this.patenti = patenti;
-        this.mansioniEffettuate = mansioniEffettuate;
+        this.specializzazioni = specializzazioni;
+        this.mansione = mansione;
         this.cittaResidenza = cittaResidenza;
         this.viaResidenza = viaResidenza;
         this.civicoResidenza = civicoResidenza;
@@ -77,7 +73,7 @@ public class Lavoratore extends Persona implements Serializable {
                 ", personaUrgente=" + personaUrgente +
                 ", comuni=" + comuni +
                 ", lingueParlate=" + lingueParlate +
-                ", mansioni effettuate=" + mansioniEffettuate +
+                ", mansioni effettuate=" + specializzazioni +
                 ", automunito=" + automunito +
                 ", nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
@@ -87,15 +83,10 @@ public class Lavoratore extends Persona implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if( o instanceof  Lavoratore){
-            Lavoratore other = (Lavoratore) o;
+        if(o instanceof Lavoratore other){
             return nome.equals(other.nome) && cognome.equals(other.cognome) && dataDiNascita.equals(((Lavoratore) o).dataDiNascita);
         }
         return false;
-    }
-
-    public SortedSet<String> getComuni() {
-        return comuni;
     }
 
     public List<String> getPatente() {
@@ -117,6 +108,9 @@ public class Lavoratore extends Persona implements Serializable {
     public boolean getAutomunito(){
         return automunito;
     }
+    public String getMansione(){
+        return mansione;
+    }
 
     public List<String> getLingueParlate() {
         return lingueParlate;
@@ -135,11 +129,11 @@ public class Lavoratore extends Persona implements Serializable {
         ling = ling.substring(1,ling.length()-1);
         return ling;
     }
-    public List<String> getMansioniEffettuate(){
-        return mansioniEffettuate;
+    public List<String> getSpecializzazioni(){
+        return specializzazioni;
     }
-    public String getStringMansioni(){
-        String mansioni = mansioniEffettuate.toString();
+    public String getStringSpecializzazioni(){
+        String mansioni = specializzazioni.toString();
         mansioni = mansioni.substring(1,mansioni.length()-1);
         return mansioni;
     }

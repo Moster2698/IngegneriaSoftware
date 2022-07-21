@@ -1,7 +1,7 @@
 package com.example.ingsoft.Model;
 
-import com.example.ingsoft.Model.Lavoratore.Lavoratore;
-import com.example.ingsoft.Model.Lavoratore.LavoratoreDaoImpl;
+import com.example.ingsoft.Model.Persona.Lavoratore;
+import com.example.ingsoft.Model.Persona.LavoratoreDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -41,9 +41,9 @@ public class Model {
     public ObservableList<Lavoratore> OttieniLavoratori(){
         return FXCollections.observableArrayList(lavoratoreDao.getLavoratori());
     }
-    public ObservableList<Lavoratore> ricerca(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, String mansione,
+    public ObservableList<Lavoratore> ricerca(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, List<String> mansioni,
                               List<String> zonaDisponibilita, String cittaResidenza, boolean automunito, String patente){
-        return FXCollections.observableArrayList(lavoratoreDao.research(nome,cognome,lingueParlate,dataInizio,dataFine,mansione,zonaDisponibilita,cittaResidenza,automunito,patente));
+        return FXCollections.observableArrayList(lavoratoreDao.research(nome,cognome,lingueParlate,dataInizio,dataFine,mansioni,zonaDisponibilita,cittaResidenza,automunito,patente));
     }
 
 }

@@ -16,6 +16,4 @@ module com.example.ingsoft {
     opens com.example.ingsoft.Model.Persona to javafx.fxml;
     exports com.example.ingsoft.Model.Lavoro;
     opens com.example.ingsoft.Model.Lavoro to javafx.fxml;
-    exports com.example.ingsoft.Model.Lavoratore;
-    opens com.example.ingsoft.Model.Lavoratore to javafx.fxml;
 }
