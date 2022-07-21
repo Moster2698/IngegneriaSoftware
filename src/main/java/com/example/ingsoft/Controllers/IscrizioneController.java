@@ -75,6 +75,8 @@ public class IscrizioneController {
         patenti = new ArrayList<String>();
         new AutoCompleteBox(lingueComboBox);
         new AutoCompleteBox(comuneComboBox);
+        Crea crea = new Crea(100);
+        crea.CreaLavoratore();
         model = Model.OttieniIstanza();
     }
     @FXML

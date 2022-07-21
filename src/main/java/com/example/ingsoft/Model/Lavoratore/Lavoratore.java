@@ -143,6 +143,11 @@ public class Lavoratore extends Persona implements Serializable {
         mansioni = mansioni.substring(1,mansioni.length()-1);
         return mansioni;
     }
+    public String getStringPatente(){
+        String patente = patenti.toString();
+        patente = patente.substring(1,patente.length()-1);
+        return patente;
+    }
     public String getDisponibilita(){
         return inizioDisponibilita.toString() + " / " + fineDisponibilita.toString();
     }

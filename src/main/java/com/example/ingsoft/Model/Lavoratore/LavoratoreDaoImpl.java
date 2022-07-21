@@ -91,11 +91,11 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                     }
                 }).count() > 0;
             }
-            if(!cittaResidenza.isEmpty() || !cittaResidenza.isBlank()){
+            if(!cittaResidenza.isEmpty() || !cittaResidenza.isBlank()) {
                 System.out.println("ciao2");
                 isValid = isValid && cittaResidenza.equalsIgnoreCase(lavoratore.getCittaResidenza());
             }
-            isValid = isValid && automunito;
+            isValid = isValid && lavoratore.getAutomunito()==automunito;
             if(!patente.isEmpty() || !patente.isBlank()){
                 isValid = isValid && lavoratore.getPatente().equalsIgnoreCase(patente);
             }

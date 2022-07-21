@@ -2,6 +2,7 @@ package com.example.ingsoft.Controllers;
 
 import com.example.ingsoft.Model.Lavoratore.Lavoratore;
 import com.example.ingsoft.Model.Model;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,12 +46,26 @@ public class RicercaController {
     @FXML
     private TableColumn<Lavoratore,String> tbcLingue;
     @FXML
-    private TableColumn<Lavoratore,String> tbcDisponibilita;
+    private TableColumn<Lavoratore,String> tbcDisponibilita, tbcAutomunito, tbcPatente;
     @FXML
     private TableColumn<Lavoratore,String> tbcMansioni;
     private List<CheckBox> checkBoxes;
     private ObservableList<Lavoratore> observableListlavoratori;
     private Model model;
+    @FXML
+    public void initialize(){
+        model = Model.OttieniIstanza();
+        observableListlavoratori = model.OttieniLavoratori();
+        tbcNome.setCellValueFactory(new PropertyValueFactory<Lavoratore, String>("nome"));
+        tbcCognome.setCellValueFactory(new PropertyValueFactory<Lavoratore, String>("cognome"));
+        tbcComune.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getCittaResidenza()));
+        tbcLingue.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringLingue()));
+        tbcMansioni.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringMansioni()));
+        tbcAutomunito.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getAutomunito() ? "SI" : "NO"));
+        tbcPatente.setCellValueFactory(p -> new SimpleStringProperty( p.getValue().getStringPatente()));
+        tbcDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDisponibilita()));
+        tableViewLavoratori.getItems().setAll(observableListlavoratori);
+    }
     @FXML
     private void Ricerca(){
         String nome, cognome, mansione, cittaResidenza, patente;
@@ -69,59 +84,6 @@ public class RicercaController {
         lingueParlate = new ArrayList<String>(Arrays.asList(textLingue.getText().split(" ")));
         zoneDisponibilita = new ArrayList<String>(Arrays.asList(textDisponibilita.getText().split(" ")));
         model.ricerca(nome,cognome,lingueParlate,dataInizio,dataFine,mansione,zoneDisponibilita,cittaResidenza,automunito,patente);
-       observableListlavoratori =  model.OttieniLavoratori().stream().filter(lavoratore -> {
-            boolean isValid = true;
-            if(!nome.isEmpty() || !nome.isBlank())
-                isValid = isValid && lavoratore.getNome().equalsIgnoreCase(nome);
-            if(!cognome.isEmpty() || !cognome.isBlank())
-                isValid = isValid && lavoratore.getCognome().equalsIgnoreCase(cognome);
-            if(dataInizio!=null && dataFine != null)
-            {
-                isValid = isValid && dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita());
-            }
-            else if(dataInizio!=null){
-                isValid = isValid && lavoratore.getInizioDisponibilita().isAfter(dataInizio);
-            }
-            else if(dataFine!=null){
-                isValid = isValid && lavoratore.getFineDisponibilita().isBefore(dataFine);
-            }
-           if(!mansione.isBlank() || !mansione.isEmpty()){
-                isValid = isValid && lavoratore.getMansioniEffettuate().stream().filter(new Predicate<String>() {
-                    @Override
-                    public boolean test(String s) {
-                        return s.equalsIgnoreCase(mansione);
-                    }
-                }).count() > 0;
-           }
-           if(!textLingue.getText().isBlank() || !textLingue.getText().isEmpty()){
-               isValid = isValid && lavoratore.getLingueParlate().stream().filter(new Predicate<String>() {
-                   @Override
-                   public boolean test(String s) {
-                       for(String lingua : lingueParlate){
-                           if(lingua.equalsIgnoreCase(s))
-                               return true;
-                       }
-                       return false;
-                   }
-               }).count() > 0;
-           }
-           if(!textDisponibilita.getText().isBlank() || !textDisponibilita.getText().isEmpty()){
-               isValid = isValid && lavoratore.getLingueParlate().stream().filter(new Predicate<String>() {
-                   @Override
-                   public boolean test(String s) {
-                       for(String zonaDisponibilita : zoneDisponibilita){
-                           if(zonaDisponibilita.equalsIgnoreCase(s))
-                               return true;
-                       }
-                       return false;
-                   }
-               }).count() > 0;
-           }
-           if(!textCitta.getText().isBlank() || !textCitta.getText().isEmpty()){
-               isValid = isValid && textCitta.getText().equalsIgnoreCase(lavoratore.getCittaResidenza());
-           }
-            return isValid;
-        }).collect(Collectors.toCollection(FXCollections::observableArrayList));
         tableViewLavoratori.getItems().setAll( model.ricerca(nome,cognome,lingueParlate,dataInizio,dataFine,mansione,zoneDisponibilita,cittaResidenza,automunito,patente));
 
         /*
@@ -137,19 +99,7 @@ public class RicercaController {
         stage.setScene(scene);
         stage.show();
     }
-    @FXML
-    public void initialize(){
-        model = Model.OttieniIstanza();
-        observableListlavoratori = model.OttieniLavoratori();
-        tbcNome.setCellValueFactory(new PropertyValueFactory<Lavoratore, String>("nome"));
-        tbcCognome.setCellValueFactory(new PropertyValueFactory<Lavoratore, String>("cognome"));
-        //tbcDataNascita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDataDiNascita().toString()));
-        tbcComune.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getCittaResidenza()));
-        tbcLingue.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringLingue()));
-        tbcMansioni.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringMansioni()));
-        tbcDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDisponibilita()));
-        tableViewLavoratori.getItems().setAll(observableListlavoratori);
-    }
+
 
     @FXML
     private void EliminaLavoratore(){
