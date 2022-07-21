@@ -1,4 +1,4 @@
-package com.example.ingsoft.Model;
+package com.example.ingsoft.Model.guiData;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,29 +8,31 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ComuniProvider {
-    private static ComuniProvider instance = new ComuniProvider();
-    private ObservableList<String> listaComuni = comuni();
+public class LingueProvider {
+    private static LingueProvider instance = new LingueProvider();
+    private ObservableList<String> listaLingue = lingue();
 
-    private ComuniProvider() {
+    private LingueProvider() {
     }
 
-    public static ComuniProvider getInstance() {
+    public static LingueProvider getInstance() {
         return instance;
     }
-    public ObservableList<String> getListaComuni(){
-        return listaComuni;
+    public ObservableList<String> getListaLingue(){
+        return listaLingue;
     }
-    private ObservableList<String> comuni() {
+    private ObservableList<String> lingue() {
         try {
             ObservableList<String> com = FXCollections.observableArrayList();
             String line;
             //parsing a CSV file into BufferedReader class constructor
-            BufferedReader br = new BufferedReader(new FileReader("comuni.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("lingue.csv"));
             while ((line = br.readLine()) != null)
             //returns a Boolean value
             {
-                com.add(line.split(";;")[0].split(";")[6]);
+                String[] lingue = line.split(";");
+                for(String lingua : lingue)
+                    com.add(lingua);
             }
             com.sort((o1, o2) -> o1.compareTo(o2));
             return com;

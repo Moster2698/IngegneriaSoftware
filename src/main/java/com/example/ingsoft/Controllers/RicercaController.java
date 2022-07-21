@@ -98,7 +98,7 @@ public class RicercaController {
         tbcNome.setCellValueFactory(new PropertyValueFactory<Lavoratore, String>("nome"));
         tbcCognome.setCellValueFactory(new PropertyValueFactory<Lavoratore, String>("cognome"));
         tbcDataNascita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDataDiNascita().toString()));
-        tbcComune.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringComuni()));
+        tbcComune.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getLuogoDiNascita()));
         tbcLingue.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringLingue()));
         tbcMansioni.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringMansioni()));
         tbcDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDisponibilita()));
