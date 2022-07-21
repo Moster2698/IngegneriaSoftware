@@ -4,6 +4,7 @@ import com.example.ingsoft.Model.Lavoro.Lavoro;
 import com.example.ingsoft.Model.Lavoro.LavoroDaoImpl;
 import com.example.ingsoft.Model.Persona.Persona;
 import com.example.ingsoft.Model.Persona.PersonaUrgente;
+import com.example.ingsoft.Model.guiData.Lingua;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -105,6 +106,7 @@ public class Lavoratore extends Persona implements Serializable {
     public String getNome(){
         return nome;
     }
+    public String getLuogoDiNascita(){return luogoDiNascita;}
     public LocalDate getInizioDisponibilita(){
         return inizioDisponibilita;
     }
@@ -129,11 +131,12 @@ public class Lavoratore extends Persona implements Serializable {
     }
     public String getStringLingue(){
         String ling = lingueParlate.toString();
+        System.out.println(ling);
         ling = ling.substring(1,ling.length()-1);
         return ling;
     }
     public String getStringMansioni(){
-        String mansioni = esperienzeEffettuate.toString();
+        String mansioni = mansioniEffettuate.toString();
         mansioni = mansioni.substring(1,mansioni.length()-1);
         return mansioni;
     }

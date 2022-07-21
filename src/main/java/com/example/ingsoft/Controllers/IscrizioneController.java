@@ -2,13 +2,16 @@ package com.example.ingsoft.Controllers;
 
 
 import com.example.ingsoft.Controllers.Validation.Validator;
+import com.example.ingsoft.Crea;
 import com.example.ingsoft.Model.AutoCompleteBox;
-import com.example.ingsoft.Model.ComuniProvider;
+import com.example.ingsoft.Model.guiData.ComuniProvider;
 import com.example.ingsoft.Model.Lavoratore.Lavoratore;
-import com.example.ingsoft.Model.Lavoratore.LavoratoreDaoImpl;
-import com.example.ingsoft.Model.LingueProvider;
+import com.example.ingsoft.Model.guiData.Lingua;
+import com.example.ingsoft.Model.guiData.LingueProvider;
 import com.example.ingsoft.Model.Model;
 import com.example.ingsoft.Model.Persona.PersonaUrgente;
+import com.example.ingsoft.Model.guiData.Patente;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,12 +36,16 @@ public class IscrizioneController {
     @FXML
     private CheckBox checkAutomunito, checkBagnino, checkBarman, checkViticultore, checkFloricultore, checkIstruttoreNuoto;
     private List<CheckBox> specializzazioni;
-    private List<String> lingueParlate, mansioniEffettuate;
+    private List<String> mansioniEffettuate;
+    private List<String> lingueParlate;
     @FXML
     private DatePicker dPickerNascita,dPInizioLavoro,dPFineLavoro;
     @FXML
-    private ComboBox<String> comuneComboBox,lingueComboBox;
-    private LavoratoreDaoImpl lavoratoreDaoImpl;
+    private ComboBox<String> comuneComboBox;
+    @FXML
+    private ComboBox<Lingua> lingueComboBox;
+    @FXML
+    private ComboBox<Patente> patenteComboBox;
     private Model model;
     @FXML
     public void initialize() {
@@ -47,8 +54,6 @@ public class IscrizioneController {
 
         Collections.addAll(stringTextFields, txtCognome, txtNome, txtLuogoNascita, txtNazionalita, txtCitta, txtVia, txtCivico
                 ,txtEmail,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza);
-
-        lavoratoreDaoImpl = new LavoratoreDaoImpl();
 
         comuni = new TreeSet<String>();
         validator = new Validator();
@@ -65,18 +70,19 @@ public class IscrizioneController {
 
         fillComuniComboBox();
         fillLingueComboBox();
+        lingueComboBox.getItems().setAll(Arrays.asList(Lingua.values()));
 
         lingueParlate = new ArrayList<String>();
         mansioniEffettuate = new ArrayList<String>();
-
         new AutoCompleteBox(lingueComboBox);
         new AutoCompleteBox(comuneComboBox);
+
         model = Model.OttieniIstanza();
     }
     @FXML
     private void handleIscrizione(ActionEvent event) {
         if(FormValid()){
-            String nome, cognome,  telefonoPersonale,  email,  nazionalita,  patente, luogo;
+            String nome, cognome,  telefonoPersonale,  email,  nazionalita,  patente, luogo,cittaResidenza,viaResidenza,civicoResidenza,capResidenza;
             LocalDate dataDiNascita, inizioDisponibilita,fineDisponibilita;
             PersonaUrgente personaUrgente;
             boolean automunito;
@@ -86,15 +92,19 @@ public class IscrizioneController {
             email = txtEmail.getText();
             luogo = txtLuogoNascita.getText();
             nazionalita = txtNazionalita.getText();
-            patente = txtPatente.getText();
+            patente = patenteComboBox.getSelectionModel().getSelectedItem().name();
             dataDiNascita = dPickerNascita.getValue();
             inizioDisponibilita = dPInizioLavoro.getValue();
             fineDisponibilita = dPFineLavoro.getValue();
+            cittaResidenza = txtCitta.getText();
+            viaResidenza = txtVia.getText();
+            civicoResidenza = txtCivico.getText();
+            capResidenza = txtCap.getText();
             OttieniEsperienzeCheckBoxes();
             personaUrgente = new PersonaUrgente(txtNomeEmergenza.getText(),txtCognomeEmergenza.getText(),txtTelefonoEmergenza.getText(),txtIndirizzoEmergenza.getText());
             automunito = checkAutomunito.isSelected();
-            Lavoratore lavoratore = new Lavoratore(nome,cognome,telefonoPersonale, luogo, email, nazionalita, dataDiNascita, personaUrgente
-                    ,lingueParlate,automunito, patente, mansioniEffettuate,comuni, inizioDisponibilita, fineDisponibilita);
+            Lavoratore lavoratore = new Lavoratore(nome,cognome,luogo,dataDiNascita,nazionalita,telefonoPersonale,email,inizioDisponibilita,fineDisponibilita,
+                    comuni,lingueParlate,automunito,patente,mansioniEffettuate,cittaResidenza,viaResidenza,civicoResidenza,capResidenza,personaUrgente);
             model.AggiungiLavoratore(lavoratore);
             String nuovoLavoratore = "";
             nuovoLavoratore += nome + " " + cognome;
@@ -129,7 +139,7 @@ public class IscrizioneController {
     }
     private void fillLingueComboBox() {
         LingueProvider lp = LingueProvider.getInstance();
-        lingueComboBox.setItems(lp.getListaLingue());
+      //  lingueComboBox.setItems(lp.getListaLingue());
     }
     private void fillComuniComboBox(){
         ComuniProvider cp = ComuniProvider.getInstance();
@@ -153,11 +163,21 @@ public class IscrizioneController {
             comuni.add(comuneScelto);
     }
     @FXML
-    private void CbiLnguaSelezionata(){
-        if(lingueParlate.contains(lingueComboBox.getValue()))
-            lingueParlate.remove(lingueComboBox.getValue());
-        else
-            lingueParlate.add(lingueComboBox.getValue());
+    private void CbiLinguaSelezionata(){
+        if(lingueComboBox.getSelectionModel().getSelectedItem()!=null){
+            if(lingueParlate.contains(lingueComboBox.getSelectionModel().getSelectedItem()))
+                lingueParlate.remove(lingueComboBox.getSelectionModel().getSelectedItem());
+            else
+            {
+                lingueParlate.add(lingueComboBox.getSelectionModel().getSelectedItem().name());
+            }
+        }
+    }
+    @FXML
+    public void cBPatenteSelezionata(){
+        if(patenteComboBox.getSelectionModel().getSelectedItem()!=null){
+
+        }
     }
     public void backToPrincipalMenu(ActionEvent event) throws IOException {
 
