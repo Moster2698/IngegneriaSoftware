@@ -97,11 +97,15 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
             }
             isValid = isValid && lavoratore.getAutomunito()==automunito;
             if(!patente.isEmpty() || !patente.isBlank()){
-                isValid = isValid && lavoratore.getPatente().equalsIgnoreCase(patente);
+                isValid = isValid && lavoratore.getPatente().stream().anyMatch(new Predicate<String>() {
+                    @Override
+                    public boolean test(String s) {
+                        return patente.equalsIgnoreCase(s);
+                    }
+                });
             }
             return isValid;
         }).collect(Collectors.toCollection(FXCollections::observableArrayList));
-
     }
 
     @Override

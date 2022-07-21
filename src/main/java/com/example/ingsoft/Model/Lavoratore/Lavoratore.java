@@ -18,7 +18,7 @@ public class Lavoratore extends Persona implements Serializable {
     private static int ID = 1;
     private int id;
 
-    private String luogoDiNascita, nazionalita, recTel, email, patente, cittaResidenza, viaResidenza, civicoResidenza, capResidenza;
+    private String luogoDiNascita, nazionalita, recTel, email, cittaResidenza, viaResidenza, civicoResidenza, capResidenza;
 
     private LocalDate dataDiNascita, inizioDisponibilita, fineDisponibilita;
     private PersonaUrgente personaUrgente;
@@ -66,7 +66,7 @@ public class Lavoratore extends Persona implements Serializable {
                 ", nazionalita='" + nazionalita + '\'' +
                 ", recTel='" + recTel + '\'' +
                 ", email='" + email + '\'' +
-                ", patente='" + patente + '\'' +
+                ", patente='" + getStringPatente() + '\'' +
                 ", cittaResidenza='" + cittaResidenza + '\'' +
                 ", viaResidenza='" + viaResidenza + '\'' +
                 ", civicoResidenza='" + civicoResidenza + '\'' +
@@ -98,8 +98,8 @@ public class Lavoratore extends Persona implements Serializable {
         return comuni;
     }
 
-    public String getPatente() {
-        return patente;
+    public List<String> getPatente() {
+        return patenti;
     }
     public String getCognome(){
         return cognome;
@@ -154,4 +154,5 @@ public class Lavoratore extends Persona implements Serializable {
     public String getCittaResidenza(){
         return cittaResidenza;
     }
+
 }

@@ -83,9 +83,8 @@ public class RicercaController {
         automunito = checkAutomunito.isSelected();
         lingueParlate = new ArrayList<String>(Arrays.asList(textLingue.getText().split(" ")));
         zoneDisponibilita = new ArrayList<String>(Arrays.asList(textDisponibilita.getText().split(" ")));
-        model.ricerca(nome,cognome,lingueParlate,dataInizio,dataFine,mansione,zoneDisponibilita,cittaResidenza,automunito,patente);
-        tableViewLavoratori.getItems().setAll( model.ricerca(nome,cognome,lingueParlate,dataInizio,dataFine,mansione,zoneDisponibilita,cittaResidenza,automunito,patente));
-
+        observableListlavoratori.setAll(model.ricerca(nome,cognome,lingueParlate,dataInizio,dataFine,mansione,zoneDisponibilita,cittaResidenza,automunito,patente));
+        tableViewLavoratori.getItems().setAll(observableListlavoratori);
         /*
         Sarebbe utile mettere un ALERT se la ricerca non produce risultati.
          */
@@ -165,5 +164,21 @@ public class RicercaController {
     }
 
     public void Elimina(ActionEvent actionEvent) {
+        if(tableViewLavoratori.getSelectionModel().getSelectedItem()!=null) {
+            Lavoratore lavoratoreDaEliminare = tableViewLavoratori.getSelectionModel().getSelectedItem();
+            Alert alert1 = new Alert(Alert.AlertType.WARNING);
+            alert1.setTitle("Conferma eliminazione");
+            alert1.setHeaderText("Sei sicuro di volere eliminare il lavoratore " + lavoratoreDaEliminare.getNome() + " " + lavoratoreDaEliminare.getCognome() + "? L'operazione è irreversibile.");
+            alert1.setContentText("Premere Sì per confermare, altrimenti Cancel per annullare.");
+            ButtonType buttonYes = new ButtonType("Sì");
+            ButtonType btnCancel = new ButtonType("Cancel");
+            alert1.getButtonTypes().setAll(buttonYes, btnCancel);
+            Optional<ButtonType> result1 = alert1.showAndWait();
+            if (result1.get() == buttonYes) {
+                model.RimuoviLavoratore(lavoratoreDaEliminare);
+                observableListlavoratori.remove(lavoratoreDaEliminare);
+                tableViewLavoratori.getItems().setAll(observableListlavoratori);
+            }
+        }
     }
 }
