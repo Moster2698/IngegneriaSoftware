@@ -7,11 +7,9 @@ import com.example.ingsoft.Model.AutoCompleteBox;
 import com.example.ingsoft.Model.guiData.ComuniProvider;
 import com.example.ingsoft.Model.Lavoratore.Lavoratore;
 import com.example.ingsoft.Model.guiData.Lingua;
-import com.example.ingsoft.Model.guiData.LingueProvider;
 import com.example.ingsoft.Model.Model;
 import com.example.ingsoft.Model.Persona.PersonaUrgente;
 import com.example.ingsoft.Model.guiData.Patente;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,6 +36,7 @@ public class IscrizioneController {
     private List<CheckBox> specializzazioni;
     private List<String> mansioniEffettuate;
     private List<String> lingueParlate;
+    private List<String> patenti;
     @FXML
     private DatePicker dPickerNascita,dPInizioLavoro,dPFineLavoro;
     @FXML
@@ -69,14 +68,13 @@ public class IscrizioneController {
         validator.add(dPInizioLavoro,dPFineLavoro);
 
         fillComuniComboBox();
-        fillLingueComboBox();
         lingueComboBox.getItems().setAll(Arrays.asList(Lingua.values()));
-
+        patenteComboBox.getItems().setAll(Arrays.asList(Patente.values()));
         lingueParlate = new ArrayList<String>();
         mansioniEffettuate = new ArrayList<String>();
+        patenti = new ArrayList<String>();
         new AutoCompleteBox(lingueComboBox);
         new AutoCompleteBox(comuneComboBox);
-
         model = Model.OttieniIstanza();
     }
     @FXML
@@ -104,7 +102,7 @@ public class IscrizioneController {
             personaUrgente = new PersonaUrgente(txtNomeEmergenza.getText(),txtCognomeEmergenza.getText(),txtTelefonoEmergenza.getText(),txtIndirizzoEmergenza.getText());
             automunito = checkAutomunito.isSelected();
             Lavoratore lavoratore = new Lavoratore(nome,cognome,luogo,dataDiNascita,nazionalita,telefonoPersonale,email,inizioDisponibilita,fineDisponibilita,
-                    comuni,lingueParlate,automunito,patente,mansioniEffettuate,cittaResidenza,viaResidenza,civicoResidenza,capResidenza,personaUrgente);
+                    comuni,lingueParlate,automunito,patenti,mansioniEffettuate,cittaResidenza,viaResidenza,civicoResidenza,capResidenza,personaUrgente);
             model.AggiungiLavoratore(lavoratore);
             String nuovoLavoratore = "";
             nuovoLavoratore += nome + " " + cognome;
@@ -136,10 +134,6 @@ public class IscrizioneController {
         dPickerNascita.setValue(null);
         dPInizioLavoro.setValue(null);
 
-    }
-    private void fillLingueComboBox() {
-        LingueProvider lp = LingueProvider.getInstance();
-      //  lingueComboBox.setItems(lp.getListaLingue());
     }
     private void fillComuniComboBox(){
         ComuniProvider cp = ComuniProvider.getInstance();
@@ -176,7 +170,11 @@ public class IscrizioneController {
     @FXML
     public void cBPatenteSelezionata(){
         if(patenteComboBox.getSelectionModel().getSelectedItem()!=null){
-
+            if(patenti.contains(patenteComboBox.getSelectionModel().getSelectedItem()))
+                patenti.remove(patenteComboBox.getSelectionModel().getSelectedItem());
+            else{
+                patenti.add(patenteComboBox.getSelectionModel().getSelectedItem().name());
+            }
         }
     }
     public void backToPrincipalMenu(ActionEvent event) throws IOException {

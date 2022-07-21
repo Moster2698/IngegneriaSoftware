@@ -25,6 +25,7 @@ public class Lavoratore extends Persona implements Serializable {
     private SortedSet<String> comuni;
     private List<String> lingueParlate;
     private List<String> mansioniEffettuate;
+    private List<String> patenti;
     private boolean automunito;
     public Lavoratore(String nome, String cognome) {
         super(nome, cognome);
@@ -34,7 +35,7 @@ public class Lavoratore extends Persona implements Serializable {
 
     public Lavoratore(String nome, String cognome, String luogoDiNascita, LocalDate dataDiNascita, String nazionalita, String recTel,
                       String email, LocalDate inizioDisponibilita, LocalDate fineDisponibilita, SortedSet<String> comuni, List<String> lingueParlate,
-                      boolean automunito, String patente, List<String> mansioniEffettuate, String cittaResidenza, String viaResidenza,
+                      boolean automunito, List<String> patenti, List<String> mansioniEffettuate, String cittaResidenza, String viaResidenza,
                       String civicoResidenza, String capResidenza, PersonaUrgente personaUrgente) {
         this(nome, cognome);
         this.luogoDiNascita = luogoDiNascita;
@@ -47,7 +48,7 @@ public class Lavoratore extends Persona implements Serializable {
         this.comuni = comuni;
         this.lingueParlate = lingueParlate;
         this.automunito = automunito;
-        this.patente = patente;
+        this.patenti = patenti;
         this.mansioniEffettuate = mansioniEffettuate;
         this.cittaResidenza = cittaResidenza;
         this.viaResidenza = viaResidenza;
@@ -131,9 +132,11 @@ public class Lavoratore extends Persona implements Serializable {
     }
     public String getStringLingue(){
         String ling = lingueParlate.toString();
-        System.out.println(ling);
         ling = ling.substring(1,ling.length()-1);
         return ling;
+    }
+    public List<String> getMansioniEffettuate(){
+        return mansioniEffettuate;
     }
     public String getStringMansioni(){
         String mansioni = mansioniEffettuate.toString();
@@ -141,6 +144,9 @@ public class Lavoratore extends Persona implements Serializable {
         return mansioni;
     }
     public String getDisponibilita(){
-        return inizioDisponibilita.toString() + " - " + fineDisponibilita.toString();
+        return inizioDisponibilita.toString() + " / " + fineDisponibilita.toString();
+    }
+    public String getCittaResidenza(){
+        return cittaResidenza;
     }
 }

@@ -3,6 +3,7 @@ package com.example.ingsoft.Controllers;
 import com.example.ingsoft.Model.Lavoratore.Lavoratore;
 import com.example.ingsoft.Model.Model;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,17 +18,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class RicercaController {
     @FXML
-    private TextField textCognome, textNome, textMansione, textDisponibilita, textCitta, textPatente;
+    private TextField textCognome, textNome, textMansione, textDisponibilita, textCitta, textPatente, textLingue;
     @FXML
-    private CheckBox checkCinese, checkIndiano, checkInglese, checkItaliano, checkFrancese, checkPortoghese,
-            checkRusso, checkSpagnolo, checkTedesco, checkOther, checkAutomunito;
+    private CheckBox  checkAutomunito;
     @FXML
     private DatePicker dtpInizio, dtpFine;
     @FXML
@@ -54,7 +54,8 @@ public class RicercaController {
     @FXML
     private void Ricerca(){
         String nome, cognome, mansione, cittaResidenza, patente;
-        List<String> lingueParlate, zonaDisponibilita;
+        List<String> lingueParlate;
+        List<String> zoneDisponibilita;
         LocalDate dataInizio, dataFine;
         boolean automunito;
         nome = textNome.getText();
@@ -62,18 +63,66 @@ public class RicercaController {
         mansione = textMansione.getText();
         cittaResidenza = textCitta.getText();
         patente = textPatente.getText();
-        lingueParlate = new ArrayList<String>();
-        zonaDisponibilita = new ArrayList<String>();
         dataInizio = dtpInizio.getValue();
         dataFine = dtpFine.getValue();
         automunito = checkAutomunito.isSelected();
-        for(CheckBox cb : checkBoxes){
-            if(cb.isSelected())
-                lingueParlate.add(cb.getText());
-        }
-        zonaDisponibilita.add(textDisponibilita.getText());
-        observableListlavoratori =model.ricerca(nome,cognome,lingueParlate,dataInizio,dataFine,mansione,zonaDisponibilita,cittaResidenza,automunito,patente);
-        //listViewLavoratori.setItems(model.ricerca(nome,cognome,lingueParlate,dataInizio,dataFine,mansione,zonaDisponibilita,cittaResidenza,automunito,patente));
+        lingueParlate = new ArrayList<String>(Arrays.asList(textLingue.getText().split(" ")));
+        zoneDisponibilita = new ArrayList<String>(Arrays.asList(textDisponibilita.getText().split(" ")));
+        model.ricerca(nome,cognome,lingueParlate,dataInizio,dataFine,mansione,zoneDisponibilita,cittaResidenza,automunito,patente);
+       observableListlavoratori =  model.OttieniLavoratori().stream().filter(lavoratore -> {
+            boolean isValid = true;
+            if(!nome.isEmpty() || !nome.isBlank())
+                isValid = isValid && lavoratore.getNome().equalsIgnoreCase(nome);
+            if(!cognome.isEmpty() || !cognome.isBlank())
+                isValid = isValid && lavoratore.getCognome().equalsIgnoreCase(cognome);
+            if(dataInizio!=null && dataFine != null)
+            {
+                isValid = isValid && dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita());
+            }
+            else if(dataInizio!=null){
+                isValid = isValid && lavoratore.getInizioDisponibilita().isAfter(dataInizio);
+            }
+            else if(dataFine!=null){
+                isValid = isValid && lavoratore.getFineDisponibilita().isBefore(dataFine);
+            }
+           if(!mansione.isBlank() || !mansione.isEmpty()){
+                isValid = isValid && lavoratore.getMansioniEffettuate().stream().filter(new Predicate<String>() {
+                    @Override
+                    public boolean test(String s) {
+                        return s.equalsIgnoreCase(mansione);
+                    }
+                }).count() > 0;
+           }
+           if(!textLingue.getText().isBlank() || !textLingue.getText().isEmpty()){
+               isValid = isValid && lavoratore.getLingueParlate().stream().filter(new Predicate<String>() {
+                   @Override
+                   public boolean test(String s) {
+                       for(String lingua : lingueParlate){
+                           if(lingua.equalsIgnoreCase(s))
+                               return true;
+                       }
+                       return false;
+                   }
+               }).count() > 0;
+           }
+           if(!textDisponibilita.getText().isBlank() || !textDisponibilita.getText().isEmpty()){
+               isValid = isValid && lavoratore.getLingueParlate().stream().filter(new Predicate<String>() {
+                   @Override
+                   public boolean test(String s) {
+                       for(String zonaDisponibilita : zoneDisponibilita){
+                           if(zonaDisponibilita.equalsIgnoreCase(s))
+                               return true;
+                       }
+                       return false;
+                   }
+               }).count() > 0;
+           }
+           if(!textCitta.getText().isBlank() || !textCitta.getText().isEmpty()){
+               isValid = isValid && textCitta.getText().equalsIgnoreCase(lavoratore.getCittaResidenza());
+           }
+            return isValid;
+        }).collect(Collectors.toCollection(FXCollections::observableArrayList));
+        tableViewLavoratori.getItems().setAll( model.ricerca(nome,cognome,lingueParlate,dataInizio,dataFine,mansione,zoneDisponibilita,cittaResidenza,automunito,patente));
 
         /*
         Sarebbe utile mettere un ALERT se la ricerca non produce risultati.
@@ -90,15 +139,12 @@ public class RicercaController {
     }
     @FXML
     public void initialize(){
-        checkBoxes = new ArrayList<CheckBox>();
-        Collections.addAll(checkBoxes,checkCinese, checkIndiano, checkInglese, checkItaliano, checkFrancese, checkPortoghese,
-                checkRusso, checkSpagnolo, checkTedesco, checkOther);
         model = Model.OttieniIstanza();
         observableListlavoratori = model.OttieniLavoratori();
         tbcNome.setCellValueFactory(new PropertyValueFactory<Lavoratore, String>("nome"));
         tbcCognome.setCellValueFactory(new PropertyValueFactory<Lavoratore, String>("cognome"));
-        tbcDataNascita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDataDiNascita().toString()));
-        tbcComune.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getLuogoDiNascita()));
+        //tbcDataNascita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDataDiNascita().toString()));
+        tbcComune.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getCittaResidenza()));
         tbcLingue.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringLingue()));
         tbcMansioni.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringMansioni()));
         tbcDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDisponibilita()));
@@ -126,7 +172,6 @@ public class RicercaController {
     @FXML
     private void ModificaLavoratore(){
         Lavoratore lavoratoreDaEliminare = tableViewLavoratori.getSelectionModel().getSelectedItem();
-        System.out.println(lavoratoreDaEliminare);
     }
     @FXML
     public void handleMouseClick(MouseEvent mouseEvent) {
@@ -164,5 +209,11 @@ public class RicercaController {
             }
             listViewLavoratori.getSelectionModel().select(null);
         }
+    }
+
+    public void Modifica(ActionEvent actionEvent) {
+    }
+
+    public void Elimina(ActionEvent actionEvent) {
     }
 }

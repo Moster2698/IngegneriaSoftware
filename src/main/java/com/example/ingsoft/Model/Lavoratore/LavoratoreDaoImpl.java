@@ -43,31 +43,64 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
 
     @Override
     public List<Lavoratore> research(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, String mansione, List<String> zonaDisponibilita, String cittaResidenza, boolean automunito, String patente) {
-        List<Lavoratore> copyOfLavoratore = new ArrayList<Lavoratore>(lavoratori);
-        return copyOfLavoratore.stream().filter(new Predicate<Lavoratore>() {
-            @Override
-            public boolean test(Lavoratore lavoratore) {
-                boolean isValid = true;
-                if(!nome.isEmpty() || !nome.isBlank())
-                    isValid = isValid && lavoratore.getNome().equalsIgnoreCase(nome);
-                if(!cognome.isEmpty() || !cognome.isBlank())
-                    isValid = isValid && lavoratore.getCognome().equalsIgnoreCase(cognome);
-                if(!lingueParlate.isEmpty())
-                    isValid = isValid && lavoratore.getLingueParlate().equals(lingueParlate);
-                if(dataInizio!=null && dataFine != null)
-                   if(dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita()))
-                       isValid = false;
-                else if(dataFine==null){
-                    if(!lavoratore.getInizioDisponibilita().isAfter(dataInizio))
-                        isValid = false;
-                   }
-                else if(dataInizio==null){
-                    if(!lavoratore.getFineDisponibilita().isBefore(dataFine))
-                        isValid = false;
-                   }
-                return isValid;
+        return  lavoratori.stream().filter(lavoratore -> {
+            boolean isValid = true;
+            if(!nome.isEmpty() || !nome.isBlank())
+                isValid = isValid && lavoratore.getNome().equalsIgnoreCase(nome);
+            if(!cognome.isEmpty() || !cognome.isBlank())
+                isValid = isValid && lavoratore.getCognome().equalsIgnoreCase(cognome);
+            if(dataInizio!=null && dataFine != null)
+            {
+                isValid = isValid && dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita());
             }
-        }).collect(Collectors.toList());
+            else if(dataInizio!=null){
+                isValid = isValid && lavoratore.getInizioDisponibilita().isAfter(dataInizio);
+            }
+            else if(dataFine!=null){
+                isValid = isValid && lavoratore.getFineDisponibilita().isBefore(dataFine);
+            }
+            if(!mansione.isBlank() || !mansione.isEmpty()){
+                isValid = isValid && lavoratore.getMansioniEffettuate().stream().filter(new Predicate<String>() {
+                    @Override
+                    public boolean test(String s) {
+                        return s.equalsIgnoreCase(mansione);
+                    }
+                }).count() > 0;
+            }
+            if(!lingueParlate.isEmpty() && (!lingueParlate.get(0).isBlank() || !lingueParlate.get(0).isEmpty())){
+                isValid = isValid && lavoratore.getLingueParlate().stream().filter(new Predicate<String>() {
+                    @Override
+                    public boolean test(String s) {
+                        for(String lingua : lingueParlate){
+                            if(lingua.equalsIgnoreCase(s))
+                                return true;
+                        }
+                        return false;
+                    }
+                }).count() > 0;
+            }
+            if(!zonaDisponibilita.isEmpty() && (!zonaDisponibilita.get(0).isBlank() || !zonaDisponibilita.get(0).isEmpty())){
+                isValid = isValid && lavoratore.getLingueParlate().stream().filter(new Predicate<String>() {
+                    @Override
+                    public boolean test(String s) {
+                        for(String zona : zonaDisponibilita){
+                            if(zona.equalsIgnoreCase(s))
+                                return true;
+                        }
+                        return false;
+                    }
+                }).count() > 0;
+            }
+            if(!cittaResidenza.isEmpty() || !cittaResidenza.isBlank()){
+                System.out.println("ciao2");
+                isValid = isValid && cittaResidenza.equalsIgnoreCase(lavoratore.getCittaResidenza());
+            }
+            isValid = isValid && automunito;
+            if(!patente.isEmpty() || !patente.isBlank()){
+                isValid = isValid && lavoratore.getPatente().equalsIgnoreCase(patente);
+            }
+            return isValid;
+        }).collect(Collectors.toCollection(FXCollections::observableArrayList));
 
     }
 
