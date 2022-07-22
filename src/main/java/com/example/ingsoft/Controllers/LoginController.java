@@ -32,7 +32,6 @@ public class LoginController {
         if(username.equals("admin") && password.equals("admin")) {
             try {
                 URL fxmlLocation = LoginController.class.getResource("PrincipalMenu.fxml");
-                System.out.println(fxmlLocation);
                 FXMLLoader loader = new FXMLLoader(fxmlLocation);
                 Stage stage = (Stage) btnAccedi.getScene().getWindow();
                 Scene scene = new Scene(loader.load());
@@ -66,9 +65,7 @@ public class LoginController {
     private void onInputChanged(){
         String username = textUsername.getText();
         String password = textPassword.getText();
-        System.out.println(password);
         btnAccedi.setDisable(username.length() <= 0 || password.length() <= 0);
-
     }
 
 }

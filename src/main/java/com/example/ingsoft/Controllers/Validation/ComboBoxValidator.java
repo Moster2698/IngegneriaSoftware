@@ -18,13 +18,14 @@ public class ComboBoxValidator implements Validate {
     public boolean validate() {
         boolean isValid = true;
         for(ComboBox comboBox : comboBoxList){
-            if(comboBox.getSelectionModel().getSelectedItem()==null)
+            String comboText = comboBox.getEditor().getText().trim();
+            if(comboText.isEmpty() || comboText.isBlank() || comboText.chars().anyMatch(Character::isDigit) || comboBox.getSelectionModel().getSelectedItem()==null)
             {
                 isValid = false;
                 comboBox.setStyle(cssRedBorder);
             }
             else{
-                comboBox.setStyle("");
+                comboBox.setStyle("-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;");
             }
         }
         return isValid;

@@ -22,28 +22,43 @@ public class NumberTFValidator implements  Validate{
     }
 
     /***
-     * Diamo per scontato che i campi esistano e non siano vuoti
-     * @return se i numeri sono corretti e sono della dimensione desiderata true, false altrimenti
+     *
+     * @return se i numeri sono corretti e sono della dimensione desiderata true, false altrimenti. Se length = -1, la lunghezza non viene controllata
      */
     @Override
     public boolean validate() {
         boolean isValid = true;
-        for(Map.Entry<TextField, Integer> entry : numberToLength.entrySet()){
+        for (Map.Entry<TextField, Integer> entry : numberToLength.entrySet()) {
             TextField tel = entry.getKey();
             boolean flag = textFieldEmpty.get(tel);
             int length = entry.getValue();
-            if(!flag || (flag && !tel.getText().isEmpty() && ! tel.getText().isBlank())) {
-                if (tel.getText().length() != length) {
+            if (!flag) {
+                if (tel.getText().trim().isBlank() || tel.getText().trim().isEmpty()) {
+                    isValid = false;
+                    tel.setStyle(cssRedBorder);
+                } else {
+                    if (length != -1 && tel.getText().length() != length) {
+                        tel.setStyle(cssRedBorder);
+                        isValid = false;
+                    } else {
+                        tel.setStyle("-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;");
+                    }
+                }
+            }
+            /*
+            if(!flag || (flag && !tel.getText().trim().isEmpty() && !tel.getText().trim().isBlank())) {
+
+                if (length!=-1 && tel.getText().length() != length) {
                     tel.setStyle(cssRedBorder);
                     isValid = false;
                 } else {
-                    tel.setStyle("");
+                    tel.setStyle("-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;");
                 }
             }
         }
         return isValid;
-    }
-    public void remove(TextField textField){
-        numberToLength.remove(textField);
+        */
+        }
+        return  isValid;
     }
 }

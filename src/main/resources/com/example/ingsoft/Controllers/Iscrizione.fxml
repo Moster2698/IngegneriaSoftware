@@ -112,7 +112,7 @@
                               </Label>
                               <DatePicker fx:id="dPickerNascita" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css">
                                  <tooltip>
-                                    <Tooltip text="Il lavoratore non può essere minorenne o essere nato nel futuro">
+                                    <Tooltip text="Il lavoratore non può avere meno di 16 anni e più di 67">
                                        <font>
                                           <Font size="16.0" />
                                        </font>

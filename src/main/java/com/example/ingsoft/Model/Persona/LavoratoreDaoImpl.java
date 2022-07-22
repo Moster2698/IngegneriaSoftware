@@ -122,7 +122,7 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                     empty = false;
                 }
                 if (!zonaDisponibilita.isEmpty() && (!zonaDisponibilita.get(0).isBlank() || !zonaDisponibilita.get(0).isEmpty())) {
-                    isValid =isValid || lavoratore.getLingueParlate().stream().anyMatch(s -> {
+                    isValid =isValid || lavoratore.getComuni().stream().anyMatch(s -> {
                         for (String zona : zonaDisponibilita) {
                             if (zona.equalsIgnoreCase(s))
                                 return true;

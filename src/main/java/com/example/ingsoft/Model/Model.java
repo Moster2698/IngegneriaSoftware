@@ -57,17 +57,13 @@ public class Model {
         return FXCollections.observableList(lavoratore.OttieniLavori());
     }
     public void AggiungiLavoroAlLavoratore(Lavoratore lavoratore,Lavoro lavoro){
-        lavoratore.OttieniLavori().add(lavoro);
+        lavoratore.AggiungiLavoro(lavoro);
         SalvaSuFile();
     }
     public void RimuoviLavoroAlLavoratore(Lavoratore lavoratore, Lavoro lavoro){
         lavoratore.OttieniLavori().remove(lavoro);
         SalvaSuFile();
     }
-    public void ModificaLavoro(Lavoro lavoroVecchio, Lavoro lavoroModificato)
-    {
-        lavoroVecchio = lavoroModificato;
-        SalvaSuFile();
-    }
+
 }
 

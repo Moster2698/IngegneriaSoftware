@@ -90,7 +90,7 @@
                                         </Label>
                                         <DatePicker fx:id="dtpInizioLavoro" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css">
                                             <tooltip>
-                                                <Tooltip text="Il lavoratore non può essere minorenne o essere nato nel futuro">
+                                                <Tooltip text="La data non può essere più vecchia di 5 anni">
                                                     <font>
                                                         <Font size="16.0" />
                                                     </font>
@@ -203,7 +203,7 @@
                                 <TableColumn fx:id="tbcAzienda" prefWidth="185.0" text="Nome azienda" />
                                 <TableColumn fx:id="tbcPeriodo" prefWidth="161.0" text="Periodo" />
                                 <TableColumn fx:id="tbcLuogo" prefWidth="167.0" text="Luogo di lavoro" />
-                                <TableColumn fx:id="tbcRetribuzione" prefWidth="81.0" text="Retribuzione" />
+                                <TableColumn fx:id="tbcRetribuzione" prefWidth="81.0" text="Retribuzione (€/24h)" />
                             </columns>
                         </TableView>
                     </children>

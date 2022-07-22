@@ -3,6 +3,7 @@ package com.example.ingsoft.Controllers;
 
 import com.example.ingsoft.Controllers.TextFormatters.TextFormatterFactory;
 import com.example.ingsoft.Controllers.Validation.Validator;
+import com.example.ingsoft.Crea;
 import com.example.ingsoft.Model.AutoCompleteBox;
 import com.example.ingsoft.Model.guiData.ComuniProvider;
 import com.example.ingsoft.Model.Persona.Lavoratore;
@@ -86,7 +87,11 @@ public class IscrizioneController {
         txtTelefonoEmergenza.setTextFormatter(textFormatterFactory.OttieniTextFormatter("numero"));
         for(TextField tf : stringTextFields)
             tf.setTextFormatter(textFormatterFactory.OttieniTextFormatter("string"));
-
+        dPickerNascita.setValue(LocalDate.of(1990,01,01));
+        dPInizioLavoro.getEditor().setEditable(false);
+        dPFineLavoro.getEditor().setEditable(false);
+        Crea crea = new Crea(100);
+        crea.CreaLavoratore();
     }
     /***
      * Controlla se i dati della form sono corretti, nel caso affermativo crea un lavoratore
@@ -189,7 +194,8 @@ public class IscrizioneController {
      * @return booleano che indica se i dati sono stati inseriti correttamente
      */
     private boolean FormValid() {
-        return  validator.validate();
+        System.out.println(comuneNascitaComboBox.getSelectionModel().getSelectedItem() + " " + comuneNascitaComboBox.getEditor().getText());
+        return validator.validate();
     }
 
     /***
@@ -199,7 +205,7 @@ public class IscrizioneController {
     private void CbComuneSelezionato(){
         String comuneScelto = comuneComboBox.getSelectionModel().getSelectedItem();
         if(comuneScelto!=null)
-            comuni.add(comuneScelto);
+                comuni.add(comuneScelto);
     }
 
     /***

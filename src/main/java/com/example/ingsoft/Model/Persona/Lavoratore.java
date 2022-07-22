@@ -119,6 +119,9 @@ public class Lavoratore extends Persona implements Serializable {
     public String getMansione(){
         return mansione;
     }
+    public void AggiungiLavoro(Lavoro lavoro){
+        lavori.add(lavoro);
+    }
 
     public List<String> getLingueParlate() {
         return lingueParlate;
