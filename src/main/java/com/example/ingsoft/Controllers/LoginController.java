@@ -20,12 +20,16 @@ public class LoginController {
     private PasswordField textPassword;
     @FXML
     private Button btnAccedi;
+
+    /***
+     * Se
+     */
     @FXML
     private void onButtonClicked() {
         String username = textUsername.getText();
         String password = textPassword.getText();
 
-        if(username.equals(password) && username.equals("admin")) {
+        if(username.equals("admin") && password.equals("admin")) {
             try {
                 URL fxmlLocation = LoginController.class.getResource("PrincipalMenu.fxml");
                 System.out.println(fxmlLocation);

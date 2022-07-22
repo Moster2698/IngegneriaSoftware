@@ -248,7 +248,8 @@
                         <TableColumn fx:id="tbcNome" prefWidth="125.0" text="Nome" />
                         <TableColumn fx:id="tbcCognome" prefWidth="125.0" text="Cognome" />
                         <TableColumn fx:id="tbcComune" prefWidth="125.0" text="Comune residenza" />
-                        <TableColumn fx:id="tbcDisponibilita" prefWidth="125.0" text="Periodo disponibilità" />
+                        <TableColumn fx:id="tbcDisponibilita" prefWidth="125.0" text="Periodo" />
+                        <TableColumn fx:id="tbcComuniDisponibilita" prefWidth="125.0" text="Comuni disponibili" />
                         <TableColumn fx:id="tbcLingue" prefWidth="125.0" text="Lingue Parlate" />
                         <TableColumn fx:id="tbcMansione" prefWidth="125.0" text="Mansione Richiesta" />
                         <TableColumn fx:id="tbcSpecializzazioni" prefWidth="125.0" text="Specializzazioni" />

@@ -38,7 +38,7 @@ public class RicercaController {
     @FXML
     private TableColumn<Lavoratore,String> tbcLingue;
     @FXML
-    private TableColumn<Lavoratore,String> tbcDisponibilita, tbcAutomunito, tbcPatente;
+    private TableColumn<Lavoratore,String> tbcDisponibilita, tbcAutomunito, tbcPatente, tbcComuniDisponibilita;
     @FXML
     private TableColumn<Lavoratore,String> tbcMansione;
     @FXML
@@ -61,17 +61,16 @@ public class RicercaController {
         tbcAutomunito.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getAutomunito() ? "SI" : "NO"));
         tbcPatente.setCellValueFactory(p -> new SimpleStringProperty( p.getValue().getStringPatente()));
         tbcDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDisponibilita()));
+        tbcComuniDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringComuni()));
         tbcSpecializzazioni.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringSpecializzazioni()));
         tableViewLavoratori.setItems(observableListlavoratori);
 
     }
     @FXML
     private void Ricerca(){
-        String nome, cognome, cittaResidenza, patente;
+        String nome, cognome, cittaResidenza, patente,automunito;
         List<String> lingueParlate, zoneDisponibilita,mansioni;
         LocalDate dataInizio, dataFine;
-        //boolean automunito;
-        String automunito;
         nome = textNome.getText().trim();
         cognome = textCognome.getText().trim();
         cittaResidenza = textCitta.getText().trim();
@@ -86,7 +85,7 @@ public class RicercaController {
         }
         boolean isOr = ((RadioButton) toggleGiunzioniRicerca.getSelectedToggle()).getText().equals("OR");
         lingueParlate = new ArrayList<>(Arrays.asList(textLingue.getText().toUpperCase().trim().split(" ")));
-        zoneDisponibilita = new ArrayList<>(Arrays.asList(textDisponibilita.getText().trim().split(" ")));
+        zoneDisponibilita = new ArrayList<>(Arrays.asList(textDisponibilita.getText().trim().split(",")));
         mansioni = new ArrayList<>(Arrays.asList(textMansione.getText().trim().split(" ")));
 
         observableListlavoratori.setAll(model.cercaLavoratori(nome,cognome,lingueParlate,dataInizio,dataFine,mansioni,zoneDisponibilita,cittaResidenza,automunito,patente,isOr));
@@ -107,9 +106,16 @@ public class RicercaController {
 
 
 
-    public void Modifica() {
+    public void Modifica(ActionEvent event) throws IOException {
         if(tableViewLavoratori.getSelectionModel().getSelectedItem()!=null){
-            //Modifica lavori del Lavoratore
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Aggiornamento.fxml"));
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Parent root = (Parent)fxmlLoader.load();
+            AggiornamentoController controller = fxmlLoader.<AggiornamentoController>getController();
+            controller.setLavoratoreDaModificare(tableViewLavoratori.getSelectionModel().getSelectedItem());
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
     }
 

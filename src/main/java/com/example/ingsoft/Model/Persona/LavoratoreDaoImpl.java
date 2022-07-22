@@ -1,6 +1,8 @@
 package com.example.ingsoft.Model.Persona;
 
+import com.example.ingsoft.Model.Lavoro.Lavoro;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -52,21 +54,20 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                 if (dataInizio != null && dataFine != null) {
                     isValid = isValid && dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita());
                 } else if (dataInizio != null) {
-                    isValid = isValid && lavoratore.getInizioDisponibilita().isAfter(dataInizio);
+                    isValid = isValid && (lavoratore.getInizioDisponibilita().isAfter(dataInizio) || lavoratore.getInizioDisponibilita().isEqual(dataInizio));
                 } else if (dataFine != null) {
                     isValid = isValid && lavoratore.getFineDisponibilita().isBefore(dataFine);
                 }
                 if (!mansioni.isEmpty() && (!mansioni.get(0).isBlank() || !mansioni.get(0).isEmpty())) {
                     isValid = isValid && mansioni.stream().anyMatch(s -> {
-                        System.out.println(s + " " + lavoratore.getMansione());
                         return s.equalsIgnoreCase(lavoratore.getMansione());
                     });
                 }
                 if (!lingueParlate.isEmpty() && (!lingueParlate.get(0).isBlank() || !lingueParlate.get(0).isEmpty())) {
-                    isValid = isValid && lavoratore.getLingueParlate().stream().anyMatch(lingueParlate::contains);
+                        isValid = isValid && lavoratore.getLingueParlate().containsAll(lingueParlate);
                 }
                 if (!zonaDisponibilita.isEmpty() && (!zonaDisponibilita.get(0).isBlank() || !zonaDisponibilita.get(0).isEmpty())) {
-                    isValid = isValid && lavoratore.getLingueParlate().stream().anyMatch(s -> {
+                    isValid = isValid && lavoratore.getComuni().stream().anyMatch(s -> {
                         for (String zona : zonaDisponibilita) {
                             if (zona.equalsIgnoreCase(s))
                                 return true;
@@ -148,6 +149,11 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                 return isValid;
             }).collect(Collectors.toCollection(FXCollections::observableArrayList));
         }
+    }
+
+    @Override
+    public ObservableList<Lavoro> OttieniLavoro(Lavoratore lavoratore) {
+        return  FXCollections.observableList(lavoratore.OttieniLavori());
     }
 
     @Override

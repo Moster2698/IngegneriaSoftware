@@ -1,7 +1,9 @@
 package com.example.ingsoft.Model;
 
+import com.example.ingsoft.Model.Lavoro.Lavoro;
 import com.example.ingsoft.Model.Persona.Lavoratore;
 import com.example.ingsoft.Model.Persona.LavoratoreDaoImpl;
+import com.example.ingsoft.Model.guiData.ComuniProvider;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,8 +15,10 @@ import java.util.List;
 public class Model {
     public static Model model = new Model();
     private LavoratoreDaoImpl lavoratoreDao;
+    private ComuniProvider comuniProvider;
     private Model(){
         lavoratoreDao = new LavoratoreDaoImpl();
+        comuniProvider = ComuniProvider.getInstance();
     }
     public static Model OttieniIstanza(){
         return model;
@@ -45,6 +49,12 @@ public class Model {
                               List<String> zonaDisponibilita, String cittaResidenza, String automunito, String patente,boolean isOr){
         return FXCollections.observableArrayList(lavoratoreDao.cercaLavoratori(nome,cognome,lingueParlate,dataInizio,dataFine,mansioni,zonaDisponibilita,cittaResidenza,automunito,patente,isOr));
     }
+    public ObservableList<String> OttieniComuni(){
+        return comuniProvider.getListaComuni();
+    }
 
+    public ObservableList<Lavoro> OttieniLavori(Lavoratore lavoratore){
+        return FXCollections.observableList(lavoratore.OttieniLavori());
+    }
 }
 

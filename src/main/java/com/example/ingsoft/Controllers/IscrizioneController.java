@@ -11,6 +11,7 @@ import com.example.ingsoft.Model.Model;
 import com.example.ingsoft.Model.Persona.PersonaUrgente;
 import com.example.ingsoft.Model.guiData.Mansione;
 import com.example.ingsoft.Model.guiData.Patente;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +30,7 @@ public class IscrizioneController {
     private  Validator validator;
     private SortedSet<String> comuni;
     @FXML
-    private TextField txtCognome, txtNome, txtLuogoNascita, txtNazionalita, txtRecTel, txtCitta, txtVia, txtCivico
+    private TextField txtCognome, txtNome, txtNazionalita, txtRecTel, txtVia, txtCivico
             ,txtCap,txtEmail,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza, txtTelefonoEmergenza;
     private List<TextField> stringTextFields;
     @FXML
@@ -49,6 +50,7 @@ public class IscrizioneController {
     @FXML
     public void initialize() {
 
+        model = Model.OttieniIstanza();
         stringTextFields = new ArrayList<>();
 
         Collections.addAll(stringTextFields, txtCognome, txtNome, txtNazionalita, txtVia, txtCivico
@@ -63,7 +65,7 @@ public class IscrizioneController {
         validator.add(dPickerNascita);
         validator.add(dPInizioLavoro,dPFineLavoro);
 
-        InserisciComuninellaComuniComboBox();
+        InserisciComuniNelleComboBox();
         lingueComboBox.getItems().setAll(Arrays.asList(Lingua.values()));
         patenteComboBox.getItems().setAll(Arrays.asList(Patente.values()));
         mansioneComboBox.getItems().setAll(Arrays.asList(Mansione.values()));
@@ -73,7 +75,8 @@ public class IscrizioneController {
         new AutoCompleteBox(comuneComboBox);
         new AutoCompleteBox(comuneNascitaComboBox);
         new AutoCompleteBox(comuneResidenzaComboBox);
-        model = Model.OttieniIstanza();
+        Crea crea = new Crea(500);
+        crea.CreaLavoratore();
     }
 
     /***
@@ -116,20 +119,14 @@ public class IscrizioneController {
             alert.setContentText("Premere OK per continuare.");
             alert.showAndWait();
             reset();
-            // sarebbe utile passare alla pagina della ricerca o del menu principale così si risolve
-            // anche il problema dello style delle varie textfield
         }
     }
 
     /***
-     * Resetta i campi della Gui e le relative strutture dati associate
+     * Azzera i campi dell'interfaccia grafica. Nel caso delle ComboBox le deseleziona.
+     * Inoltre crea delle nuove strutture dati da associare ad un nuovo lavoratore.
      */
     private void reset(){
-        //comune disponiblita
-
-        //lingue parlate
-
-        //specializzazioni
         for(TextField tf : stringTextFields )
             tf.setText("");
         lingueParlate = new ArrayList<>();
@@ -143,22 +140,26 @@ public class IscrizioneController {
         dPFineLavoro.setValue(null);
         dPickerNascita.setValue(null);
         dPInizioLavoro.setValue(null);
-
+        comuneResidenzaComboBox.getSelectionModel().clearSelection();
+        comuneNascitaComboBox.getSelectionModel().clearSelection();
+        comuneComboBox.getSelectionModel().clearSelection();
+        patenteComboBox.getSelectionModel().clearSelection();
     }
 
     /***
      *Inserisce la lista dei comuni italiani all'interno della ComboBox dedicata
      */
-    private void InserisciComuninellaComuniComboBox(){
+    private void InserisciComuniNelleComboBox(){
         ComuniProvider cp = ComuniProvider.getInstance();
-        comuneComboBox.setItems(cp.getListaComuni());
-        comuneNascitaComboBox.setItems(cp.getListaComuni());
-        comuneResidenzaComboBox.setItems(cp.getListaComuni());
+        ObservableList<String> comuniDaModel = model.OttieniComuni();
+        comuneComboBox.setItems(comuniDaModel);
+        comuneNascitaComboBox.setItems(comuniDaModel);
+        comuneResidenzaComboBox.setItems(comuniDaModel);
 
     }
 
     /***
-     * Ottiene dalle checkBox specializzazioni tutti i valori selezionati
+     * Ottiene dalle Checkbox le specializzazioni.
      */
     private void OttieniSpecializzazioniDalleCheckBox(){
         if(checkBagnino.isSelected())
