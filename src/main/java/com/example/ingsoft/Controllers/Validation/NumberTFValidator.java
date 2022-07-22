@@ -7,13 +7,11 @@ import java.util.*;
 public class NumberTFValidator implements  Validate{
     private final HashMap<TextField, Integer> numberToLength;
     private final HashMap<TextField,Boolean> textFieldEmpty;
-    private final List<Boolean> flags;
     private TextField textField;
 
     public NumberTFValidator(){
         numberToLength = new HashMap<TextField,Integer>();
         textFieldEmpty = new HashMap<TextField, Boolean>();
-        flags = new ArrayList<Boolean>();
     }
     public void add(TextField textField, int desiredLength){
         add(textField,desiredLength,false);
@@ -35,7 +33,7 @@ public class NumberTFValidator implements  Validate{
             boolean flag = textFieldEmpty.get(tel);
             int length = entry.getValue();
             if(!flag || (flag && !tel.getText().isEmpty() && ! tel.getText().isBlank())) {
-                if (!tel.getText().chars().allMatch(Character::isDigit) || tel.getText().length() != length) {
+                if (tel.getText().length() != length) {
                     tel.setStyle(cssRedBorder);
                     isValid = false;
                 } else {

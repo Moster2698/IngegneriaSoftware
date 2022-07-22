@@ -34,4 +34,8 @@ public class StringTFValidator implements  Validate{
         }
         return flag;
     }
+
+    public void add(TextField tf) {
+        textFields.add(tf);
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.ingsoft.Controllers;
 
+import com.example.ingsoft.Controllers.Validation.Validator;
 import com.example.ingsoft.Model.Lavoro.Lavoro;
 import com.example.ingsoft.Model.Model;
 import com.example.ingsoft.Model.Persona.Lavoratore;
@@ -22,6 +23,7 @@ import java.util.Objects;
 
 public class AggiornamentoController {
     private Lavoratore lavoratoreDaModificare;
+    private Validator validator;
     private Model model;
 
     private ObservableList<Lavoro> listaLavori;
@@ -47,6 +49,7 @@ public class AggiornamentoController {
             tbcPeriodo.setCellValueFactory( p-> new SimpleStringProperty(p.getValue().OttieniPeriodo()));
             tableViewLavori.setItems(listaLavori);
             InserisciComuniNelleComboBox();
+            validator = new Validator();
         });
     }
     private void InserisciComuniNelleComboBox(){

@@ -1,8 +1,8 @@
 package com.example.ingsoft.Controllers;
 
 
+import com.example.ingsoft.Controllers.TextFormatters.TextFormatterFactory;
 import com.example.ingsoft.Controllers.Validation.Validator;
-import com.example.ingsoft.Crea;
 import com.example.ingsoft.Model.AutoCompleteBox;
 import com.example.ingsoft.Model.guiData.ComuniProvider;
 import com.example.ingsoft.Model.Persona.Lavoratore;
@@ -47,24 +47,29 @@ public class IscrizioneController {
     @FXML
     private ComboBox<Patente> patenteComboBox;
     private Model model;
+    private TextFormatterFactory textFormatterFactory;
     @FXML
     public void initialize() {
 
         model = Model.OttieniIstanza();
         stringTextFields = new ArrayList<>();
 
-        Collections.addAll(stringTextFields, txtCognome, txtNome, txtNazionalita, txtVia, txtCivico
+        Collections.addAll(stringTextFields, txtCognome, txtNome, txtNazionalita, txtVia
                 ,txtEmail,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza);
         comuni = new TreeSet<>();
         validator = new Validator();
-        validator.add(stringTextFields);
-        validator.add(txtCap,5);
-        validator.add(txtTelefonoEmergenza,10);
-        validator.add(txtRecTel,10,true);
-
-        validator.add(dPickerNascita);
-        validator.add(dPInizioLavoro,dPFineLavoro);
-
+        validator.addStringTextField(stringTextFields);
+        validator.addStringTextField(txtCivico);
+        validator.addNumberTextField(txtCap,5);
+        validator.addNumberTextField(txtTelefonoEmergenza,10);
+        validator.addNumberTextField(txtRecTel,10,true);
+        validator.addSingleDatePicker(dPickerNascita);
+        validator.addDoubleDatePicker(dPInizioLavoro,dPFineLavoro);
+        validator.addComboBox(comuneNascitaComboBox);
+        validator.addComboBox(mansioneComboBox);
+        validator.addComboBox(lingueComboBox);
+        validator.addComboBox(comuneComboBox);
+        validator.addComboBox(comuneResidenzaComboBox);
         InserisciComuniNelleComboBox();
         lingueComboBox.getItems().setAll(Arrays.asList(Lingua.values()));
         patenteComboBox.getItems().setAll(Arrays.asList(Patente.values()));
@@ -75,10 +80,14 @@ public class IscrizioneController {
         new AutoCompleteBox(comuneComboBox);
         new AutoCompleteBox(comuneNascitaComboBox);
         new AutoCompleteBox(comuneResidenzaComboBox);
-        Crea crea = new Crea(500);
-        crea.CreaLavoratore();
-    }
 
+        textFormatterFactory = new TextFormatterFactory();
+        txtRecTel.setTextFormatter(textFormatterFactory.OttieniTextFormatter("numero"));
+        txtTelefonoEmergenza.setTextFormatter(textFormatterFactory.OttieniTextFormatter("numero"));
+        for(TextField tf : stringTextFields)
+            tf.setTextFormatter(textFormatterFactory.OttieniTextFormatter("string"));
+
+    }
     /***
      * Controlla se i dati della form sono corretti, nel caso affermativo crea un lavoratore
      *
