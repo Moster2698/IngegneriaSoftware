@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #f2f2f2;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ingsoft.Controllers.AggiornamentoController">
+    <top>
+        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="1200.0" style="-fx-background-color: #ff6f3b;" BorderPane.alignment="CENTER">
+            <children>
+                <VBox prefHeight="80.0" prefWidth="1200.0">
+                    <children>
+                        <Label alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="true" prefHeight="57.0" prefWidth="1200.0" text="Aggiornamento lavoratore" textAlignment="CENTER" textFill="WHITE">
+                            <font>
+                                <Font size="32.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </top>
+    <center>
+        <GridPane hgap="20.0" prefWidth="1139.0" vgap="20.0" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="565.0" minWidth="10.0" prefWidth="404.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="774.0" minWidth="10.0" prefWidth="736.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="373.0" minHeight="0.0" prefHeight="246.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="373.0" minHeight="0.0" prefHeight="197.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="73.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="421.0" prefWidth="386.0" style="-fx-background-color: white; -fx-background-radius: 20px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);" GridPane.rowSpan="3">
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </padding>
+                    <children>
+                        <Label alignment="TOP_CENTER" prefHeight="35.0" prefWidth="174.0" text="Dati anagrafici" textAlignment="CENTER" textFill="#ff6f3b">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="20.0" top="-15.0" />
+                            </VBox.margin>
+                        </Label>
+                        <GridPane hgap="20.0" prefHeight="321.0" prefWidth="420.0" vgap="60.0" VBox.vgrow="ALWAYS">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="204.0" minWidth="10.0" prefWidth="175.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="175.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="148.0">
+                                    <children>
+                                        <Label prefHeight="27.0" prefWidth="144.0" text="Mansione svolta" textFill="#7a7a7a">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="txtMansione" maxWidth="300.0" prefHeight="27.0" prefWidth="162.0" promptText="Mansione" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" />
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="148.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                    <children>
+                                        <Label text="Periodo dal" textFill="#7a7a7a">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <DatePicker fx:id="dtpInizioLavoro" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css">
+                                            <tooltip>
+                                                <Tooltip text="Il lavoratore non può essere minorenne o essere nato nel futuro">
+                                                    <font>
+                                                        <Font size="16.0" />
+                                                    </font>
+                                                </Tooltip>
+                                            </tooltip></DatePicker>
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="148.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                                    <children>
+                                        <Label text="Retribuzione lorda" textFill="#7a7a7a">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="txtRetribuzione" maxWidth="300.0" prefHeight="27.0" prefWidth="162.0" promptText="£" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" />
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="148.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <children>
+                                        <Label text="Luogo di lavoro" textFill="#7a7a7a">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="comuneComboBox" maxHeight="-Infinity" maxWidth="400.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="151.0" promptText="Comune" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5" />
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="148.0" GridPane.columnIndex="1">
+                                    <children>
+                                        <Label text="Nome azienda" textFill="#7a7a7a">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="txtAzienda" maxWidth="300.0" prefHeight="27.0" prefWidth="162.0" promptText="Nome azienda" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" />
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="148.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <children>
+                                        <Label text="Al" textFill="#7a7a7a">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <DatePicker fx:id="dtpFineLavoro" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css">
+                                            <tooltip>
+                                                <Tooltip text="Il lavoratore non può essere minorenne o essere nato nel futuro">
+                                                    <font>
+                                                        <Font size="16.0" />
+                                                    </font>
+                                                </Tooltip>
+                                            </tooltip>
+                                        </DatePicker>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="20.0" />
+                            </VBox.margin>
+                        </GridPane>
+                    </children>
+                    <GridPane.margin>
+                        <Insets left="10.0" />
+                    </GridPane.margin>
+                </VBox>
+                <GridPane GridPane.rowIndex="3">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <VBox alignment="CENTER" prefHeight="29.0" prefWidth="382.0">
+                            <children>
+                                <Button mnemonicParsing="false" onAction="#backToPrincipalMenu" prefHeight="48.0" prefWidth="110.0" style="-fx-background-color: #7a7a7a; -fx-text-fill: white; -fx-border-radius: 20px; -fx-background-radius: 30px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);" text="Chiudi">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="0.0" prefWidth="382.0" GridPane.columnIndex="1">
+                            <children>
+                                <Button mnemonicParsing="false" onAction="#handleInserimento" prefHeight="48.0" prefWidth="110.0" style="-fx-background-color: #ff6f3b; -fx-text-fill: white; -fx-border-radius: 20px; -fx-background-radius: 30px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 3,3);" text="Inserisci">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                </GridPane>
+                <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowSpan="4">
+                    <children>
+                        <TableView fx:id="tableViewLavori" prefHeight="673.0" prefWidth="733.0">
+                            <columns>
+                                <TableColumn fx:id="tbcMansione" prefWidth="138.0" text="Mansione svolta" />
+                                <TableColumn fx:id="tbcAzienda" prefWidth="185.0" text="Nome azienda" />
+                                <TableColumn fx:id="tbcPeriodo" prefWidth="161.0" text="Periodo disponibilità" />
+                                <TableColumn fx:id="tbcLuogo" prefWidth="167.0" text="Luogo di lavoro" />
+                                <TableColumn fx:id="tbcRetribuzione" prefWidth="81.0" text="Retribuzione" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </Pane>
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </GridPane>
+    </center>
+</BorderPane>
