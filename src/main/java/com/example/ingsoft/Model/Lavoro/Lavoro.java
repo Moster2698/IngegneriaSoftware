@@ -3,8 +3,6 @@ package com.example.ingsoft.Model.Lavoro;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 public class Lavoro  implements Serializable {
     @Serial
@@ -53,7 +51,36 @@ public class Lavoro  implements Serializable {
     public int OttieniRetribuzioneOrariaLorda(){
         return  retribuzioneGiornaliera;
     }
+    public void CambiaNomeAzienda(String nomeAzienda){
+        this.nomeAzienda = nomeAzienda;
+    }
+    public void CambiaMansioneSvolta(String mansioneSvolta){
+        this.mansioneSvolta = mansioneSvolta;
+    }
+    public void CambiaLuogoLavoro(String luogoLavoro){
+        this.luogoLavoro = luogoLavoro;
+    }
+    public void CambiaRetribuzione(int retribuzioneGiornaliera){
+        this.retribuzioneGiornaliera = retribuzioneGiornaliera;
+    }
+    public void CambiaDataInizio(LocalDate inizioDataLavoro){
+        this.inizioDataLavoro = inizioDataLavoro;
+    }
+    public void CambiaDataFine(LocalDate fineDataLavoro){
+        this.fineDataLavoro = fineDataLavoro;
+    }
     public String OttieniPeriodo(){
         return OttieniDataInizioLavoro().toString() + " / " + OttieniDataFineLavoro().toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof  Lavoro){
+            Lavoro otherLavoro = (Lavoro) obj;
+            return luogoLavoro.equalsIgnoreCase(((Lavoro) obj).luogoLavoro) && nomeAzienda.equals(otherLavoro.nomeAzienda)
+                    && retribuzioneGiornaliera == otherLavoro.retribuzioneGiornaliera && fineDataLavoro.equals(otherLavoro.fineDataLavoro)
+                    && inizioDataLavoro.equals(otherLavoro.inizioDataLavoro);
+        }
+        return false;
     }
 }

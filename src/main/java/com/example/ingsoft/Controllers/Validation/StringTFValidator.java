@@ -29,7 +29,7 @@ public class StringTFValidator implements  Validate{
             else
             {
                 if(tf.getStyle().equals(cssRedBorder))
-                    tf.setStyle("");
+                    tf.setStyle("-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;");
             }
         }
         return flag;

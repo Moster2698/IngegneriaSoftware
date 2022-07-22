@@ -1,5 +1,6 @@
 package com.example.ingsoft.Controllers;
 
+import com.example.ingsoft.Controllers.TextFormatters.TextFormatterFactory;
 import com.example.ingsoft.Controllers.Validation.Validator;
 import com.example.ingsoft.Model.Lavoro.Lavoro;
 import com.example.ingsoft.Model.Model;
@@ -32,11 +33,13 @@ public class AggiornamentoController {
     @FXML
     private TableView<Lavoro> tableViewLavori;
     @FXML
-    private TextField txtMansione,txtAzienda,txtRetribuzione;
+    private TextField txtMansione,txtAzienda,txtRetribuzione,txtNome,txtCognome;
     @FXML
     private ComboBox<String> comuneComboBox;
     @FXML
     private DatePicker dtpInizioLavoro,dtpFineLavoro;
+    private boolean modifica;
+    private Lavoro lavoroDaModificare;
     @FXML
     private void initialize(){
         Platform.runLater(() -> {
@@ -50,8 +53,47 @@ public class AggiornamentoController {
             tableViewLavori.setItems(listaLavori);
             InserisciComuniNelleComboBox();
             validator = new Validator();
+            validator.addStringTextField(txtAzienda);
+            validator.addStringTextField(txtMansione);
+            TextFormatterFactory textFormatterFactory = new TextFormatterFactory();
+            txtMansione.setTextFormatter(textFormatterFactory.OttieniTextFormatter("string"));
+            txtRetribuzione.setTextFormatter(textFormatterFactory.OttieniTextFormatter("numero"));
+            modifica = false;
+            lavoroDaModificare = null;
+            tableViewLavori.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                 if (newSelection != null) {
+                    ModificaLavoratore(newSelection);
+                }
+            });
+            tableViewLavori.setRowFactory( tv -> {
+                TableRow<Lavoro> row = new TableRow<>();
+                row.setOnMouseClicked(event -> {
+                    if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                        modifica = false;
+                        lavoroDaModificare = null;
+                        tableViewLavori.getSelectionModel().clearSelection();
+                        resetFields();
+                    }
+                });
+                return row ;
+            });
+            txtCognome.setText(lavoratoreDaModificare.getCognome());
+            txtNome.setText(lavoratoreDaModificare.getNome());
         });
+
     }
+
+    private void ModificaLavoratore(Lavoro lavoro) {
+        txtAzienda.setText(lavoro.OttieniNomeAzienda());
+        txtRetribuzione.setText(String.valueOf(lavoro.OttieniRetribuzioneOrariaLorda()));
+        txtMansione.setText(lavoro.OttieniMansioneSvolte());
+        comuneComboBox.getSelectionModel().select(lavoro.OttieniLuogoLavoro());
+        dtpInizioLavoro.setValue(lavoro.OttieniDataInizioLavoro());
+        dtpFineLavoro.setValue(lavoro.OttieniDataFineLavoro());
+        modifica = true;
+        lavoroDaModificare = lavoro;
+    }
+
     private void InserisciComuniNelleComboBox(){
         ComuniProvider cp = ComuniProvider.getInstance();
         ObservableList<String> comuniDaModel = model.OttieniComuni();
@@ -79,7 +121,78 @@ public class AggiornamentoController {
         nomeAzienda = txtAzienda.getText().trim();
         dataInizioLavoro = dtpInizioLavoro.getValue();
         dataFineLavoro = dtpFineLavoro.getValue();
-        Lavoro lavoro = new Lavoro(dataInizioLavoro, dataFineLavoro, nomeAzienda, comune,mansione,Integer.valueOf(retribuzioneLorda));
-        listaLavori.add(lavoro);
+        if(!modifica )
+        {
+            Lavoro lavoro = new Lavoro(dataInizioLavoro, dataFineLavoro, nomeAzienda, comune,mansione,Integer.valueOf(retribuzioneLorda));
+            if(validator.validate() && PossoInserireLavoro(lavoro)){
+                model.AggiungiLavoroAlLavoratore(lavoratoreDaModificare,lavoro);
+                modifica = false;
+                lavoroDaModificare = null;
+                tableViewLavori.getSelectionModel().clearSelection();
+                tableViewLavori.refresh();
+                resetFields();
+            }
+        }
+        else
+        {
+            Lavoro lavoro = new Lavoro(dataInizioLavoro, dataFineLavoro, nomeAzienda, comune,mansione,Integer.valueOf(retribuzioneLorda));
+            if(validator.validate() && PossoInserireLavoro(lavoro)) {
+                lavoroDaModificare.CambiaDataInizio(dataInizioLavoro);
+                lavoroDaModificare.CambiaLuogoLavoro(comune);
+                lavoroDaModificare.CambiaDataFine(dataFineLavoro);
+                lavoroDaModificare.CambiaMansioneSvolta(mansione);
+                lavoroDaModificare.CambiaRetribuzione(Integer.valueOf(retribuzioneLorda));
+                lavoroDaModificare.CambiaNomeAzienda(nomeAzienda);
+                model.SalvaSuFile();
+                tableViewLavori.refresh();
+                modifica = false;
+                lavoroDaModificare = null;
+                tableViewLavori.getSelectionModel().clearSelection();
+                tableViewLavori.refresh();
+                resetFields();
+            }
+        }
+
+    }
+    private void resetFields(){
+        txtRetribuzione.setText("");
+        txtAzienda.setText("");
+        txtMansione.setText("");
+        dtpInizioLavoro.setValue(null);
+        dtpFineLavoro.setValue(null);
+        comuneComboBox.getSelectionModel().select("");
+
+    }
+    private boolean PossoInserireLavoro(Lavoro lavoro){
+        return !listaLavori.contains(lavoro) && checkDtp();
+    }
+
+    private boolean checkDtp() {
+        boolean isValid = true;
+        if(dtpInizioLavoro != null && dtpFineLavoro !=null){
+            isValid = dtpInizioLavoro.getValue().isAfter(LocalDate.now().minusYears(5)) && dtpFineLavoro.getValue().isAfter(dtpInizioLavoro.getValue())
+            && dtpFineLavoro.getValue().isBefore(LocalDate.now());
+        }
+        if(!isValid)
+        {
+            dtpInizioLavoro.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+            dtpFineLavoro.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        }
+        else {
+            dtpInizioLavoro.setStyle("-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;");
+            dtpFineLavoro.setStyle("-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;");
+        }
+
+        return isValid;
+    }
+
+    public void handleElimina(ActionEvent actionEvent) {
+        if(tableViewLavori.getSelectionModel().getSelectedItem()!=null){
+            model.RimuoviLavoroAlLavoratore(lavoratoreDaModificare,tableViewLavori.getSelectionModel().getSelectedItem());
+            modifica = false;
+            lavoroDaModificare = null;
+            tableViewLavori.getSelectionModel().clearSelection();
+            tableViewLavori.refresh();
+        }
     }
 }

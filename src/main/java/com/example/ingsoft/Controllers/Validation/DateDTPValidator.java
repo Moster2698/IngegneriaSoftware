@@ -31,7 +31,7 @@ public class DateDTPValidator implements  Validate{
                 dtp.setStyle(cssRedBorder);
             }
             else{
-                dtp.setStyle("");
+                dtp.setStyle("-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;");
             }
         }
         return flag;
@@ -57,8 +57,8 @@ public class DateDTPValidator implements  Validate{
                  }
                  else
                  {
-                     dtpInizioLavoro.setStyle("");
-                     dtpFineLavoro.setStyle("");
+                     dtpInizioLavoro.setStyle("-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;");
+                     dtpFineLavoro.setStyle("-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;");
                  }
              }
         }
