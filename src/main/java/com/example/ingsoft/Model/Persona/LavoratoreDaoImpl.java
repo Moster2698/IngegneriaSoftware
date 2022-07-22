@@ -40,53 +40,115 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
 
 
     @Override
-    public List<Lavoratore> research(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, List<String> mansioni, List<String> zonaDisponibilita, String cittaResidenza, boolean automunito, String patente) {
-        return  lavoratori.stream().filter(lavoratore -> {
-            boolean isValid = true;
-            if(!nome.isEmpty() || !nome.isBlank())
-                isValid = lavoratore.getNome().equalsIgnoreCase(nome);
-            if(!cognome.isEmpty() || !cognome.isBlank())
-                isValid = isValid && lavoratore.getCognome().equalsIgnoreCase(cognome);
-            if(dataInizio!=null && dataFine != null)
-            {
-                isValid = isValid && dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita());
-            }
-            else if(dataInizio!=null){
-                isValid = isValid && lavoratore.getInizioDisponibilita().isAfter(dataInizio);
-            }
-            else if(dataFine!=null){
-                isValid = isValid && lavoratore.getFineDisponibilita().isBefore(dataFine);
-            }
-            if(!mansioni.isEmpty() && (!mansioni.get(0).isBlank() || !mansioni.get(0).isEmpty())){
-                isValid = isValid && mansioni.stream().anyMatch(s -> {
-                    System.out.println(s + " " + lavoratore.getMansione());
-                    return s.equalsIgnoreCase(lavoratore.getMansione());
-                });
-            }
-            if(!lingueParlate.isEmpty() && (!lingueParlate.get(0).isBlank() || !lingueParlate.get(0).isEmpty())){
-                isValid = isValid && lavoratore.getLingueParlate().stream().anyMatch(lingueParlate::contains);
-            }
-            if(!zonaDisponibilita.isEmpty() && (!zonaDisponibilita.get(0).isBlank() || !zonaDisponibilita.get(0).isEmpty())){
-                isValid = isValid && lavoratore.getLingueParlate().stream().anyMatch(s -> {
-                    for (String zona : zonaDisponibilita) {
-                        if (zona.equalsIgnoreCase(s))
-                            return true;
-                    }
-                    return false;
-                });
-            }
-            if(!cittaResidenza.isEmpty() || !cittaResidenza.isBlank()) {
-                System.out.println("ciao2");
-                isValid = isValid && cittaResidenza.equalsIgnoreCase(lavoratore.getCittaResidenza());
-            }
-            isValid = isValid && lavoratore.getAutomunito()==automunito;
-            if(!patente.isEmpty() || !patente.isBlank()){
-                isValid = isValid && lavoratore.getPatente().stream().anyMatch(patente::equalsIgnoreCase);
-            }
-            return isValid;
-        }).collect(Collectors.toCollection(FXCollections::observableArrayList));
-    }
+    public List<Lavoratore> cercaLavoratori(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, List<String> mansioni, List<String> zonaDisponibilita, String cittaResidenza, String automunito, String patente,boolean isOr) {
 
+        if (isOr == false) {
+            return lavoratori.stream().filter(lavoratore -> {
+                boolean isValid = true;
+                if (!nome.isEmpty() || !nome.isBlank())
+                    isValid = lavoratore.getNome().equalsIgnoreCase(nome);
+                if (!cognome.isEmpty() || !cognome.isBlank())
+                    isValid = isValid && lavoratore.getCognome().equalsIgnoreCase(cognome);
+                if (dataInizio != null && dataFine != null) {
+                    isValid = isValid && dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita());
+                } else if (dataInizio != null) {
+                    isValid = isValid && lavoratore.getInizioDisponibilita().isAfter(dataInizio);
+                } else if (dataFine != null) {
+                    isValid = isValid && lavoratore.getFineDisponibilita().isBefore(dataFine);
+                }
+                if (!mansioni.isEmpty() && (!mansioni.get(0).isBlank() || !mansioni.get(0).isEmpty())) {
+                    isValid = isValid && mansioni.stream().anyMatch(s -> {
+                        System.out.println(s + " " + lavoratore.getMansione());
+                        return s.equalsIgnoreCase(lavoratore.getMansione());
+                    });
+                }
+                if (!lingueParlate.isEmpty() && (!lingueParlate.get(0).isBlank() || !lingueParlate.get(0).isEmpty())) {
+                    isValid = isValid && lavoratore.getLingueParlate().stream().anyMatch(lingueParlate::contains);
+                }
+                if (!zonaDisponibilita.isEmpty() && (!zonaDisponibilita.get(0).isBlank() || !zonaDisponibilita.get(0).isEmpty())) {
+                    isValid = isValid && lavoratore.getLingueParlate().stream().anyMatch(s -> {
+                        for (String zona : zonaDisponibilita) {
+                            if (zona.equalsIgnoreCase(s))
+                                return true;
+                        }
+                        return false;
+                    });
+                }
+                if (!cittaResidenza.isEmpty() || !cittaResidenza.isBlank()) {
+                    isValid = isValid && cittaResidenza.equalsIgnoreCase(lavoratore.getCittaResidenza());
+                }
+                if (!automunito.isBlank()) {
+                    boolean boolAuto = automunito.equals("Si");
+                    isValid = isValid && lavoratore.getAutomunito() == boolAuto;
+                }
+                if (!patente.isEmpty() || !patente.isBlank()) {
+                    isValid = isValid && lavoratore.getPatente().stream().anyMatch(patente::equalsIgnoreCase);
+                }
+                return isValid;
+            }).collect(Collectors.toCollection(FXCollections::observableArrayList));
+        }
+        else{
+            return lavoratori.stream().filter(lavoratore -> {
+                boolean isValid = false;
+                boolean empty = true;
+                if (!nome.isEmpty() || !nome.isBlank())
+                {
+                    isValid = isValid || lavoratore.getNome().equalsIgnoreCase(nome);
+                    empty = false;
+                }
+                if (!cognome.isEmpty() || !cognome.isBlank())
+                {
+                    isValid = isValid ||  lavoratore.getCognome().equalsIgnoreCase(cognome);
+                    empty = false;
+                }
+                if (dataInizio != null && dataFine != null) {
+                    isValid = isValid || dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita());
+                } else if (dataInizio != null) {
+                    isValid = isValid || lavoratore.getInizioDisponibilita().isAfter(dataInizio);
+                    empty = false;
+                } else if (dataFine != null) {
+                    isValid = isValid || lavoratore.getFineDisponibilita().isBefore(dataFine);
+                    empty = false;
+                }
+                if (!mansioni.isEmpty() && (!mansioni.get(0).isBlank() || !mansioni.get(0).isEmpty())) {
+                    isValid = isValid || mansioni.stream().anyMatch(s -> {
+                        return s.equalsIgnoreCase(lavoratore.getMansione());
+                    });
+                    empty = false;
+                }
+                if (!lingueParlate.isEmpty() && (!lingueParlate.get(0).isBlank() || !lingueParlate.get(0).isEmpty())) {
+                    isValid = isValid || lavoratore.getLingueParlate().stream().anyMatch(lingueParlate::contains);
+                    empty = false;
+                }
+                if (!zonaDisponibilita.isEmpty() && (!zonaDisponibilita.get(0).isBlank() || !zonaDisponibilita.get(0).isEmpty())) {
+                    isValid =isValid || lavoratore.getLingueParlate().stream().anyMatch(s -> {
+                        for (String zona : zonaDisponibilita) {
+                            if (zona.equalsIgnoreCase(s))
+                                return true;
+                        }
+                        return false;
+                    });
+                    empty = false;
+                }
+                if (!cittaResidenza.isEmpty() || !cittaResidenza.isBlank()) {
+                    isValid = isValid || cittaResidenza.equalsIgnoreCase(lavoratore.getCittaResidenza());
+                    empty = false;
+                }
+                if (!automunito.isBlank()) {
+                    boolean boolAuto = automunito.equals("Si");
+                    isValid = isValid || lavoratore.getAutomunito() == boolAuto;
+                    empty = false;
+                }
+                if (!patente.isEmpty() || !patente.isBlank()) {
+                    isValid = isValid || lavoratore.getPatente().stream().anyMatch(patente::equalsIgnoreCase);
+                    empty = false;
+                }
+                if(empty)
+                    return true;
+                return isValid;
+            }).collect(Collectors.toCollection(FXCollections::observableArrayList));
+        }
+    }
 
     @Override
     public void add(Lavoratore lavoratore) {

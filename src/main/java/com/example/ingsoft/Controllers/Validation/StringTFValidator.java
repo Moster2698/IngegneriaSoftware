@@ -21,7 +21,7 @@ public class StringTFValidator implements  Validate{
     public boolean validate() {
         boolean flag = true;
         for(TextField tf : textFields){
-            if(tf.getText().isEmpty())
+            if(tf.getText().isEmpty() || tf.getText().isBlank())
             {
                 flag = false;
                 tf.setStyle(cssRedBorder);

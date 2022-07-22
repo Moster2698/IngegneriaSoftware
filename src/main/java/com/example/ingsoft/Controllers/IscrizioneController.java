@@ -2,12 +2,14 @@ package com.example.ingsoft.Controllers;
 
 
 import com.example.ingsoft.Controllers.Validation.Validator;
+import com.example.ingsoft.Crea;
 import com.example.ingsoft.Model.AutoCompleteBox;
 import com.example.ingsoft.Model.guiData.ComuniProvider;
 import com.example.ingsoft.Model.Persona.Lavoratore;
 import com.example.ingsoft.Model.guiData.Lingua;
 import com.example.ingsoft.Model.Model;
 import com.example.ingsoft.Model.Persona.PersonaUrgente;
+import com.example.ingsoft.Model.guiData.Mansione;
 import com.example.ingsoft.Model.guiData.Patente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,9 +38,11 @@ public class IscrizioneController {
     @FXML
     private DatePicker dPickerNascita,dPInizioLavoro,dPFineLavoro;
     @FXML
-    private ComboBox<String> comuneComboBox;
+    private ComboBox<String> comuneComboBox,comuneNascitaComboBox,comuneResidenzaComboBox;
     @FXML
     private ComboBox<Lingua> lingueComboBox;
+    @FXML
+    private ComboBox<Mansione> mansioneComboBox;
     @FXML
     private ComboBox<Patente> patenteComboBox;
     private Model model;
@@ -47,7 +51,7 @@ public class IscrizioneController {
 
         stringTextFields = new ArrayList<>();
 
-        Collections.addAll(stringTextFields, txtCognome, txtNome, txtLuogoNascita, txtNazionalita, txtCitta, txtVia, txtCivico
+        Collections.addAll(stringTextFields, txtCognome, txtNome, txtNazionalita, txtVia, txtCivico
                 ,txtEmail,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza);
         comuni = new TreeSet<>();
         validator = new Validator();
@@ -62,10 +66,13 @@ public class IscrizioneController {
         InserisciComuninellaComuniComboBox();
         lingueComboBox.getItems().setAll(Arrays.asList(Lingua.values()));
         patenteComboBox.getItems().setAll(Arrays.asList(Patente.values()));
+        mansioneComboBox.getItems().setAll(Arrays.asList(Mansione.values()));
         lingueParlate = new ArrayList<>();
         mansioniEffettuate = new ArrayList<>();
         patenti = new ArrayList<>();
         new AutoCompleteBox(comuneComboBox);
+        new AutoCompleteBox(comuneNascitaComboBox);
+        new AutoCompleteBox(comuneResidenzaComboBox);
         model = Model.OttieniIstanza();
     }
 
@@ -84,21 +91,22 @@ public class IscrizioneController {
             cognome = txtCognome.getText();
             telefonoPersonale = txtRecTel.getText();
             email = txtEmail.getText();
-            luogo = txtLuogoNascita.getText();
+            luogo = comuneNascitaComboBox.getSelectionModel().getSelectedItem();
             nazionalita = txtNazionalita.getText();
             dataDiNascita = dPickerNascita.getValue();
             inizioDisponibilita = dPInizioLavoro.getValue();
             fineDisponibilita = dPFineLavoro.getValue();
-            cittaResidenza = txtCitta.getText();
+            cittaResidenza = comuneResidenzaComboBox.getSelectionModel().getSelectedItem();
             viaResidenza = txtVia.getText();
             civicoResidenza = txtCivico.getText();
             capResidenza = txtCap.getText();
             OttieniSpecializzazioniDalleCheckBox();
             System.out.println(mansioniEffettuate);
+            String mansione = mansioneComboBox.getSelectionModel().getSelectedItem().name();
             personaUrgente = new PersonaUrgente(txtNomeEmergenza.getText(),txtCognomeEmergenza.getText(),txtTelefonoEmergenza.getText(),txtIndirizzoEmergenza.getText());
             automunito = checkAutomunito.isSelected();
             Lavoratore lavoratore = new Lavoratore(nome,cognome,luogo,dataDiNascita,nazionalita,telefonoPersonale,email,inizioDisponibilita,fineDisponibilita,
-                    comuni,lingueParlate,automunito,patenti,mansioniEffettuate,"Insegnante", cittaResidenza,viaResidenza,civicoResidenza,capResidenza,personaUrgente);
+                    comuni,lingueParlate,automunito,patenti,mansioniEffettuate,mansione, cittaResidenza,viaResidenza,civicoResidenza,capResidenza,personaUrgente);
             model.AggiungiLavoratore(lavoratore);
             String nuovoLavoratore = "";
             nuovoLavoratore += nome + " " + cognome;
@@ -144,6 +152,9 @@ public class IscrizioneController {
     private void InserisciComuninellaComuniComboBox(){
         ComuniProvider cp = ComuniProvider.getInstance();
         comuneComboBox.setItems(cp.getListaComuni());
+        comuneNascitaComboBox.setItems(cp.getListaComuni());
+        comuneResidenzaComboBox.setItems(cp.getListaComuni());
+
     }
 
     /***

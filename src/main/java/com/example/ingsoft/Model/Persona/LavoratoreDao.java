@@ -7,6 +7,6 @@ public interface LavoratoreDao {
      List<Lavoratore> getLavoratori();
      void add(Lavoratore lavoratore);
      void remove(Lavoratore lavoratore);
-     List<Lavoratore> research (String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, List<String> mansioni,
-                                      List<String> zonaDisponibilita, String cittaResidenza,boolean automunito,String patente );
+     List<Lavoratore> cercaLavoratori (String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, List<String> mansioni,
+                                      List<String> zonaDisponibilita, String cittaResidenza,String automunito,String patente,boolean isOr );
 }

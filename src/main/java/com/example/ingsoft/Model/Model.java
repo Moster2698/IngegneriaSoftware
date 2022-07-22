@@ -41,9 +41,9 @@ public class Model {
     public ObservableList<Lavoratore> OttieniLavoratori(){
         return FXCollections.observableArrayList(lavoratoreDao.getLavoratori());
     }
-    public ObservableList<Lavoratore> ricerca(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, List<String> mansioni,
-                              List<String> zonaDisponibilita, String cittaResidenza, boolean automunito, String patente){
-        return FXCollections.observableArrayList(lavoratoreDao.research(nome,cognome,lingueParlate,dataInizio,dataFine,mansioni,zonaDisponibilita,cittaResidenza,automunito,patente));
+    public ObservableList<Lavoratore> cercaLavoratori(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, List<String> mansioni,
+                              List<String> zonaDisponibilita, String cittaResidenza, String automunito, String patente,boolean isOr){
+        return FXCollections.observableArrayList(lavoratoreDao.cercaLavoratori(nome,cognome,lingueParlate,dataInizio,dataFine,mansioni,zonaDisponibilita,cittaResidenza,automunito,patente,isOr));
     }
 
 }
