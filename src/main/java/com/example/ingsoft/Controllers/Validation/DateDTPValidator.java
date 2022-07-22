@@ -26,7 +26,8 @@ public class DateDTPValidator implements  Validate{
     private boolean checkSingoli(){
         boolean flag = true;
         for(DatePicker dtp : dtpSingoli){
-            if(dtp.getValue() == null || calculateAge(dtp.getValue(), LocalDate.now()) < 16){
+            int age = calculateAge(dtp.getValue(), LocalDate.now());
+            if(dtp.getValue() == null || (age< 16 || age>67)){
                 flag = false;
                 dtp.setStyle(cssRedBorder);
             }
