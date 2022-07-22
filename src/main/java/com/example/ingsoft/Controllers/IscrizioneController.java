@@ -2,13 +2,16 @@ package com.example.ingsoft.Controllers;
 
 
 import com.example.ingsoft.Controllers.Validation.Validator;
+import com.example.ingsoft.Crea;
 import com.example.ingsoft.Model.AutoCompleteBox;
 import com.example.ingsoft.Model.guiData.ComuniProvider;
 import com.example.ingsoft.Model.Persona.Lavoratore;
 import com.example.ingsoft.Model.guiData.Lingua;
 import com.example.ingsoft.Model.Model;
 import com.example.ingsoft.Model.Persona.PersonaUrgente;
+import com.example.ingsoft.Model.guiData.Mansione;
 import com.example.ingsoft.Model.guiData.Patente;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +30,7 @@ public class IscrizioneController {
     private  Validator validator;
     private SortedSet<String> comuni;
     @FXML
-    private TextField txtCognome, txtNome, txtLuogoNascita, txtNazionalita, txtRecTel, txtCitta, txtVia, txtCivico
+    private TextField txtCognome, txtNome, txtNazionalita, txtRecTel, txtVia, txtCivico
             ,txtCap,txtEmail,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza, txtTelefonoEmergenza;
     private List<TextField> stringTextFields;
     @FXML
@@ -36,18 +39,21 @@ public class IscrizioneController {
     @FXML
     private DatePicker dPickerNascita,dPInizioLavoro,dPFineLavoro;
     @FXML
-    private ComboBox<String> comuneComboBox;
+    private ComboBox<String> comuneComboBox,comuneNascitaComboBox,comuneResidenzaComboBox;
     @FXML
     private ComboBox<Lingua> lingueComboBox;
+    @FXML
+    private ComboBox<Mansione> mansioneComboBox;
     @FXML
     private ComboBox<Patente> patenteComboBox;
     private Model model;
     @FXML
     public void initialize() {
 
+        model = Model.OttieniIstanza();
         stringTextFields = new ArrayList<>();
 
-        Collections.addAll(stringTextFields, txtCognome, txtNome, txtLuogoNascita, txtNazionalita, txtCitta, txtVia, txtCivico
+        Collections.addAll(stringTextFields, txtCognome, txtNome, txtNazionalita, txtVia, txtCivico
                 ,txtEmail,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza);
         comuni = new TreeSet<>();
         validator = new Validator();
@@ -59,14 +65,18 @@ public class IscrizioneController {
         validator.add(dPickerNascita);
         validator.add(dPInizioLavoro,dPFineLavoro);
 
-        InserisciComuninellaComuniComboBox();
+        InserisciComuniNelleComboBox();
         lingueComboBox.getItems().setAll(Arrays.asList(Lingua.values()));
         patenteComboBox.getItems().setAll(Arrays.asList(Patente.values()));
+        mansioneComboBox.getItems().setAll(Arrays.asList(Mansione.values()));
         lingueParlate = new ArrayList<>();
         mansioniEffettuate = new ArrayList<>();
         patenti = new ArrayList<>();
         new AutoCompleteBox(comuneComboBox);
-        model = Model.OttieniIstanza();
+        new AutoCompleteBox(comuneNascitaComboBox);
+        new AutoCompleteBox(comuneResidenzaComboBox);
+        Crea crea = new Crea(500);
+        crea.CreaLavoratore();
     }
 
     /***
@@ -84,21 +94,22 @@ public class IscrizioneController {
             cognome = txtCognome.getText();
             telefonoPersonale = txtRecTel.getText();
             email = txtEmail.getText();
-            luogo = txtLuogoNascita.getText();
+            luogo = comuneNascitaComboBox.getSelectionModel().getSelectedItem();
             nazionalita = txtNazionalita.getText();
             dataDiNascita = dPickerNascita.getValue();
             inizioDisponibilita = dPInizioLavoro.getValue();
             fineDisponibilita = dPFineLavoro.getValue();
-            cittaResidenza = txtCitta.getText();
+            cittaResidenza = comuneResidenzaComboBox.getSelectionModel().getSelectedItem();
             viaResidenza = txtVia.getText();
             civicoResidenza = txtCivico.getText();
             capResidenza = txtCap.getText();
             OttieniSpecializzazioniDalleCheckBox();
             System.out.println(mansioniEffettuate);
+            String mansione = mansioneComboBox.getSelectionModel().getSelectedItem().name();
             personaUrgente = new PersonaUrgente(txtNomeEmergenza.getText(),txtCognomeEmergenza.getText(),txtTelefonoEmergenza.getText(),txtIndirizzoEmergenza.getText());
             automunito = checkAutomunito.isSelected();
             Lavoratore lavoratore = new Lavoratore(nome,cognome,luogo,dataDiNascita,nazionalita,telefonoPersonale,email,inizioDisponibilita,fineDisponibilita,
-                    comuni,lingueParlate,automunito,patenti,mansioniEffettuate,"Insegnante", cittaResidenza,viaResidenza,civicoResidenza,capResidenza,personaUrgente);
+                    comuni,lingueParlate,automunito,patenti,mansioniEffettuate,mansione, cittaResidenza,viaResidenza,civicoResidenza,capResidenza,personaUrgente);
             model.AggiungiLavoratore(lavoratore);
             String nuovoLavoratore = "";
             nuovoLavoratore += nome + " " + cognome;
@@ -108,20 +119,14 @@ public class IscrizioneController {
             alert.setContentText("Premere OK per continuare.");
             alert.showAndWait();
             reset();
-            // sarebbe utile passare alla pagina della ricerca o del menu principale così si risolve
-            // anche il problema dello style delle varie textfield
         }
     }
 
     /***
-     * Resetta i campi della Gui e le relative strutture dati associate
+     * Azzera i campi dell'interfaccia grafica. Nel caso delle ComboBox le deseleziona.
+     * Inoltre crea delle nuove strutture dati da associare ad un nuovo lavoratore.
      */
     private void reset(){
-        //comune disponiblita
-
-        //lingue parlate
-
-        //specializzazioni
         for(TextField tf : stringTextFields )
             tf.setText("");
         lingueParlate = new ArrayList<>();
@@ -135,19 +140,26 @@ public class IscrizioneController {
         dPFineLavoro.setValue(null);
         dPickerNascita.setValue(null);
         dPInizioLavoro.setValue(null);
-
+        comuneResidenzaComboBox.getSelectionModel().clearSelection();
+        comuneNascitaComboBox.getSelectionModel().clearSelection();
+        comuneComboBox.getSelectionModel().clearSelection();
+        patenteComboBox.getSelectionModel().clearSelection();
     }
 
     /***
      *Inserisce la lista dei comuni italiani all'interno della ComboBox dedicata
      */
-    private void InserisciComuninellaComuniComboBox(){
+    private void InserisciComuniNelleComboBox(){
         ComuniProvider cp = ComuniProvider.getInstance();
-        comuneComboBox.setItems(cp.getListaComuni());
+        ObservableList<String> comuniDaModel = model.OttieniComuni();
+        comuneComboBox.setItems(comuniDaModel);
+        comuneNascitaComboBox.setItems(comuniDaModel);
+        comuneResidenzaComboBox.setItems(comuniDaModel);
+
     }
 
     /***
-     * Ottiene dalle checkBox specializzazioni tutti i valori selezionati
+     * Ottiene dalle Checkbox le specializzazioni.
      */
     private void OttieniSpecializzazioniDalleCheckBox(){
         if(checkBagnino.isSelected())

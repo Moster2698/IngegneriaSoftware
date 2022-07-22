@@ -34,7 +34,7 @@ public class NumberTFValidator implements  Validate{
             TextField tel = entry.getKey();
             boolean flag = textFieldEmpty.get(tel);
             int length = entry.getValue();
-            if(!flag || (flag && !tel.getText().isEmpty())) {
+            if(!flag || (flag && !tel.getText().isEmpty() && ! tel.getText().isBlank())) {
                 if (!tel.getText().chars().allMatch(Character::isDigit) || tel.getText().length() != length) {
                     tel.setStyle(cssRedBorder);
                     isValid = false;

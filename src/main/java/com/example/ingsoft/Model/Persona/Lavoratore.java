@@ -1,8 +1,11 @@
 package com.example.ingsoft.Model.Persona;
 
+import com.example.ingsoft.Model.Lavoro.Lavoro;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 
@@ -22,6 +25,7 @@ public class Lavoratore extends Persona implements Serializable {
     private String mansione;
     private List<String> patenti;
     private boolean automunito;
+    private  List<Lavoro> lavori;
     public Lavoratore(String nome, String cognome) {
         super(nome, cognome);
         ID++;
@@ -45,6 +49,7 @@ public class Lavoratore extends Persona implements Serializable {
         this.automunito = automunito;
         this.patenti = patenti;
         this.specializzazioni = specializzazioni;
+        lavori = new ArrayList<Lavoro>();
         this.mansione = mansione;
         this.cittaResidenza = cittaResidenza;
         this.viaResidenza = viaResidenza;
@@ -89,6 +94,9 @@ public class Lavoratore extends Persona implements Serializable {
         return false;
     }
 
+    public SortedSet<String> getComuni(){
+        return comuni;
+    }
     public List<String> getPatente() {
         return patenti;
     }
@@ -147,6 +155,9 @@ public class Lavoratore extends Persona implements Serializable {
     }
     public String getCittaResidenza(){
         return cittaResidenza;
+    }
+    public List<Lavoro> OttieniLavori(){
+        return lavori;
     }
 
 }
