@@ -2,7 +2,6 @@ package com.example.ingsoft.Controllers;
 
 
 import com.example.ingsoft.Controllers.Validation.Validator;
-import com.example.ingsoft.Crea;
 import com.example.ingsoft.Model.AutoCompleteBox;
 import com.example.ingsoft.Model.guiData.ComuniProvider;
 import com.example.ingsoft.Model.Persona.Lavoratore;
@@ -75,8 +74,8 @@ public class IscrizioneController {
         new AutoCompleteBox(comuneComboBox);
         new AutoCompleteBox(comuneNascitaComboBox);
         new AutoCompleteBox(comuneResidenzaComboBox);
-        Crea crea = new Crea(500);
-        crea.CreaLavoratore();
+        //Crea crea = new Crea(500);
+        //crea.CreaLavoratore();
     }
 
     /***
@@ -124,7 +123,7 @@ public class IscrizioneController {
 
     /***
      * Azzera i campi dell'interfaccia grafica. Nel caso delle ComboBox le deseleziona.
-     * Inoltre crea delle nuove strutture dati da associare ad un nuovo lavoratore.
+     * Inoltre crea delle nuove strutture dati da associare a un nuovo lavoratore.
      */
     private void reset(){
         for(TextField tf : stringTextFields )
@@ -132,18 +131,25 @@ public class IscrizioneController {
         lingueParlate = new ArrayList<>();
         mansioniEffettuate = new ArrayList<>();
         patenti = new ArrayList<>();
-        comuni = new TreeSet<>() {
-        };
+        comuni = new TreeSet<>();
         txtRecTel.clear();
         txtTelefonoEmergenza.clear();
         txtCap.clear();
         dPFineLavoro.setValue(null);
         dPickerNascita.setValue(null);
         dPInizioLavoro.setValue(null);
+        checkAutomunito.setSelected(false);
+        checkBagnino.setSelected(false);
+        checkBarman.setSelected(false);
+        checkIstruttoreNuoto.setSelected(false);
+        checkViticultore.setSelected(false);
+        checkFloricultore.setSelected(false);
         comuneResidenzaComboBox.getSelectionModel().clearSelection();
         comuneNascitaComboBox.getSelectionModel().clearSelection();
         comuneComboBox.getSelectionModel().clearSelection();
         patenteComboBox.getSelectionModel().clearSelection();
+        lingueComboBox.getSelectionModel().clearSelection();
+        mansioneComboBox.getSelectionModel().clearSelection();
     }
 
     /***

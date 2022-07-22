@@ -100,6 +100,7 @@ public class RicercaController {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PrincipalMenu.fxml")));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/ingsoft/Controllers/styles.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

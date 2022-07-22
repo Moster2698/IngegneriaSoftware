@@ -19,6 +19,7 @@ public class PrincipalMenuController {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Ricerca.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/ingsoft/Controllers/styles.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
@@ -35,6 +36,7 @@ public class PrincipalMenuController {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/example/ingsoft/Controllers/styles.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
