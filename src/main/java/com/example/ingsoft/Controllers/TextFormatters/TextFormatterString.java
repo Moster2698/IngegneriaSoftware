@@ -21,4 +21,5 @@ class TextFormatterString {
 
         return null;
     };
+
 }

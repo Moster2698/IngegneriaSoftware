@@ -223,7 +223,6 @@ public class AggiornamentoController {
         return isValid;
     }
 
-
     /***
      * Elimina un lavoratore selezionato
      * @param actionEvent Click bottone elimina

@@ -1,14 +1,18 @@
 package com.example.ingsoft.Controllers;
 
+import com.example.ingsoft.Model.Persona.Dipendente;
+import com.example.ingsoft.Model.Persona.DipendenteDaoImpl;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.*;
 import java.net.URL;
+import java.util.FormatFlagsConversionMismatchException;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 
 public class LoginController {
@@ -21,6 +25,12 @@ public class LoginController {
     @FXML
     private Button btnAccedi;
 
+    private DipendenteDaoImpl dipendenteDaoImpl;
+    @FXML
+    public void initialize(){
+        dipendenteDaoImpl = new DipendenteDaoImpl();
+
+    }
     /***
      * Evento di quando l'utente clicca il bottone Login. Se i dati inseriti sono corretti si procede al Menù principale,
      * altrimenti viene mostrato un segnale di errore.
@@ -29,8 +39,13 @@ public class LoginController {
     private void onButtonClicked() {
         String username = textUsername.getText();
         String password = textPassword.getText();
+        Dipendente dipendente = null;
+        Optional<Dipendente> op = dipendenteDaoImpl.ottieniDipendenti().stream().filter(d -> d.ottieniUsername().equals(username)).findFirst();
+        if(op.isPresent()){
+            dipendente = op.get();
+        }
 
-        if(username.equals("admin") && password.equals("admin")) {
+        if(dipendente!=null && dipendente.ottieniPassword().equals(password)) {
             try {
                 URL fxmlLocation = LoginController.class.getResource("PrincipalMenu.fxml");
                 FXMLLoader loader = new FXMLLoader(fxmlLocation);

@@ -81,10 +81,6 @@ public class IscrizioneController {
         lingueParlate = new ArrayList<>();
         mansioniEffettuate = new ArrayList<>();
         patenti = new ArrayList<>();
-        new AutoCompleteBox(comuneComboBox);
-        new AutoCompleteBox(comuneNascitaComboBox);
-        new AutoCompleteBox(comuneResidenzaComboBox);
-
         textFormatterFactory = new TextFormatterFactory();
         txtRecTel.setTextFormatter(textFormatterFactory.OttieniTextFormatter("numero"));
         txtTelefonoEmergenza.setTextFormatter(textFormatterFactory.OttieniTextFormatter("numero"));
@@ -121,7 +117,6 @@ public class IscrizioneController {
             civicoResidenza = txtCivico.getText();
             capResidenza = txtCap.getText();
             OttieniSpecializzazioniDalleCheckBox();
-            System.out.println(mansioniEffettuate);
             String mansione = mansioneComboBox.getSelectionModel().getSelectedItem().name();
             personaUrgente = new PersonaUrgente(txtNomeEmergenza.getText(),txtCognomeEmergenza.getText(),txtTelefonoEmergenza.getText(),txtIndirizzoEmergenza.getText());
             automunito = checkAutomunito.isSelected();
@@ -196,7 +191,6 @@ public class IscrizioneController {
      * @return booleano che indica se i dati sono stati inseriti correttamente
      */
     private boolean FormValid() {
-        System.out.println(comuneNascitaComboBox.getSelectionModel().getSelectedItem() + " " + comuneNascitaComboBox.getEditor().getText());
         return validator.validate();
     }
 
