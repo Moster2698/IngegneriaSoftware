@@ -53,16 +53,16 @@ public class RicercaController {
     public void initialize(){
         model = Model.OttieniIstanza();
         observableListlavoratori = FXCollections.observableList(model.OttieniLavoratori());
-        tbcNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        tbcCognome.setCellValueFactory(new PropertyValueFactory<>("cognome"));
-        tbcComune.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getCittaResidenza()));
-        tbcLingue.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringLingue()));
-        tbcMansione.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getMansione()));
-        tbcAutomunito.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getAutomunito() ? "SI" : "NO"));
-        tbcPatente.setCellValueFactory(p -> new SimpleStringProperty( p.getValue().getStringPatente()));
-        tbcDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDisponibilita()));
-        tbcComuniDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringComuni()));
-        tbcSpecializzazioni.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getStringSpecializzazioni()));
+        tbcNome.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniNome()));
+        tbcCognome.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniCognome()));
+        tbcComune.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniCittaResidenza()));
+        tbcLingue.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniStringLingue()));
+        tbcMansione.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniMansione()));
+        tbcAutomunito.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniAutomunito() ? "SI" : "NO"));
+        tbcPatente.setCellValueFactory(p -> new SimpleStringProperty( p.getValue().ottieniStringPatente()));
+        tbcDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniPeriodoDisponibilita()));
+        tbcComuniDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniStringComuni()));
+        tbcSpecializzazioni.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniStringSpecializzazioni()));
         tableViewLavoratori.setItems(observableListlavoratori);
 
     }
@@ -128,7 +128,7 @@ public class RicercaController {
             Lavoratore lavoratoreDaEliminare = tableViewLavoratori.getSelectionModel().getSelectedItem();
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Rimuovi Lavoratore");
-            alert.setHeaderText("Sei sicuro di volere eliminare il lavoratore " + lavoratoreDaEliminare.getNome() + " " + lavoratoreDaEliminare.getCognome() + "? L'operazione è irreversibile.");
+            alert.setHeaderText("Sei sicuro di volere eliminare il lavoratore " + lavoratoreDaEliminare.ottieniNome() + " " + lavoratoreDaEliminare.ottieniCognome() + "? L'operazione è irreversibile.");
             alert.setContentText("Premere Sì per confermare, altrimenti No per annullare.");
             ButtonType buttonYes = new ButtonType("Sì");
             ButtonType btnCancel = new ButtonType("No");

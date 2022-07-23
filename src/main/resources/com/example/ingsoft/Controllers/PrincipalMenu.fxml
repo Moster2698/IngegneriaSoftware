@@ -11,7 +11,7 @@
 
 <BorderPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ingsoft.Controllers.PrincipalMenuController">
    <bottom>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backToLogin" prefHeight="35.0" prefWidth="117.0" style="-fx-background-color: #ff6f3b; -fx-text-fill: white; -fx-background-radius: 20px;" text="Logout" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true" BorderPane.alignment="CENTER_LEFT">
+      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#cambiaStageLogin" prefHeight="35.0" prefWidth="117.0" style="-fx-background-color: #ff6f3b; -fx-text-fill: white; -fx-background-radius: 20px;" text="Logout" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true" BorderPane.alignment="CENTER_LEFT">
          <font>
             <Font size="18.0" />
          </font>
@@ -23,12 +23,12 @@
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="396.0" prefWidth="502.0" BorderPane.alignment="CENTER">
          <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToRicerca" prefHeight="90.0" prefWidth="455.0" style="-fx-background-color: #7a7a7a; -fx-border-radius: 30px; -fx-background-radius: 30px; -fx-text-fill: WHITE;" text="RICERCA UN LAVORATORE" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#cambiaStageRicerca" prefHeight="90.0" prefWidth="455.0" style="-fx-background-color: #7a7a7a; -fx-border-radius: 30px; -fx-background-radius: 30px; -fx-text-fill: WHITE;" text="RICERCA UN LAVORATORE" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToIscrizione" prefHeight="90.0" prefWidth="455.0" style="-fx-background-color: #7a7a7a; -fx-text-fill: WHITE; -fx-background-radius: 30PX;" text="ISCRIVI UN NUOVO LAVORATORE" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#cambiaStageIscrizione" prefHeight="90.0" prefWidth="455.0" style="-fx-background-color: #7a7a7a; -fx-text-fill: WHITE; -fx-background-radius: 30PX;" text="ISCRIVI UN NUOVO LAVORATORE" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true">
                <font>
                   <Font size="20.0" />
                </font>

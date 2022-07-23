@@ -36,7 +36,7 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
         return null;
     }
     @Override
-    public List<Lavoratore> getLavoratori() {
+    public List<Lavoratore> ottieniLavoratori() {
         return lavoratori;
     }
 
@@ -48,26 +48,26 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
             return lavoratori.stream().filter(lavoratore -> {
                 boolean isValid = true;
                 if (!nome.isEmpty() || !nome.isBlank())
-                    isValid = lavoratore.getNome().equalsIgnoreCase(nome);
+                    isValid = lavoratore.ottieniNome().equalsIgnoreCase(nome);
                 if (!cognome.isEmpty() || !cognome.isBlank())
-                    isValid = isValid && lavoratore.getCognome().equalsIgnoreCase(cognome);
+                    isValid = isValid && lavoratore.ottieniCognome().equalsIgnoreCase(cognome);
                 if (dataInizio != null && dataFine != null) {
-                    isValid = isValid && dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita());
+                    isValid = isValid && dataInizio.isBefore(lavoratore.ottieniInizioDisponibilita()) && dataFine.isAfter(lavoratore.ottieniFineDisponibilita());
                 } else if (dataInizio != null) {
-                    isValid = isValid && (lavoratore.getInizioDisponibilita().isAfter(dataInizio) || lavoratore.getInizioDisponibilita().isEqual(dataInizio));
+                    isValid = isValid && (lavoratore.ottieniInizioDisponibilita().isAfter(dataInizio) || lavoratore.ottieniInizioDisponibilita().isEqual(dataInizio));
                 } else if (dataFine != null) {
-                    isValid = isValid && lavoratore.getFineDisponibilita().isBefore(dataFine);
+                    isValid = isValid && lavoratore.ottieniFineDisponibilita().isBefore(dataFine);
                 }
                 if (!mansioni.isEmpty() && (!mansioni.get(0).isBlank() || !mansioni.get(0).isEmpty())) {
                     isValid = isValid && mansioni.stream().anyMatch(s -> {
-                        return s.equalsIgnoreCase(lavoratore.getMansione());
+                        return s.equalsIgnoreCase(lavoratore.ottieniMansione());
                     });
                 }
                 if (!lingueParlate.isEmpty() && (!lingueParlate.get(0).isBlank() || !lingueParlate.get(0).isEmpty())) {
-                        isValid = isValid && lavoratore.getLingueParlate().containsAll(lingueParlate);
+                        isValid = isValid && lavoratore.ottieniLingueParlate().containsAll(lingueParlate);
                 }
                 if (!zonaDisponibilita.isEmpty() && (!zonaDisponibilita.get(0).isBlank() || !zonaDisponibilita.get(0).isEmpty())) {
-                    isValid = isValid && lavoratore.getComuni().stream().anyMatch(s -> {
+                    isValid = isValid && lavoratore.ottieniComuni().stream().anyMatch(s -> {
                         for (String zona : zonaDisponibilita) {
                             if (zona.equalsIgnoreCase(s))
                                 return true;
@@ -76,14 +76,14 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                     });
                 }
                 if (!cittaResidenza.isEmpty() || !cittaResidenza.isBlank()) {
-                    isValid = isValid && cittaResidenza.equalsIgnoreCase(lavoratore.getCittaResidenza());
+                    isValid = isValid && cittaResidenza.equalsIgnoreCase(lavoratore.ottieniCittaResidenza());
                 }
                 if (!automunito.isBlank()) {
                     boolean boolAuto = automunito.equals("Si");
-                    isValid = isValid && lavoratore.getAutomunito() == boolAuto;
+                    isValid = isValid && lavoratore.ottieniAutomunito() == boolAuto;
                 }
                 if (!patente.isEmpty() || !patente.isBlank()) {
-                    isValid = isValid && lavoratore.getPatente().stream().anyMatch(patente::equalsIgnoreCase);
+                    isValid = isValid && lavoratore.ottieniPatente().stream().anyMatch(patente::equalsIgnoreCase);
                 }
                 return isValid;
             }).collect(Collectors.toCollection(FXCollections::observableArrayList));
@@ -94,35 +94,33 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                 boolean empty = true;
                 if (!nome.isEmpty() || !nome.isBlank())
                 {
-                    isValid = isValid || lavoratore.getNome().equalsIgnoreCase(nome);
+                    isValid = isValid || lavoratore.ottieniNome().equalsIgnoreCase(nome);
                     empty = false;
                 }
                 if (!cognome.isEmpty() || !cognome.isBlank())
                 {
-                    isValid = isValid ||  lavoratore.getCognome().equalsIgnoreCase(cognome);
+                    isValid = isValid ||  lavoratore.ottieniCognome().equalsIgnoreCase(cognome);
                     empty = false;
                 }
                 if (dataInizio != null && dataFine != null) {
-                    isValid = isValid || dataInizio.isBefore(lavoratore.getInizioDisponibilita()) && dataFine.isAfter(lavoratore.getFineDisponibilita());
+                    isValid = isValid || dataInizio.isBefore(lavoratore.ottieniInizioDisponibilita()) && dataFine.isAfter(lavoratore.ottieniFineDisponibilita());
                 } else if (dataInizio != null) {
-                    isValid = isValid || lavoratore.getInizioDisponibilita().isAfter(dataInizio);
+                    isValid = isValid || lavoratore.ottieniInizioDisponibilita().isAfter(dataInizio);
                     empty = false;
                 } else if (dataFine != null) {
-                    isValid = isValid || lavoratore.getFineDisponibilita().isBefore(dataFine);
+                    isValid = isValid || lavoratore.ottieniFineDisponibilita().isBefore(dataFine);
                     empty = false;
                 }
                 if (!mansioni.isEmpty() && (!mansioni.get(0).isBlank() || !mansioni.get(0).isEmpty())) {
-                    isValid = isValid || mansioni.stream().anyMatch(s -> {
-                        return s.equalsIgnoreCase(lavoratore.getMansione());
-                    });
+                    isValid = isValid || mansioni.stream().anyMatch(s -> s.equalsIgnoreCase(lavoratore.ottieniMansione()));
                     empty = false;
                 }
                 if (!lingueParlate.isEmpty() && (!lingueParlate.get(0).isBlank() || !lingueParlate.get(0).isEmpty())) {
-                    isValid = isValid || lavoratore.getLingueParlate().stream().anyMatch(lingueParlate::contains);
+                    isValid = isValid || lavoratore.ottieniLingueParlate().stream().anyMatch(lingueParlate::contains);
                     empty = false;
                 }
                 if (!zonaDisponibilita.isEmpty() && (!zonaDisponibilita.get(0).isBlank() || !zonaDisponibilita.get(0).isEmpty())) {
-                    isValid =isValid || lavoratore.getComuni().stream().anyMatch(s -> {
+                    isValid =isValid || lavoratore.ottieniComuni().stream().anyMatch(s -> {
                         for (String zona : zonaDisponibilita) {
                             if (zona.equalsIgnoreCase(s))
                                 return true;
@@ -132,16 +130,16 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                     empty = false;
                 }
                 if (!cittaResidenza.isEmpty() || !cittaResidenza.isBlank()) {
-                    isValid = isValid || cittaResidenza.equalsIgnoreCase(lavoratore.getCittaResidenza());
+                    isValid = isValid || cittaResidenza.equalsIgnoreCase(lavoratore.ottieniCittaResidenza());
                     empty = false;
                 }
                 if (!automunito.isBlank()) {
                     boolean boolAuto = automunito.equals("Si");
-                    isValid = isValid || lavoratore.getAutomunito() == boolAuto;
+                    isValid = isValid || lavoratore.ottieniAutomunito() == boolAuto;
                     empty = false;
                 }
                 if (!patente.isEmpty() || !patente.isBlank()) {
-                    isValid = isValid || lavoratore.getPatente().stream().anyMatch(patente::equalsIgnoreCase);
+                    isValid = isValid || lavoratore.ottieniPatente().stream().anyMatch(patente::equalsIgnoreCase);
                     empty = false;
                 }
                 if(empty)
@@ -153,16 +151,16 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
 
     @Override
     public ObservableList<Lavoro> OttieniLavoro(Lavoratore lavoratore) {
-        return  FXCollections.observableList(lavoratore.OttieniLavori());
+        return  FXCollections.observableList(lavoratore.ottieniLavori());
     }
 
     @Override
-    public void add(Lavoratore lavoratore) {
+    public void aggiungiLavoratore(Lavoratore lavoratore) {
         if(!lavoratori.contains(lavoratore))
             lavoratori.add(lavoratore);
     }
 
-    public void remove(Lavoratore lavoratore) {
+    public void rimuoviLavoratore(Lavoratore lavoratore) {
         lavoratori.remove(lavoratore);
     }
 }

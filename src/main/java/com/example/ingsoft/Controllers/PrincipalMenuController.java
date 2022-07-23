@@ -15,7 +15,7 @@ public class PrincipalMenuController {
     private Scene scene;
     private Parent root;
 
-    public void switchToRicerca(ActionEvent event) throws IOException {
+    public void cambiaStageRicerca(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Ricerca.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -23,7 +23,7 @@ public class PrincipalMenuController {
         stage.show();
     }
 
-    public void switchToIscrizione(ActionEvent event) throws IOException {
+    public void cambiaStageIscrizione(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Iscrizione.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -31,7 +31,7 @@ public class PrincipalMenuController {
         stage.setScene(scene);
         stage.show();
     }
-    public void backToLogin(ActionEvent event) throws IOException {
+    public void cambiaStageLogin(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

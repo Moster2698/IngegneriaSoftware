@@ -1,17 +1,14 @@
 package com.example.ingsoft.Model.guiData;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class ComuniProvider {
     private final static ComuniProvider instance = new ComuniProvider();
-    private final ObservableList<String> listaComuni = comuni();
+    private final List<String> listaComuni = leggiComuniDaFile();
 
     private ComuniProvider() {
     }
@@ -19,12 +16,12 @@ public class ComuniProvider {
     public static ComuniProvider getInstance() {
         return instance;
     }
-    public ObservableList<String> getListaComuni(){
+    public List<String> ottieniListaComuni(){
         return listaComuni;
     }
-    private ObservableList<String> comuni() {
+    private List<String> leggiComuniDaFile() {
         try {
-            ObservableList<String> com = FXCollections.observableArrayList();
+            List<String> com = new ArrayList<>();
             String line;
             //parsing a CSV file into BufferedReader class constructor
             BufferedReader br = new BufferedReader(new FileReader("comuni.csv"));

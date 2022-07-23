@@ -23,10 +23,10 @@ public class DateDTPValidator implements  Validate{
     public void add(DatePicker pre,DatePicker post){
         dtpPrePost.put(pre,post);
     }
-    private boolean checkSingoli(){
+    private boolean controllaDatePickerData(){
         boolean flag = true;
         for(DatePicker dtp : dtpSingoli){
-            int age = calculateAge(dtp.getValue(), LocalDate.now());
+            int age = calcolaEta(dtp.getValue(), LocalDate.now());
             if(dtp.getValue() == null || (age< 16 || age>67)){
                 flag = false;
                 dtp.setStyle(cssRedBorder);
@@ -37,7 +37,7 @@ public class DateDTPValidator implements  Validate{
         }
         return flag;
     }
-    private  boolean checkPrePost(){
+    private  boolean controllaDueDatePicker(){
         boolean flag = true;
         DatePicker dtpInizioLavoro, dtpFineLavoro;
         for(Map.Entry<DatePicker,DatePicker> entry : dtpPrePost.entrySet()){
@@ -67,12 +67,12 @@ public class DateDTPValidator implements  Validate{
     }
     @Override
     public boolean validate() {
-        boolean checkSingoli = checkSingoli();
-        boolean checkPrePost = checkPrePost();
+        boolean checkSingoli = controllaDatePickerData();
+        boolean checkPrePost = controllaDueDatePicker();
         return  checkSingoli && checkPrePost;
     }
 
-    private static int calculateAge(LocalDate birthDate, LocalDate currentDate) {
+    private int calcolaEta(LocalDate birthDate, LocalDate currentDate) {
         if ((birthDate != null) && (currentDate != null)) {
             return Period.between(birthDate, currentDate).getYears();
         } else {

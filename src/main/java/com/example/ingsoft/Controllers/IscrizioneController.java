@@ -59,18 +59,18 @@ public class IscrizioneController {
                 ,txtEmail,txtNomeEmergenza, txtCognomeEmergenza, txtIndirizzoEmergenza);
         comuni = new TreeSet<>();
         validator = new Validator();
-        validator.addStringTextField(stringTextFields);
-        validator.addStringTextField(txtCivico);
-        validator.addNumberTextField(txtCap,5);
-        validator.addNumberTextField(txtTelefonoEmergenza,10);
-        validator.addNumberTextField(txtRecTel,10,true);
-        validator.addSingleDatePicker(dPickerNascita);
-        validator.addDoubleDatePicker(dPInizioLavoro,dPFineLavoro);
-        validator.addComboBox(comuneNascitaComboBox);
-        validator.addComboBox(mansioneComboBox);
-        validator.addComboBox(lingueComboBox);
-        validator.addComboBox(comuneComboBox);
-        validator.addComboBox(comuneResidenzaComboBox);
+        validator.aggiungiStringTextField(stringTextFields);
+        validator.aggiungiStringTextField(txtCivico);
+        validator.aggiungiNumberTextField(txtCap,5);
+        validator.aggiungiNumberTextField(txtTelefonoEmergenza,10);
+        validator.aggiungiNumberTextField(txtRecTel,10,true);
+        validator.aggiungiDatePickerSingolo(dPickerNascita);
+        validator.aggiungiDatePickerCombinato(dPInizioLavoro,dPFineLavoro);
+        validator.aggiungiComboBox(comuneNascitaComboBox);
+        validator.aggiungiComboBox(mansioneComboBox);
+        validator.aggiungiComboBox(lingueComboBox);
+        validator.aggiungiComboBox(comuneComboBox);
+        validator.aggiungiComboBox(comuneResidenzaComboBox);
         InserisciComuniNelleComboBox();
         lingueComboBox.getItems().setAll(Arrays.asList(Lingua.values()));
         patenteComboBox.getItems().setAll(Arrays.asList(Patente.values()));
@@ -165,7 +165,7 @@ public class IscrizioneController {
      */
     private void InserisciComuniNelleComboBox(){
         ComuniProvider cp = ComuniProvider.getInstance();
-        ObservableList<String> comuniDaModel = model.OttieniComuni();
+        ObservableList<String> comuniDaModel = model.ottieniListaComuni();
         comuneComboBox.setItems(comuniDaModel);
         comuneNascitaComboBox.setItems(comuniDaModel);
         comuneResidenzaComboBox.setItems(comuniDaModel);
@@ -241,7 +241,7 @@ public class IscrizioneController {
      * @param event Click dell'utente
      * @throws IOException eccezione se non esiste il file PrincipalMenu.fxml
      */
-    public void backToPrincipalMenu(ActionEvent event) throws IOException {
+    public void cambiaStageMenu(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PrincipalMenu.fxml")));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene  scene = new Scene(root);

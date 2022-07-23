@@ -33,44 +33,44 @@ public class Lavoro  implements Serializable {
                 ", retribuzioneGiornaliera=" + retribuzioneGiornaliera +
                 '}';
     }
-    public LocalDate OttieniDataInizioLavoro(){
+    public LocalDate ottieniDataInizioLavoro(){
         return inizioDataLavoro;
     }
-    public LocalDate OttieniDataFineLavoro(){
+    public LocalDate ottieniDataFineLavoro(){
         return fineDataLavoro;
     }
-    public String OttieniNomeAzienda(){
+    public String ottieniNomeAzienda(){
         return nomeAzienda;
     }
-    public String OttieniMansioneSvolte(){
+    public String ottieniMansioneSvolte(){
         return mansioneSvolta;
     }
-    public String OttieniLuogoLavoro(){
+    public String ottieniLuogoLavoro(){
         return luogoLavoro;
     }
-    public int OttieniRetribuzioneOrariaLorda(){
+    public int ottieniRetribuzioneOrariaLorda(){
         return  retribuzioneGiornaliera;
     }
-    public void CambiaNomeAzienda(String nomeAzienda){
+    public void cambiaNomeAzienda(String nomeAzienda){
         this.nomeAzienda = nomeAzienda;
     }
-    public void CambiaMansioneSvolta(String mansioneSvolta){
+    public void cambiaMansioneSvolta(String mansioneSvolta){
         this.mansioneSvolta = mansioneSvolta;
     }
-    public void CambiaLuogoLavoro(String luogoLavoro){
+    public void cambiaLuogoLavoro(String luogoLavoro){
         this.luogoLavoro = luogoLavoro;
     }
-    public void CambiaRetribuzione(int retribuzioneGiornaliera){
+    public void cambiaRetribuzione(int retribuzioneGiornaliera){
         this.retribuzioneGiornaliera = retribuzioneGiornaliera;
     }
-    public void CambiaDataInizio(LocalDate inizioDataLavoro){
+    public void cambiaDataInizio(LocalDate inizioDataLavoro){
         this.inizioDataLavoro = inizioDataLavoro;
     }
-    public void CambiaDataFine(LocalDate fineDataLavoro){
+    public void cambiaDataFine(LocalDate fineDataLavoro){
         this.fineDataLavoro = fineDataLavoro;
     }
-    public String OttieniPeriodo(){
-        return OttieniDataInizioLavoro().toString() + " / " + OttieniDataFineLavoro().toString();
+    public String ottieniPeriodo(){
+        return ottieniDataInizioLavoro().toString() + " / " + ottieniDataFineLavoro().toString();
     }
 
     @Override

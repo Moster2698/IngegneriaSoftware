@@ -67,7 +67,7 @@ public class Lavoratore extends Persona implements Serializable {
                 ", nazionalita='" + nazionalita + '\'' +
                 ", recTel='" + recTel + '\'' +
                 ", email='" + email + '\'' +
-                ", patente='" + getStringPatente() + '\'' +
+                ", patente='" + ottieniStringPatente() + '\'' +
                 ", cittaResidenza='" + cittaResidenza + '\'' +
                 ", viaResidenza='" + viaResidenza + '\'' +
                 ", civicoResidenza='" + civicoResidenza + '\'' +
@@ -94,72 +94,72 @@ public class Lavoratore extends Persona implements Serializable {
         return false;
     }
 
-    public SortedSet<String> getComuni(){
+    public SortedSet<String> ottieniComuni(){
         return comuni;
     }
-    public List<String> getPatente() {
+    public List<String> ottieniPatente() {
         return patenti;
     }
-    public String getCognome(){
+    public String ottieniCognome(){
         return cognome;
     }
-    public String getNome(){
+    public String ottieniNome(){
         return nome;
     }
-    public String getLuogoDiNascita(){return luogoDiNascita;}
-    public LocalDate getInizioDisponibilita(){
+    public String ottieniLuogoDiNascita(){return luogoDiNascita;}
+    public LocalDate ottieniInizioDisponibilita(){
         return inizioDisponibilita;
     }
-    public LocalDate getFineDisponibilita(){
+    public LocalDate ottieniFineDisponibilita(){
         return fineDisponibilita;
     }
-    public boolean getAutomunito(){
+    public boolean ottieniAutomunito(){
         return automunito;
     }
-    public String getMansione(){
+    public String ottieniMansione(){
         return mansione;
     }
-    public void AggiungiLavoro(Lavoro lavoro){
+    public void aggiungiLavoro(Lavoro lavoro){
         lavori.add(lavoro);
     }
 
-    public List<String> getLingueParlate() {
+    public List<String> ottieniLingueParlate() {
         return lingueParlate;
     }
-    public LocalDate getDataDiNascita(){
+    public LocalDate ottieniDataDiNascita(){
         return dataDiNascita;
     }
 
-    public String getStringComuni(){
+    public String ottieniStringComuni(){
         String com = comuni.toString();
         com = com.substring(1,com.length()-1);
         return com;
     }
-    public String getStringLingue(){
+    public String ottieniStringLingue(){
         String ling = lingueParlate.toString();
         ling = ling.substring(1,ling.length()-1);
         return ling;
     }
-    public List<String> getSpecializzazioni(){
+    public List<String> ottieniSpecializzazioni(){
         return specializzazioni;
     }
-    public String getStringSpecializzazioni(){
+    public String ottieniStringSpecializzazioni(){
         String mansioni = specializzazioni.toString();
         mansioni = mansioni.substring(1,mansioni.length()-1);
         return mansioni;
     }
-    public String getStringPatente(){
+    public String ottieniStringPatente(){
         String patente = patenti.toString();
         patente = patente.substring(1,patente.length()-1);
         return patente;
     }
-    public String getDisponibilita(){
+    public String ottieniPeriodoDisponibilita(){
         return inizioDisponibilita.toString() + " / " + fineDisponibilita.toString();
     }
-    public String getCittaResidenza(){
+    public String ottieniCittaResidenza(){
         return cittaResidenza;
     }
-    public List<Lavoro> OttieniLavori(){
+    public List<Lavoro> ottieniLavori(){
         return lavori;
     }
 

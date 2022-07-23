@@ -29,39 +29,39 @@ public class Model {
                     = new FileOutputStream("yourfile.txt");
             ObjectOutputStream objectOutputStream
                     = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(lavoratoreDao.getLavoratori());
+            objectOutputStream.writeObject(lavoratoreDao.ottieniLavoratori());
         }catch(Exception e){
             System.out.println(e);
         }
     }
     public void AggiungiLavoratore(Lavoratore lavoratore){
-        lavoratoreDao.add(lavoratore);
+        lavoratoreDao.aggiungiLavoratore(lavoratore);
         SalvaSuFile();
     }
     public void RimuoviLavoratore(Lavoratore lavoratore){
-        lavoratoreDao.remove(lavoratore);
+        lavoratoreDao.rimuoviLavoratore(lavoratore);
         SalvaSuFile();
     }
     public ObservableList<Lavoratore> OttieniLavoratori(){
-        return FXCollections.observableArrayList(lavoratoreDao.getLavoratori());
+        return FXCollections.observableArrayList(lavoratoreDao.ottieniLavoratori());
     }
     public ObservableList<Lavoratore> cercaLavoratori(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, List<String> mansioni,
                               List<String> zonaDisponibilita, String cittaResidenza, String automunito, String patente,boolean isOr){
         return FXCollections.observableArrayList(lavoratoreDao.cercaLavoratori(nome,cognome,lingueParlate,dataInizio,dataFine,mansioni,zonaDisponibilita,cittaResidenza,automunito,patente,isOr));
     }
-    public ObservableList<String> OttieniComuni(){
-        return comuniProvider.getListaComuni();
+    public ObservableList<String> ottieniListaComuni(){
+        return FXCollections.observableList(comuniProvider.ottieniListaComuni());
     }
 
-    public ObservableList<Lavoro> OttieniLavori(Lavoratore lavoratore){
-        return FXCollections.observableList(lavoratore.OttieniLavori());
+    public ObservableList<Lavoro> ottieniLavoriDaLavoratore(Lavoratore lavoratore){
+        return FXCollections.observableList(lavoratore.ottieniLavori());
     }
-    public void AggiungiLavoroAlLavoratore(Lavoratore lavoratore,Lavoro lavoro){
-        lavoratore.AggiungiLavoro(lavoro);
+    public void aggiungiLavoroAlLavoratore(Lavoratore lavoratore, Lavoro lavoro){
+        lavoratore.aggiungiLavoro(lavoro);
         SalvaSuFile();
     }
-    public void RimuoviLavoroAlLavoratore(Lavoratore lavoratore, Lavoro lavoro){
-        lavoratore.OttieniLavori().remove(lavoro);
+    public void rimuoviLavoroAlLavoratore(Lavoratore lavoratore, Lavoro lavoro){
+        lavoratore.ottieniLavori().remove(lavoro);
         SalvaSuFile();
     }
 

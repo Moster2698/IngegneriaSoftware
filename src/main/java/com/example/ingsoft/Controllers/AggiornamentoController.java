@@ -5,7 +5,6 @@ import com.example.ingsoft.Controllers.Validation.Validator;
 import com.example.ingsoft.Model.Lavoro.Lavoro;
 import com.example.ingsoft.Model.Model;
 import com.example.ingsoft.Model.Persona.Lavoratore;
-import com.example.ingsoft.Model.guiData.ComuniProvider;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -46,19 +45,19 @@ public class AggiornamentoController {
         Platform.runLater(() -> {
             model = Model.OttieniIstanza();
             listaLavori = FXCollections.observableArrayList();
-            listaLavori.addAll(model.OttieniLavori(lavoratoreDaModificare));
-            tbcAzienda.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().OttieniNomeAzienda()));
-            tbcMansione.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().OttieniMansioneSvolte()));
-            tbcLuogo.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().OttieniLuogoLavoro()));
-            tbcRetribuzione.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().OttieniRetribuzioneOrariaLorda())));
-            tbcPeriodo.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().OttieniPeriodo()));
+            listaLavori.addAll(model.ottieniLavoriDaLavoratore(lavoratoreDaModificare));
+            tbcAzienda.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniNomeAzienda()));
+            tbcMansione.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniMansioneSvolte()));
+            tbcLuogo.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniLuogoLavoro()));
+            tbcRetribuzione.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().ottieniRetribuzioneOrariaLorda())));
+            tbcPeriodo.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniPeriodo()));
             tableViewLavori.setItems(listaLavori);
             validator = new Validator();
-            validator.addStringTextField(txtMansione);
-            validator.addStringTextField(txtAzienda);
-            validator.addComboBox(comuneComboBox);
-            validator.addNumberTextField(txtRetribuzione,-1);
-            InserisciComuniNelleComboBox();
+            validator.aggiungiStringTextField(txtMansione);
+            validator.aggiungiStringTextField(txtAzienda);
+            validator.aggiungiComboBox(comuneComboBox);
+            validator.aggiungiNumberTextField(txtRetribuzione,-1);
+            inserisciComuniNelleComboBox();
             TextFormatterFactory textFormatterFactory = new TextFormatterFactory();
             txtMansione.setTextFormatter(textFormatterFactory.OttieniTextFormatter("string"));
             txtRetribuzione.setTextFormatter(textFormatterFactory.OttieniTextFormatter("numero"));
@@ -66,7 +65,7 @@ public class AggiornamentoController {
             lavoroDaModificare = null;
             tableViewLavori.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
                 if (newSelection != null) {
-                    ModificaLavoratore(newSelection);
+                    modificaLavoratore(newSelection);
                 }
             });
             tableViewLavori.setRowFactory(tv -> {
@@ -76,33 +75,32 @@ public class AggiornamentoController {
                         modifica = false;
                         lavoroDaModificare = null;
                         tableViewLavori.getSelectionModel().clearSelection();
-                        resetFields();
+                        resettaCampiGui();
                     }
                 });
                 return row;
             });
             dtpInizioLavoro.getEditor().setEditable(false);
             dtpFineLavoro.getEditor().setEditable(false);
-            txtCognome.setText(lavoratoreDaModificare.getCognome());
-            txtNome.setText(lavoratoreDaModificare.getNome());
+            txtCognome.setText(lavoratoreDaModificare.ottieniCognome());
+            txtNome.setText(lavoratoreDaModificare.ottieniNome());
         });
 
     }
 
-    private void ModificaLavoratore(Lavoro lavoro) {
-        txtAzienda.setText(lavoro.OttieniNomeAzienda());
-        txtRetribuzione.setText(String.valueOf(lavoro.OttieniRetribuzioneOrariaLorda()));
-        txtMansione.setText(lavoro.OttieniMansioneSvolte());
-        comuneComboBox.getSelectionModel().select(lavoro.OttieniLuogoLavoro());
-        dtpInizioLavoro.setValue(lavoro.OttieniDataInizioLavoro());
-        dtpFineLavoro.setValue(lavoro.OttieniDataFineLavoro());
+    private void modificaLavoratore(Lavoro lavoro) {
+        txtAzienda.setText(lavoro.ottieniNomeAzienda());
+        txtRetribuzione.setText(String.valueOf(lavoro.ottieniRetribuzioneOrariaLorda()));
+        txtMansione.setText(lavoro.ottieniMansioneSvolte());
+        comuneComboBox.getSelectionModel().select(lavoro.ottieniLuogoLavoro());
+        dtpInizioLavoro.setValue(lavoro.ottieniDataInizioLavoro());
+        dtpFineLavoro.setValue(lavoro.ottieniDataFineLavoro());
         modifica = true;
         lavoroDaModificare = lavoro;
     }
 
-    private void InserisciComuniNelleComboBox() {
-        ComuniProvider cp = ComuniProvider.getInstance();
-        ObservableList<String> comuniDaModel = model.OttieniComuni();
+    private void inserisciComuniNelleComboBox() {
+        ObservableList<String> comuniDaModel = model.ottieniListaComuni();
         comuneComboBox.setItems(comuniDaModel);
     }
 
@@ -111,7 +109,7 @@ public class AggiornamentoController {
     }
 
     @FXML
-    public void backToPrincipalMenu(ActionEvent event) throws IOException {
+    public void cambiaStageRicerca(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Ricerca.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -129,30 +127,32 @@ public class AggiornamentoController {
         nomeAzienda = txtAzienda.getText().trim();
         dataInizioLavoro = dtpInizioLavoro.getValue();
         dataFineLavoro = dtpFineLavoro.getValue();
-        if(validator.validate()) {
+        boolean n1 = controllaDatePickers();
+        boolean n2 = validator.validate();
+        if(n1 && n2) {
             Lavoro lavoro = new Lavoro(dataInizioLavoro, dataFineLavoro, nomeAzienda, comune, mansione, Integer.valueOf(retribuzioneLorda));
-            if (PossoInserireLavoro(lavoro)) {
+            if (possoInserireLavoro(lavoro)) {
                 if (!modifica) {
                     listaLavori.add(lavoro);
-                    model.AggiungiLavoroAlLavoratore(lavoratoreDaModificare, lavoro);
+                    model.aggiungiLavoroAlLavoratore(lavoratoreDaModificare, lavoro);
                 } else {
-                    lavoroDaModificare.CambiaDataInizio(dataInizioLavoro);
-                    lavoroDaModificare.CambiaLuogoLavoro(comune);
-                    lavoroDaModificare.CambiaDataFine(dataFineLavoro);
-                    lavoroDaModificare.CambiaMansioneSvolta(mansione);
-                    lavoroDaModificare.CambiaRetribuzione(Integer.valueOf(retribuzioneLorda));
-                    lavoroDaModificare.CambiaNomeAzienda(nomeAzienda);
+                    lavoroDaModificare.cambiaDataInizio(dataInizioLavoro);
+                    lavoroDaModificare.cambiaLuogoLavoro(comune);
+                    lavoroDaModificare.cambiaDataFine(dataFineLavoro);
+                    lavoroDaModificare.cambiaMansioneSvolta(mansione);
+                    lavoroDaModificare.cambiaRetribuzione(Integer.valueOf(retribuzioneLorda));
+                    lavoroDaModificare.cambiaNomeAzienda(nomeAzienda);
                     model.SalvaSuFile();
                 }
                 modifica = false;
                 lavoroDaModificare = null;
-                resetFields();
+                resettaCampiGui();
                 tableViewLavori.refresh();
             }
         }
     }
 
-    private void resetFields() {
+    private void resettaCampiGui() {
         txtRetribuzione.setText("");
         txtAzienda.setText("");
         txtMansione.setText("");
@@ -162,16 +162,19 @@ public class AggiornamentoController {
 
     }
 
-    private boolean PossoInserireLavoro(Lavoro lavoro) {
-        return !listaLavori.contains(lavoro) && checkDtp() && checkTextFields();
+    private boolean possoInserireLavoro(Lavoro lavoro) {
+        return !listaLavori.contains(lavoro);
     }
 
-    private boolean checkDtp() {
+    private boolean controllaDatePickers() {
         boolean isValid = true;
-        if (dtpInizioLavoro != null && dtpFineLavoro != null) {
+        if(dtpInizioLavoro.getValue() == null || dtpFineLavoro.getValue() == null)
+            isValid = false;
+        else if (dtpInizioLavoro.getValue() != null && dtpFineLavoro.getValue() != null) {
             isValid = dtpInizioLavoro.getValue().isAfter(LocalDate.now().minusYears(5)) && dtpFineLavoro.getValue().isAfter(dtpInizioLavoro.getValue())
                     && dtpFineLavoro.getValue().isBefore(LocalDate.now());
         }
+
         if (!isValid) {
             dtpInizioLavoro.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
             dtpFineLavoro.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
@@ -183,22 +186,10 @@ public class AggiornamentoController {
         return isValid;
     }
 
-    private boolean checkTextFields() {
-        String nomeAz = txtNome.getText().trim();
-        String mansione = txtMansione.getText().trim();
-        boolean isValid = true;
-        if (nomeAz.isBlank() || nomeAz.isEmpty())
-            isValid = false;
-        if (mansione.isBlank() || mansione.isEmpty())
-            isValid = false;
-        if (txtRetribuzione.getText().isEmpty() || txtRetribuzione.getText().isBlank())
-            isValid = false;
-        return isValid;
-    }
 
     public void handleElimina(ActionEvent actionEvent) {
         if (tableViewLavori.getSelectionModel().getSelectedItem() != null) {
-            model.RimuoviLavoroAlLavoratore(lavoratoreDaModificare, tableViewLavori.getSelectionModel().getSelectedItem());
+            model.rimuoviLavoroAlLavoratore(lavoratoreDaModificare, tableViewLavori.getSelectionModel().getSelectedItem());
             modifica = false;
             lavoroDaModificare = null;
             tableViewLavori.getSelectionModel().clearSelection();
