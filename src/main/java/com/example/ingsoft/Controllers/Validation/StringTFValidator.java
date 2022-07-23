@@ -14,10 +14,12 @@ class StringTFValidator implements  Validate{
     {
         this.textFields.addAll(textFields);
     }
-    @Override
-    /*
-      Controllo che tutti i textFields sono non nulli e che ci sia un valore al loro interno
+
+    /***
+     * Controlla che tutte le textField non siano vuote o che non esistano
+     * @return Se le TextFields sono valide
      */
+    @Override
     public boolean validate() {
         boolean flag = true;
         for(TextField tf : textFields){

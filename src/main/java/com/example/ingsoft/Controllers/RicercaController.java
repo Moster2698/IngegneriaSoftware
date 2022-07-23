@@ -49,6 +49,10 @@ public class RicercaController {
     private ToggleGroup toggleGiunzioniRicerca, toggleAutomunito;
     private ObservableList<Lavoratore> observableListlavoratori;
     private Model model;
+
+    /***
+     * Si inizializzano i campi della tabella, il model e i dati che la tabella avrà al suo interno.
+     */
     @FXML
     public void initialize(){
         model = Model.OttieniIstanza();
@@ -66,6 +70,11 @@ public class RicercaController {
         tableViewLavoratori.setItems(observableListlavoratori);
 
     }
+
+    /***
+     * Evento di quando l'utente clicca il pulsante Ricerca. Si ricavano i dati inseriti nelle Input Box e si esegue una ricerca
+     * all'interno del sistema dei lavoratori disponibili. Successivamente si aggiorna la tabella.
+     */
     @FXML
     private void Ricerca(){
         String nome, cognome, cittaResidenza, patente,automunito;
@@ -95,6 +104,12 @@ public class RicercaController {
          */
 
     }
+
+    /***
+     * Ritorna al menù principale
+     * @param event Click del pulsante Indietro
+     * @throws IOException
+     */
     @FXML
     public void backToPrincipalMenu(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PrincipalMenu.fxml")));
@@ -105,7 +120,11 @@ public class RicercaController {
     }
 
 
-
+    /***
+     * Evento quando si clicca il pulsante Modifica. Se un lavoratore è selezionato nella TableView si apre un nuovo stage contenente la GUI per l'aggiornamento dei dati
+     * @param event Click del pulsante Modifica
+     * @throws IOException Se il file Aggiornamento.fxml non esiste
+     */
     public void Modifica(ActionEvent event) throws IOException {
         if(tableViewLavoratori.getSelectionModel().getSelectedItem()!=null){
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Aggiornamento.fxml"));

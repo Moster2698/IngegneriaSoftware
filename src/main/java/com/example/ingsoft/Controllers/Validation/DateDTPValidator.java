@@ -23,6 +23,11 @@ class DateDTPValidator implements  Validate{
     public void add(DatePicker pre,DatePicker post){
         dtpPrePost.put(pre,post);
     }
+
+    /***
+     * Controlla un singolo DatePicker, se l'anno è minore di 16 o maggiore di 67 va in errore
+     * @return Se DatePicker singolo è valido
+     */
     private boolean controllaDatePickerData(){
         boolean flag = true;
         for(DatePicker dtp : dtpSingoli){
@@ -37,6 +42,11 @@ class DateDTPValidator implements  Validate{
         }
         return flag;
     }
+
+    /***
+     * Controlla se due DatePicker hanno i dati correttemente inseriti. Il DatePicker precedente deve avere una data minore di quello successivo, inoltre le due date non devono essere nulle.
+     * @return Se le coppie dei DatePicker sono valide
+     */
     private  boolean controllaDueDatePicker(){
         boolean flag = true;
         DatePicker dtpInizioLavoro, dtpFineLavoro;

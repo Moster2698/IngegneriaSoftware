@@ -5,10 +5,14 @@ import javafx.scene.control.TextFormatter;
 import java.util.function.UnaryOperator;
 
 class TextFormatterString {
-    public TextFormatter OttieniTextFormatter(){
-        return new TextFormatter(soloNumeri);
+    public TextFormatter ottieniTextFormatter(){
+        return new TextFormatter(soloCaratteri);
     }
-    private UnaryOperator<TextFormatter.Change> soloNumeri = change -> {
+
+    /***
+     * Controlal che i dati inseriti siano solo Stringhes
+     */
+    private UnaryOperator<TextFormatter.Change> soloCaratteri = change -> {
         String text = change.getText();
 
         if (text.matches("[a-zA-Z]*")) {

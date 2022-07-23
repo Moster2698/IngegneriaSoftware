@@ -14,6 +14,10 @@ class ComboBoxValidator implements Validate {
         comboBoxList.add(comboBox);
     }
 
+    /***
+     * Controlla che il valore selezionato nella combobox non sia vuoto
+     * @return Se la ComboBox è valida
+     */
     @Override
     public boolean validate() {
         boolean isValid = true;

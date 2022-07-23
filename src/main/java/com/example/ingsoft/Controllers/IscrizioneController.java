@@ -48,6 +48,10 @@ public class IscrizioneController {
     private ComboBox<Patente> patenteComboBox;
     private Model model;
     private TextFormatterFactory textFormatterFactory;
+
+    /***
+     * Inizializza il model e tutti i dati che serviranno per la validazione dei dati forniti in input.
+     */
     @FXML
     public void initialize() {
 

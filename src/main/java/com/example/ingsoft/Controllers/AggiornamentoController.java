@@ -40,6 +40,9 @@ public class AggiornamentoController {
     private boolean modifica;
     private Lavoro lavoroDaModificare;
 
+    /***
+     * Inizializza il model e tutti i dati necessari alla tabella. Aggiunge inoltre degli eventHandler alla tabella.
+     */
     @FXML
     private void initialize() {
         Platform.runLater(() -> {
@@ -49,7 +52,7 @@ public class AggiornamentoController {
             tbcAzienda.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniNomeAzienda()));
             tbcMansione.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniMansioneSvolte()));
             tbcLuogo.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniLuogoLavoro()));
-            tbcRetribuzione.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().ottieniRetribuzioneOrariaLorda())));
+            tbcRetribuzione.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().ottieniRetribuzioneGiornalieraLorda())));
             tbcPeriodo.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniPeriodo()));
             tableViewLavori.setItems(listaLavori);
             validator = new Validator();
@@ -88,9 +91,14 @@ public class AggiornamentoController {
 
     }
 
+    /***
+     * Quando un utente clicca un Lavoro all'interno della tabella, inizializziamo i campi della Gui come quelli del Lavoro
+     * selezionato e poi entriamo in modalità modifica.
+     * @param lavoro Lavoro Selezionato all'interno della tabella
+     */
     private void modificaLavoratore(Lavoro lavoro) {
         txtAzienda.setText(lavoro.ottieniNomeAzienda());
-        txtRetribuzione.setText(String.valueOf(lavoro.ottieniRetribuzioneOrariaLorda()));
+        txtRetribuzione.setText(String.valueOf(lavoro.ottieniRetribuzioneGiornalieraLorda()));
         txtMansione.setText(lavoro.ottieniMansioneSvolte());
         comuneComboBox.getSelectionModel().select(lavoro.ottieniLuogoLavoro());
         dtpInizioLavoro.setValue(lavoro.ottieniDataInizioLavoro());
@@ -99,15 +107,27 @@ public class AggiornamentoController {
         lavoroDaModificare = lavoro;
     }
 
+    /***
+     * Inserisce i comuni all'interno delle ComboBox
+     */
     private void inserisciComuniNelleComboBox() {
         ObservableList<String> comuniDaModel = model.ottieniListaComuni();
         comuneComboBox.setItems(comuniDaModel);
     }
 
+    /***
+     * Quando viene invocato lo stage, passiamo come parametro un Lavoratore
+     * @param lavoratoreDaModificare Lavoratore da modificare
+     */
     public void setLavoratoreDaModificare(Lavoratore lavoratoreDaModificare) {
         this.lavoratoreDaModificare = lavoratoreDaModificare;
     }
 
+    /***
+     * Cambia stage e ritorna alla fase di ricerca
+     * @param event Click da parte dell'utente del Bottone Indietro
+     * @throws IOException Se Ricerca.fxml non esiste
+     */
     @FXML
     public void cambiaStageRicerca(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Ricerca.fxml")));
@@ -117,6 +137,11 @@ public class AggiornamentoController {
         stage.show();
     }
 
+    /***
+     * Vengono controllati i dati inseriti e se sono corretti si inserisce il lavoratore all'interno del sistema
+     * , altrimenti vengono evidenziate i dati inseriti scorrettamente.
+     * @param actionEvent Click del bottone Inserisci.
+     */
     @FXML
     private void handleInserimento(ActionEvent actionEvent) {
         String mansione, comune, retribuzioneLorda, nomeAzienda;
@@ -152,6 +177,9 @@ public class AggiornamentoController {
         }
     }
 
+    /***
+     * Resetta i campi della Gui quando viene inserito o modificato un lavoratore
+     */
     private void resettaCampiGui() {
         txtRetribuzione.setText("");
         txtAzienda.setText("");
@@ -162,10 +190,19 @@ public class AggiornamentoController {
 
     }
 
+    /**
+     * Controlla se il lavoro esiste già
+     * @param lavoro Lavoro da controllare
+     * @return true se il lavoro non è già all'interno della lista dei lavori fatti, false altrimenti.
+     */
     private boolean possoInserireLavoro(Lavoro lavoro) {
         return !listaLavori.contains(lavoro);
     }
 
+    /***
+     * Controlla se le date inserite sono corrette.
+     * @return true se le date sono inserite correttamente, false altrimenti.
+     */
     private boolean controllaDatePickers() {
         boolean isValid = true;
         if(dtpInizioLavoro.getValue() == null || dtpFineLavoro.getValue() == null)
@@ -187,6 +224,10 @@ public class AggiornamentoController {
     }
 
 
+    /***
+     * Elimina un lavoratore selezionato
+     * @param actionEvent Click bottone elimina
+     */
     public void handleElimina(ActionEvent actionEvent) {
         if (tableViewLavori.getSelectionModel().getSelectedItem() != null) {
             model.rimuoviLavoroAlLavoratore(lavoratoreDaModificare, tableViewLavori.getSelectionModel().getSelectedItem());

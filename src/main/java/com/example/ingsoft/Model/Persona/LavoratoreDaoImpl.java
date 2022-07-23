@@ -13,9 +13,13 @@ import java.util.stream.Collectors;
 public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
     private final List<Lavoratore> lavoratori;
 
+
     public LavoratoreDaoImpl(){
         lavoratori = deSerializzaFile();
     }
+    /***
+     * Legge il file dove sono salvati i dati del sistema e li salva all'interno di una lista
+     */
     private List<Lavoratore> deSerializzaFile(){
         try{
             FileInputStream fileInputStream
@@ -35,12 +39,32 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
         }
         return null;
     }
+
+    /***
+     * Ottieni i lavoratori del sistema
+     * @return Lavoratori attualmente inseriti nel sistema
+     */
     @Override
     public List<Lavoratore> ottieniLavoratori() {
         return lavoratori;
     }
 
 
+    /***
+     * Cerca un lavoratore specificato da questi parametri
+     * @param nome Nome lavoratore
+     * @param cognome Cognome lavoratore
+     * @param lingueParlate Lingue parlate del lavoratore
+     * @param dataInizio Giorno d'inizio del periodo di disponibilità
+     * @param dataFine Giorno di fine del periodo di disponibilità
+     * @param mansioni Lista di mansioni che un lavoratore può eseguire
+     * @param zonaDisponibilita Lista di comuni dove un lavoratore può lavorare
+     * @param cittaResidenza Città di residenza del Lavoratore
+     * @param automunito Valore booleano che identifica se il lavoratore è automunito
+     * @param patente Lista di patenti che un lavoratore deve avere
+     * @param isOr Se true la ricerca è fatta in OR, false in AND
+     * @return Lista di lavoratori che corrispondono alle specifiche date
+     */
     @Override
     public List<Lavoratore> cercaLavoratori(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, List<String> mansioni, List<String> zonaDisponibilita, String cittaResidenza, String automunito, String patente,boolean isOr) {
 
@@ -149,17 +173,30 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
         }
     }
 
+    /***
+     * Ottieni la lista dei lavori svolti dal lavoratore
+     * @param lavoratore Lavoratore da cui vogliamo ottenere i lavori svolti
+     * @return Lista dei lavori svolti dal lavoratore
+     */
     @Override
     public ObservableList<Lavoro> OttieniLavoro(Lavoratore lavoratore) {
         return  FXCollections.observableList(lavoratore.ottieniLavori());
     }
 
+    /***
+     * Aggiunge un lavoratore al sistema
+     * @param lavoratore  Lavoratore da aggiungere
+     */
     @Override
     public void aggiungiLavoratore(Lavoratore lavoratore) {
         if(!lavoratori.contains(lavoratore))
             lavoratori.add(lavoratore);
     }
 
+    /***
+     * Rimuovi un lavoratore dal sistema
+     * @param lavoratore  Lavoratore da rimuovere
+     */
     public void rimuoviLavoratore(Lavoratore lavoratore) {
         lavoratori.remove(lavoratore);
     }

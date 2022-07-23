@@ -86,6 +86,11 @@ public class Lavoratore extends Persona implements Serializable {
     }
 
 
+    /***
+     * Controlla se due Lavoratori sono uguali
+     * @param o Oggetto in input
+     * @return True se l'oggetto in input è un Lavoratore ed ha nome,cognome, data di nascita uguale a quello dell'istanza, false altrimenti
+     */
     @Override
     public boolean equals(Object o) {
         if(o instanceof Lavoratore other){
@@ -94,12 +99,15 @@ public class Lavoratore extends Persona implements Serializable {
         return false;
     }
 
+
     public SortedSet<String> ottieniComuni(){
         return comuni;
     }
+
     public List<String> ottieniPatente() {
         return patenti;
     }
+
     public String ottieniCognome(){
         return cognome;
     }
@@ -135,6 +143,11 @@ public class Lavoratore extends Persona implements Serializable {
         com = com.substring(1,com.length()-1);
         return com;
     }
+
+    /***
+     * Converte la lista di Lingue parlate del lavoratore in una Stringa senza le []
+     * @return lingue parlate dal lavoratore in formato stringa
+     */
     public String ottieniStringLingue(){
         String ling = lingueParlate.toString();
         ling = ling.substring(1,ling.length()-1);
@@ -143,16 +156,31 @@ public class Lavoratore extends Persona implements Serializable {
     public List<String> ottieniSpecializzazioni(){
         return specializzazioni;
     }
+
+    /***
+     * Converte la lista di specializzazioni parlate del lavoratore in una Stringa senza le []
+     * @return  Stringa contente le mansioni specificate dal lavoratore
+     */
     public String ottieniStringSpecializzazioni(){
         String mansioni = specializzazioni.toString();
         mansioni = mansioni.substring(1,mansioni.length()-1);
         return mansioni;
     }
+
+    /***
+     * Converte la lista patenti  del lavoratore in una Stringa senza le []
+     * @return  Stringa contente le patenti del lavoratore
+     */
     public String ottieniStringPatente(){
         String patente = patenti.toString();
         patente = patente.substring(1,patente.length()-1);
         return patente;
     }
+
+    /***
+     * Ottieni il periodo di disponibilità per il quale il lavoratore è predisposto a lavorare
+     * @return Stringa che identifica il periodo di disponibilità per lavorare
+     */
     public String ottieniPeriodoDisponibilita(){
         return inizioDisponibilita.toString() + " / " + fineDisponibilita.toString();
     }

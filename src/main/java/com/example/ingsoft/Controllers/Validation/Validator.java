@@ -17,6 +17,7 @@ public class Validator {
         dateDTPValidator = new DateDTPValidator();
         comboBoxValidator = new ComboBoxValidator();
     }
+    
     public void aggiungiStringTextField(List<TextField> textFields){
         stringTFValidator.add(textFields);
     }

@@ -45,7 +45,7 @@ public class Model {
 
     /***
      * Inserisce il lavoratore all'interno del sistema e salva lo stato corrente su file
-     * @param lavoratore da inserire nel sistema
+     * @param lavoratore  Lavoratore da inserire nel sistema
      */
     public void AggiungiLavoratore(Lavoratore lavoratore){
         lavoratoreDao.aggiungiLavoratore(lavoratore);
@@ -54,7 +54,7 @@ public class Model {
 
     /***
      * Rimuove il lavoratore all'interno del sistema e salva lo stato corrente su file
-     * @param lavoratore
+     * @param lavoratore Lavoratore da rimuovere
      */
     public void RimuoviLavoratore(Lavoratore lavoratore){
         lavoratoreDao.rimuoviLavoratore(lavoratore);
@@ -63,7 +63,7 @@ public class Model {
 
     /***
      * Ritorna una lista dei lavoratori attualmente inseriti nel sistema
-     * @return lista di lavoratori
+     * @return Lista di lavoratori
      */
     public ObservableList<Lavoratore> OttieniLavoratori(){
         return FXCollections.observableArrayList(lavoratoreDao.ottieniLavoratori());
@@ -73,15 +73,15 @@ public class Model {
      * Cerca un lavoratore specificato da questi parametri
      * @param nome Nome lavoratore
      * @param cognome Cognome lavoratore
-     * @param lingueParlate lingue parlate del lavoratore
-     * @param dataInizio giorno iniziale del periodo di disponibilità
-     * @param dataFine giorno finale del periodo di disponibilità
+     * @param lingueParlate Lingue parlate del lavoratore
+     * @param dataInizio Giorno d'inizio del periodo di disponibilità
+     * @param dataFine Giorno di fine del periodo di disponibilità
      * @param mansioni Lista di mansioni che un lavoratore può eseguire
      * @param zonaDisponibilita Lista di comuni dove un lavoratore può lavorare
-     * @param cittaResidenza città di residenza del Lavoratore
-     * @param automunito valore booleano che identifica se il lavoratore è automunito
-     * @param patente lista di patenti che un lavoratore deve avere
-     * @param isOr se true la ricerca è fatta in OR, false in AND
+     * @param cittaResidenza Città di residenza del Lavoratore
+     * @param automunito Valore booleano che identifica se il lavoratore è automunito
+     * @param patente Lista di patenti che un lavoratore deve avere
+     * @param isOr Se true la ricerca è fatta in OR, false in AND
      * @return Lista di lavoratori che corrispondono alle specifiche date
      */
     public ObservableList<Lavoratore> cercaLavoratori(String nome, String cognome, List<String> lingueParlate, LocalDate dataInizio, LocalDate dataFine, List<String> mansioni,
@@ -90,7 +90,7 @@ public class Model {
     }
 
     /***
-     *
+     * Ottieni una lista dei comuni italiani, è un Wrapper della classe ComuniProvider
      * @return Lista di comuni italiani
      */
     public ObservableList<String> ottieniListaComuni(){
@@ -99,22 +99,28 @@ public class Model {
 
     /***
      * Ottiene i lavori fatti dal lavoratore specificato nell'argomento
-     * @param lavoratore lavoratore da cui vogliamo ottenere i lavori
-     * @return i lavori che ha svolto il lavoratore
+     * @param lavoratore Lavoratore da cui vogliamo ottenere i lavori
+     * @return I lavori che ha svolto il lavoratore
      */
     public ObservableList<Lavoro> ottieniLavoriDaLavoratore(Lavoratore lavoratore){
         return FXCollections.observableList(lavoratore.ottieniLavori());
     }
 
     /**
-     * Aggiunge un lavoro svolto al lavoratore specificando
-     * @param lavoratore
-     * @param lavoro
+     * Aggiunge un lavoro svolto dal lavoratore specificato
+     * @param lavoratore a cui vogliamo aggiungere il lavoro
+     * @param lavoro da aggiungere
      */
     public void aggiungiLavoroAlLavoratore(Lavoratore lavoratore, Lavoro lavoro){
         lavoratore.aggiungiLavoro(lavoro);
         SalvaSuFile();
     }
+
+    /***
+     * Rimuove un lavoro svolto dal lavoratore
+     * @param lavoratore Lavoratore a cui vogliamo eliminare il lavoro
+     * @param lavoro Lavoro da eliminare dal lavoratore
+     */
     public void rimuoviLavoroAlLavoratore(Lavoratore lavoratore, Lavoro lavoro){
         lavoratore.ottieniLavori().remove(lavoro);
         SalvaSuFile();

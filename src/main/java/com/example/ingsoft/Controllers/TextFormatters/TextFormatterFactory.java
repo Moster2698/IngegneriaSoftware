@@ -9,11 +9,18 @@ public class TextFormatterFactory {
         textFormatterString = new TextFormatterString();
         textFormatterNumber = new TextFormatterNumber();
     }
+
+    /***
+     * Crea un TextFormatter in base al parametro dato
+     * @param formatter Stringa che identifica un TextFormatter, "string" rappresenta un TextFormatter che accetta
+     *                  solo caratteri alfanumerici, "numero" solo numeri.
+     * @return TextFormatter
+     */
     public TextFormatter OttieniTextFormatter(String formatter){
         if(formatter.equals("string"))
-            return textFormatterString.OttieniTextFormatter();
+            return textFormatterString.ottieniTextFormatter();
         if(formatter.equals("numero"))
-            return textFormatterNumber.OttieniTextFormatter();
+            return textFormatterNumber.ottieniTextFormatter();
             return null;
     }
 }

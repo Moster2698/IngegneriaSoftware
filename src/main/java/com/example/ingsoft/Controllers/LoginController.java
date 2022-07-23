@@ -22,7 +22,8 @@ public class LoginController {
     private Button btnAccedi;
 
     /***
-     * Se
+     * Evento di quando l'utente clicca il bottone Login. Se i dati inseriti sono corretti si procede al Menù principale,
+     * altrimenti viene mostrato un segnale di errore.
      */
     @FXML
     private void onButtonClicked() {
@@ -61,6 +62,10 @@ public class LoginController {
         new Thread(sleeper).start();
     }
 
+    /***
+     * Evento invocato quando viene inserito un valore all'interno delle TextFields, disabilita il bottone Login se i dati devono ancora essere
+     * inseriti
+     */
     @FXML
     private void onInputChanged(){
         String username = textUsername.getText();
