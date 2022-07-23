@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DateDTPValidator implements  Validate{
+class DateDTPValidator implements  Validate{
     List<DatePicker> dtpSingoli;
     HashMap<DatePicker,DatePicker> dtpPrePost;
     public DateDTPValidator(){

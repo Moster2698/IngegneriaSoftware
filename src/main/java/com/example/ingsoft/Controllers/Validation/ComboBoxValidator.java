@@ -5,7 +5,7 @@ import javafx.scene.control.ComboBox;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComboBoxValidator implements Validate {
+class ComboBoxValidator implements Validate {
     private List<ComboBox> comboBoxList;
     public ComboBoxValidator(){
         comboBoxList = new ArrayList<>();

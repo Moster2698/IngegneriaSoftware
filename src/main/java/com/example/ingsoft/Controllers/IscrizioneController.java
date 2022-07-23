@@ -5,7 +5,6 @@ import com.example.ingsoft.Controllers.TextFormatters.TextFormatterFactory;
 import com.example.ingsoft.Controllers.Validation.Validator;
 import com.example.ingsoft.Crea;
 import com.example.ingsoft.Model.AutoCompleteBox;
-import com.example.ingsoft.Model.guiData.ComuniProvider;
 import com.example.ingsoft.Model.Persona.Lavoratore;
 import com.example.ingsoft.Model.guiData.Lingua;
 import com.example.ingsoft.Model.Model;
@@ -164,7 +163,6 @@ public class IscrizioneController {
      *Inserisce la lista dei comuni italiani all'interno della ComboBox dedicata
      */
     private void InserisciComuniNelleComboBox(){
-        ComuniProvider cp = ComuniProvider.getInstance();
         ObservableList<String> comuniDaModel = model.ottieniListaComuni();
         comuneComboBox.setItems(comuniDaModel);
         comuneNascitaComboBox.setItems(comuniDaModel);

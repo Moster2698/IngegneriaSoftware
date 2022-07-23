@@ -4,7 +4,7 @@ import javafx.scene.control.TextFormatter;
 
 import java.util.function.UnaryOperator;
 
-public class TextFormatterNumber {
+class TextFormatterNumber {
     public TextFormatter OttieniTextFormatter(){
         return new TextFormatter(soloNumeri);
     }

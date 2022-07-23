@@ -5,7 +5,7 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringTFValidator implements  Validate{
+class StringTFValidator implements  Validate{
     private final List<TextField> textFields;
     public StringTFValidator(){
         textFields = new ArrayList<>();
