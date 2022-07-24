@@ -92,12 +92,24 @@ public class RicercaController {
             automunito = ((RadioButton)toggleAutomunito.getSelectedToggle()).getText();
         }
         boolean isOr = ((RadioButton) toggleGiunzioniRicerca.getSelectedToggle()).getText().equals("OR");
-        lingueParlate = new ArrayList<>(Arrays.asList(textLingue.getText().toUpperCase().trim().split(" ")));
-        zoneDisponibilita = new ArrayList<>(Arrays.asList(textDisponibilita.getText().trim().split(",")));
+        String[] lingueP = textLingue.getText().trim().split(",");
+        if(!lingueP[0].isEmpty() && !lingueP[0].isBlank()){
+            for(int i =0;i<lingueP.length;i++){
+                lingueP[i] = lingueP[i].trim().toLowerCase();
+                lingueP[i] = lingueP[i].substring(0,1).toUpperCase() + lingueP[i].substring(1);
+            }
+        }
+
+        lingueParlate = Arrays.asList(lingueP);
+        String[] zoneDisp = textDisponibilita.getText().trim().split(",");
+        for(int i=0;i<zoneDisp.length;i++)
+            zoneDisp[i] = zoneDisp[i].trim();
+        zoneDisponibilita = new ArrayList<>(Arrays.asList(zoneDisp));
+
         mansioni = new ArrayList<>(Arrays.asList(textMansione.getText().trim().split(" ")));
 
         observableListlavoratori.setAll(model.cercaLavoratori(nome,cognome,lingueParlate,dataInizio,dataFine,mansioni,zoneDisponibilita,cittaResidenza,automunito,patente,isOr));
-
+        resettaCampiGui();
         /*
         Sarebbe utile mettere un ALERT se la ricerca non produce risultati.
          */
@@ -158,5 +170,9 @@ public class RicercaController {
                 tableViewLavoratori.refresh();
             }
         }
+    }
+    private void resettaCampiGui(){
+        dtpInizio.setValue(null);
+        dtpFine.setValue(null);
     }
 }

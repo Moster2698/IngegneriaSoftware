@@ -76,11 +76,11 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                 if (!cognome.isEmpty() || !cognome.isBlank())
                     isValid = isValid && lavoratore.ottieniCognome().equalsIgnoreCase(cognome);
                 if (dataInizio != null && dataFine != null) {
-                    isValid = isValid && dataInizio.isBefore(lavoratore.ottieniInizioDisponibilita()) && dataFine.isAfter(lavoratore.ottieniFineDisponibilita());
+                    isValid = isValid && dataInizio.isBefore(lavoratore.ottieniInizioDisponibilita().plusDays(1)) && dataFine.isAfter(lavoratore.ottieniFineDisponibilita().minusDays(1));
                 } else if (dataInizio != null) {
-                    isValid = isValid && (lavoratore.ottieniInizioDisponibilita().isAfter(dataInizio) || lavoratore.ottieniInizioDisponibilita().isEqual(dataInizio));
+                    isValid = isValid && lavoratore.ottieniInizioDisponibilita().isAfter( dataInizio.minusDays(1));
                 } else if (dataFine != null) {
-                    isValid = isValid && lavoratore.ottieniFineDisponibilita().isBefore(dataFine);
+                    isValid = isValid && lavoratore.ottieniFineDisponibilita().isBefore(dataFine.plusDays(1));
                 }
                 if (!mansioni.isEmpty() && (!mansioni.get(0).isBlank() || !mansioni.get(0).isEmpty())) {
                     isValid = isValid && mansioni.stream().anyMatch(s -> {
@@ -127,12 +127,12 @@ public class LavoratoreDaoImpl implements LavoratoreDao, Serializable {
                     empty = false;
                 }
                 if (dataInizio != null && dataFine != null) {
-                    isValid = isValid || dataInizio.isBefore(lavoratore.ottieniInizioDisponibilita()) && dataFine.isAfter(lavoratore.ottieniFineDisponibilita());
+                    isValid = isValid || lavoratore.ottieniInizioDisponibilita().isAfter( dataInizio.minusDays(1)) && lavoratore.ottieniFineDisponibilita().isBefore(dataFine.plusDays(1));
                 } else if (dataInizio != null) {
-                    isValid = isValid || lavoratore.ottieniInizioDisponibilita().isAfter(dataInizio);
+                    isValid = isValid || lavoratore.ottieniInizioDisponibilita().isAfter( dataInizio.minusDays(1));
                     empty = false;
                 } else if (dataFine != null) {
-                    isValid = isValid || lavoratore.ottieniFineDisponibilita().isBefore(dataFine);
+                    isValid = isValid || lavoratore.ottieniFineDisponibilita().isBefore(dataFine.plusDays(1));
                     empty = false;
                 }
                 if (!mansioni.isEmpty() && (!mansioni.get(0).isBlank() || !mansioni.get(0).isEmpty())) {

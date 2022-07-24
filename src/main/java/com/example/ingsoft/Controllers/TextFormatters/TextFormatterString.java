@@ -15,7 +15,7 @@ class TextFormatterString {
     private UnaryOperator<TextFormatter.Change> soloCaratteri = change -> {
         String text = change.getText();
 
-        if (text.matches("[a-zA-Z]*")) {
+        if (text.matches("[a-zA-Z\s]*")) {
             return change;
         }
 

@@ -232,7 +232,9 @@ public class AggiornamentoController {
             model.rimuoviLavoroAlLavoratore(lavoratoreDaModificare, tableViewLavori.getSelectionModel().getSelectedItem());
             modifica = false;
             lavoroDaModificare = null;
+            listaLavori.remove(tableViewLavori.getSelectionModel().getSelectedItem());
             tableViewLavori.getSelectionModel().clearSelection();
+            resettaCampiGui();
             tableViewLavori.refresh();
         }
     }
