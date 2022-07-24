@@ -93,14 +93,19 @@ public class RicercaController {
         }
         boolean isOr = ((RadioButton) toggleGiunzioniRicerca.getSelectedToggle()).getText().equals("OR");
         String[] lingueP = textLingue.getText().trim().split(",");
-        if(!lingueP[0].isEmpty() && !lingueP[0].isBlank()){
-            for(int i =0;i<lingueP.length;i++){
-                lingueP[i] = lingueP[i].trim().toLowerCase();
-                lingueP[i] = lingueP[i].substring(0,1).toUpperCase() + lingueP[i].substring(1);
+        try {
+            if (!lingueP[0].isEmpty() && !lingueP[0].isBlank()) {
+                for (int i = 0; i < lingueP.length; i++) {
+                    lingueP[i] = lingueP[i].trim().toLowerCase();
+                    lingueP[i] = lingueP[i].substring(0, 1).toUpperCase() + lingueP[i].substring(1);
+                }
             }
+            lingueParlate = Arrays.asList(lingueP);
+        }
+        catch(IndexOutOfBoundsException e){
+            lingueParlate = new ArrayList<>();
         }
 
-        lingueParlate = Arrays.asList(lingueP);
         String[] zoneDisp = textDisponibilita.getText().trim().split(",");
         for(int i=0;i<zoneDisp.length;i++)
             zoneDisp[i] = zoneDisp[i].trim();

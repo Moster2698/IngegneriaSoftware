@@ -144,7 +144,7 @@ public class Lavoro  implements Serializable {
             Lavoro otherLavoro = (Lavoro) obj;
             return luogoLavoro.equalsIgnoreCase(((Lavoro) obj).luogoLavoro) && nomeAzienda.equals(otherLavoro.nomeAzienda)
                     && retribuzioneGiornaliera == otherLavoro.retribuzioneGiornaliera && fineDataLavoro.equals(otherLavoro.fineDataLavoro)
-                    && inizioDataLavoro.equals(otherLavoro.inizioDataLavoro);
+                    && inizioDataLavoro.equals(otherLavoro.inizioDataLavoro) && mansioneSvolta.equalsIgnoreCase(otherLavoro.mansioneSvolta);
         }
         return false;
     }
