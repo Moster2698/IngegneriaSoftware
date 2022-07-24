@@ -11,6 +11,7 @@ import com.example.ingsoft.Model.Model;
 import com.example.ingsoft.Model.Persona.PersonaUrgente;
 import com.example.ingsoft.Model.guiData.Mansione;
 import com.example.ingsoft.Model.guiData.Patente;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,6 +49,8 @@ public class IscrizioneController {
     private ComboBox<Patente> patenteComboBox;
     private Model model;
     private TextFormatterFactory textFormatterFactory;
+    @FXML
+    private Label lblPatenteVuota, lblLinguaVuota,lblDisponibilitaVuota, lblMansioneVuota;
 
     /***
      * Inizializza il model e tutti i dati che serviranno per la validazione dei dati forniti in input.
@@ -84,13 +87,14 @@ public class IscrizioneController {
         textFormatterFactory = new TextFormatterFactory();
         txtRecTel.setTextFormatter(textFormatterFactory.OttieniTextFormatter("numero"));
         txtTelefonoEmergenza.setTextFormatter(textFormatterFactory.OttieniTextFormatter("numero"));
+        stringTextFields.remove(txtEmail);
+        stringTextFields.remove(txtIndirizzoEmergenza);
         for(TextField tf : stringTextFields)
             tf.setTextFormatter(textFormatterFactory.OttieniTextFormatter("string"));
         dPickerNascita.setValue(LocalDate.of(1990,01,01));
         dPInizioLavoro.getEditor().setEditable(false);
         dPFineLavoro.getEditor().setEditable(false);
-        Crea crea = new Crea(100);
-        crea.CreaLavoratore();
+
     }
     /***
      * Controlla se i dati della form sono corretti, nel caso affermativo crea un lavoratore
@@ -149,13 +153,27 @@ public class IscrizioneController {
         txtRecTel.clear();
         txtTelefonoEmergenza.clear();
         txtCap.clear();
+        txtCivico.clear();
+        txtEmail.clear();
+        txtIndirizzoEmergenza.clear();
+        checkBagnino.setSelected(false);
+        checkBarman.setSelected(false);
+        checkIstruttoreNuoto.setSelected(false);
+        checkViticultore.setSelected(false);
+        checkFloricultore.setSelected(false);
+        checkAutomunito.setSelected(false);
         dPFineLavoro.setValue(null);
         dPickerNascita.setValue(null);
         dPInizioLavoro.setValue(null);
         comuneResidenzaComboBox.getSelectionModel().clearSelection();
         comuneNascitaComboBox.getSelectionModel().clearSelection();
         comuneComboBox.getSelectionModel().clearSelection();
+        mansioneComboBox.getSelectionModel().clearSelection();
         patenteComboBox.getSelectionModel().clearSelection();
+        lingueComboBox.getSelectionModel().clearSelection();
+        lblLinguaVuota.setText("");
+        lblPatenteVuota.setText("");
+        lblDisponibilitaVuota.setText("");
     }
 
     /***
@@ -166,7 +184,6 @@ public class IscrizioneController {
         comuneComboBox.setItems(comuniDaModel);
         comuneNascitaComboBox.setItems(comuniDaModel);
         comuneResidenzaComboBox.setItems(comuniDaModel);
-
     }
 
     /***
@@ -183,7 +200,6 @@ public class IscrizioneController {
             mansioniEffettuate.add("Viticultore");
         if(checkIstruttoreNuoto.isSelected())
             mansioniEffettuate.add("Istruttore di nuoto");
-
     }
 
     /***
@@ -191,17 +207,45 @@ public class IscrizioneController {
      * @return booleano che indica se i dati sono stati inseriti correttamente
      */
     private boolean FormValid() {
-        return validator.validate();
+        boolean n1,n2;
+        n1 = validator.validate();
+        n2 = controllaSeListeVuote();
+        return n1 && n2;
     }
 
+    private boolean controllaSeListeVuote(){
+        boolean isValid = true;
+        if(lingueParlate.size()==0)
+        {
+            lingueComboBox.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-background-color: transparent;");
+            isValid = false;
+        }
+        else
+           lingueComboBox.setStyle("-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;");
+        if(comuni.size()==0){
+            comuneComboBox.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-background-color: transparent;");
+            isValid = false;
+        }
+        else
+            lingueComboBox.setStyle("-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;");
+        return isValid;
+    }
     /***
      * EventHandler per la selezione del comune all'interno della ComboBox dedicata
      */
     @FXML
-    private void CbComuneSelezionato(){
-        String comuneScelto = comuneComboBox.getSelectionModel().getSelectedItem();
-        if(comuneScelto!=null)
-                comuni.add(comuneScelto);
+    private void CbComuneSelezionato() {
+        if (comuneComboBox.getSelectionModel().getSelectedItem() != null) {
+            if (comuni.contains(comuneComboBox.getSelectionModel().getSelectedItem()))
+                comuni.remove(comuneComboBox.getSelectionModel().getSelectedItem());
+            else {
+                comuni.add(comuneComboBox.getSelectionModel().getSelectedItem());
+            }
+            if (comuni.size() != 0) {
+                lblDisponibilitaVuota.setText(String.valueOf(comuni.size()));
+            } else
+                lblDisponibilitaVuota.setText("");
+        }
     }
 
     /***
@@ -209,6 +253,7 @@ public class IscrizioneController {
      */
     @FXML
     private void CbiLinguaSelezionata(){
+
         if(lingueComboBox.getSelectionModel().getSelectedItem()!=null){
             if(lingueParlate.contains(lingueComboBox.getSelectionModel().getSelectedItem().name()))
                 lingueParlate.remove(lingueComboBox.getSelectionModel().getSelectedItem().name());
@@ -216,6 +261,11 @@ public class IscrizioneController {
             {
                 lingueParlate.add(lingueComboBox.getSelectionModel().getSelectedItem().name());
             }
+            if(lingueParlate.size()!=0){
+                lblLinguaVuota.setText(String.valueOf(lingueParlate.size()));
+            }
+            else
+                lblLinguaVuota.setText("");
         }
     }
     /***
@@ -228,6 +278,12 @@ public class IscrizioneController {
                 patenti.remove(patenteComboBox.getSelectionModel().getSelectedItem().name());
             else{
                 patenti.add(patenteComboBox.getSelectionModel().getSelectedItem().name());
+            }
+            if(patenti.size()!=0)
+            {
+                lblPatenteVuota.setText(String.valueOf(patenti.size()));
+                if(patenti.size()==0)
+                    lblPatenteVuota.setText("");
             }
         }
     }

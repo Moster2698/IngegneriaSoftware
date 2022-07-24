@@ -110,7 +110,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <DatePicker fx:id="dPickerNascita" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css">
+                              <DatePicker fx:id="dPickerNascita" editable="false" prefHeight="25.0" prefWidth="369.0" promptText="Data" style="-fx-background-color: transparent; -fx-border-color: transparent transparent  #c9d1de transparent;" stylesheets="@styles.css">
                                  <tooltip>
                                     <Tooltip text="Il lavoratore non può avere meno di 16 anni e più di 67">
                                        <font>
@@ -241,11 +241,20 @@
                      <children>
                         <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="52.0" prefWidth="182.0" GridPane.rowIndex="1">
                            <children>
-                              <Label prefHeight="27.0" prefWidth="132.0" text="Tipo patente*" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label prefHeight="27.0" prefWidth="112.0" text="Tipo patente*" textFill="#7a7a7a">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblPatenteVuota" prefHeight="27.0" prefWidth="68.0" textFill="#7a7a7a">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
                               <ComboBox fx:id="patenteComboBox" maxHeight="-Infinity" maxWidth="400.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#cBPatenteSelezionata" prefHeight="33.0" prefWidth="182.0" promptText="Patente" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5" />
                            </children>
                         </VBox>
@@ -374,11 +383,20 @@
                         </VBox>
                         <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="64.0" prefWidth="228.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <children>
-                              <Label prefHeight="23.0" prefWidth="116.0" text="Disponibilità" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label prefHeight="27.0" prefWidth="104.0" text="Disponibilità" textFill="#7a7a7a">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblDisponibilitaVuota" prefHeight="27.0" prefWidth="104.0" textFill="#7a7a7a">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
                               <ComboBox fx:id="comuneComboBox" maxHeight="-Infinity" maxWidth="400.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#CbComuneSelezionato" prefHeight="28.0" prefWidth="208.0" promptText="Comune" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5">
                                  <VBox.margin>
                                     <Insets bottom="4.0" />
@@ -387,14 +405,20 @@
                         </VBox>
                         <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="182.0" GridPane.rowIndex="2">
                            <children>
-                              <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="152.0" text="Lingue Parlate" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="120.0" text="Lingue Parlate" textFill="#7a7a7a">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblLinguaVuota" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="58.0" textFill="#7a7a7a">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
                               <ComboBox fx:id="lingueComboBox" maxHeight="-Infinity" maxWidth="400.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#CbiLinguaSelezionata" prefHeight="28.0" prefWidth="186.0" promptText="Lingua" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5">
                                  <VBox.margin>
                                     <Insets />
@@ -465,11 +489,20 @@
                         </HBox>
                         <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="229.0" GridPane.columnIndex="2">
                            <children>
-                              <Label text="Mansione ricercata" textFill="#7a7a7a">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label text="Mansione ricercata" textFill="#7a7a7a">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblMansioneVuota" prefHeight="27.0" prefWidth="68.0" textFill="#7a7a7a">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
                               <ComboBox fx:id="mansioneComboBox" maxHeight="-Infinity" maxWidth="400.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.0" prefWidth="227.0" promptText="Mansione" style="-fx-border-color: transparent transparent  #c9d1de transparent; -fx-background-color: transparent;" visibleRowCount="5" />
                            </children>
                         </VBox>

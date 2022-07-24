@@ -22,8 +22,7 @@ class ComboBoxValidator implements Validate {
     public boolean validate() {
         boolean isValid = true;
         for(ComboBox comboBox : comboBoxList){
-            String comboText = comboBox.getEditor().getText().trim();
-            if(comboText.isEmpty() || comboText.isBlank() || comboText.chars().anyMatch(Character::isDigit) || comboBox.getSelectionModel().getSelectedItem()==null)
+            if(comboBox.getValue()==null)
             {
                 isValid = false;
                 comboBox.setStyle(cssRedBorder);

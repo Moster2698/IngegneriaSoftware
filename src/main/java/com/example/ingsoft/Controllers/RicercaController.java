@@ -68,7 +68,6 @@ public class RicercaController {
         tbcComuniDisponibilita.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniStringComuni()));
         tbcSpecializzazioni.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().ottieniStringSpecializzazioni()));
         tableViewLavoratori.setItems(observableListlavoratori);
-
     }
 
     /***
